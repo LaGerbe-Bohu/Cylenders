@@ -119,7 +119,7 @@ public class MapGeneration : MonoBehaviour
     {
         texture = new Texture2D(size, size);
         texture = GenerateDC(texture);
-        //rendererCompenent.material.mainTexture = texture;
+        rendererCompenent.material.mainTexture = texture;
      
         Vector3[] vertices;
         Mesh m = meshFilter.mesh;

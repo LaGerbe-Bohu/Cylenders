@@ -3,6 +3,7 @@ Shader "Unlit/TerrainShader"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _threshold("Threshold",range(-10.0,10.0) )= 0.0
     }
     SubShader
     {
@@ -35,7 +36,7 @@ Shader "Unlit/TerrainShader"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-
+            float _threshold;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -56,12 +57,10 @@ Shader "Unlit/TerrainShader"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
-                
-               float v = invLerp(-60,-20,i.worldPos.y);
 
-                float3 color = lerp(float3(78/255.0,60/255.0,198/255.0),float3(161/255.0,50/255.0,87/255.0),v);
+                float3 value = lerp(float3(1,0,1),float3(0,1,0),(col.x) + _threshold);
                 
-                return float4(v.xxx ,1);
+                return float4(value * col.x*5.0,1);
             }
             ENDCG
         }
