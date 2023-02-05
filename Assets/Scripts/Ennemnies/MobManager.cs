@@ -5,26 +5,26 @@ using UnityEngine.UIElements;
 
 public struct Boids
 {
-    private Vector3 direction;
-    private Vector3 position;
-
-    public void SetDirection(Vector3 v)
+    private Vector2 direction;
+    private Vector2 position;
+    
+    public void SetDirection(Vector2 v)
     {
         this.direction = v;
     }
 
-    public void SetPosition(Vector3 p)
+    public void SetPosition(Vector2 p)
     {
         this.position = p;
     }
 
 
-    public Vector3 GetPosition()
+    public Vector2 GetPosition()
     {
         return this.position;
     }
 
-    public Vector3 GetDirection()
+    public Vector2 GetDirection()
     {
         return this.direction;
     }
@@ -41,20 +41,26 @@ public class MobManager : MonoBehaviour
     public float coeffRapprochement;
     public float coeffAlligment;
     public float Spd;
+    public float coefTarget;
+    public Transform targePlayer;
+    
     
     [Space]
     public GameObject prefab;
     public float radius;
     
-    private GameObject[] lstGameObject;
+    private Rigidbody[] lstGameObject;
     private Boids[] lstBoids;
-    
+    private MobInput[] lstInputs;
     
     // Start is called before the first frame update
     void Start()
     {
-        lstGameObject = new GameObject[nbMob];
+        
+        
+        lstGameObject = new Rigidbody[nbMob];
         lstBoids = new Boids[nbMob];
+        lstInputs = new MobInput[nbMob];
         
         for (int i = 0; i < nbMob; i++)
         {
@@ -62,16 +68,23 @@ public class MobManager : MonoBehaviour
             go.transform.SetParent(this.transform);
             
             lstBoids[i] = new Boids();
-            lstBoids[i].SetPosition(new Vector3(Random.Range(-radius,radius),Random.Range(0,74f),Random.Range(-radius,radius)));
+            lstBoids[i].SetPosition(  new Vector3(Random.Range(-radius,radius),Random.Range(0,74f),Random.Range(-radius,radius)));
             lstBoids[i].SetDirection(new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),Random.Range(-1f,1f)));
-            
-            lstGameObject[i] = go;
+
+            lstInputs[i] = go.GetComponent<MobInput>();
+            lstGameObject[i] = go.GetComponent<Rigidbody>();
         }
     }
 
-    Vector3 rule1(Boids b,int k)
+    Vector2 Target(Boids b)
     {
-        Vector3 pcj = Vector3.zero;
+        var position = this.targePlayer.position;
+        return ( new Vector2(position.x,position.z) - b.GetPosition())/coefTarget;
+    }
+    
+    Vector3 Rule1(Boids b,int k)
+    {
+        Vector2 pcj = Vector2.zero;
         int sum = 0;
         for (int i = 0; i < lstBoids.Length; i++)
         {
@@ -91,9 +104,9 @@ public class MobManager : MonoBehaviour
         return (pcj - b.GetPosition()) / coeffRapprochement ;
     }
     
-    Vector3 rule2(Boids b, int k)
+    Vector3 Rule2(Boids b, int k)
     {
-        Vector3 c = Vector3.zero;
+        Vector2 c = Vector3.zero;
         
         for (int i = 0; i < lstBoids.Length; i++)
         {
@@ -110,12 +123,12 @@ public class MobManager : MonoBehaviour
         return c;
     }
     
-    Vector3 rule3(Boids b, int k)
+    Vector3 Rule3(Boids b, int k)
     {
         
         if(lstBoids.Length -1  <= 0) return Vector3.zero;
         
-        Vector3 pvj = Vector3.zero;
+        Vector2 pvj = Vector2.zero;
         int sum = 0;
         for (int i = 0; i < lstBoids.Length; i++)
         {
@@ -139,7 +152,7 @@ public class MobManager : MonoBehaviour
         return v;
     }
     
-    Vector3 boundRule(Boids b)
+    Vector3 BoundRule(Boids b)
     {
         Vector3 v = Vector3.zero;
         
@@ -164,16 +177,6 @@ public class MobManager : MonoBehaviour
         } 
         
 
-        if (b.GetPosition().z < -radius)
-        {
-            v.z = 1;
-        }
-
-        if (b.GetPosition().z > radius)
-        {
-            v.z = -1;
-        }
-
         return v/100.0f;
     }
     private void computeCPU()
@@ -181,23 +184,18 @@ public class MobManager : MonoBehaviour
         for (int i = 0; i < lstBoids.Length; i++)
         {
             
-            Vector3 v1 = rule1(lstBoids[i], i);
-            Vector3 v2 = rule2(lstBoids[i], i);
-            Vector3 v3 = rule3(lstBoids[i], i);
-            Vector3 v4 = boundRule(lstBoids[i]);
+            lstBoids[i].SetPosition( new Vector2(lstGameObject[i].position.x,lstGameObject[i].position.z));
+            lstBoids[i].SetDirection(new Vector2(lstGameObject[i].velocity.x,lstGameObject[i].velocity.z));
             
+           // Vector3 v1 = rule1(lstBoids[i], i);
+            Vector2 v2 = Rule2(lstBoids[i], i);
+            Vector2 v3 = Rule3(lstBoids[i], i);
+            Vector2 v4 = Target(lstBoids[i]);
             
-            Vector3 finalDir = (lstBoids[i].GetDirection() + v1 + v2 + v3 + v4).normalized*Spd * Time.deltaTime;
+            Vector2 finalDir = (lstBoids[i].GetDirection()  + v2 + v3 + v4).normalized;
             
-            lstBoids[i].SetDirection(finalDir);
-            lstBoids[i].SetPosition( lstBoids[i].GetPosition() + finalDir);
-
-            if (lstGameObject[i] != null)
-            {
-                lstGameObject[i].transform.position = lstBoids[i].GetPosition();
-                lstGameObject[i].transform.rotation = Quaternion.LookRotation(lstBoids[i].GetDirection(),lstGameObject[i].transform.forward);    
-            }
-            
+            lstInputs[i].setDirection(finalDir);
+           // lstGameObject[i].AddForce(new Vector3(finalDir.x,0,finalDir.y),ForceMode.Impulse);
         }
     }
     

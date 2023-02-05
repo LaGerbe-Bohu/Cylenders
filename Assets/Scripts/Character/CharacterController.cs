@@ -6,16 +6,17 @@ using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 
+[RequireComponent(typeof(InterfaceInput))]
 public class CharacterController : MonoBehaviour
 {
     ///
     /// This script is use to handle movement for the main character
     ///
+    /// 
     [Header("Compenents")] 
-    public Camera cameraPlayer;
     public Rigidbody rigidBody;
-    public PlayerInput playerInput;
-    public Transform transformBias;
+    public InterfaceInput interfaceInput;
+    
     
     [Header("Movement Values")]
     public float acceleration;
@@ -25,20 +26,26 @@ public class CharacterController : MonoBehaviour
     [Space] 
     public bool airControl = false;
     public float maxSlopeAngle = 45f;
-    public float gravityScale; // pour éviter l'effet tramplin
-    
+
+    public bool orienteCharacter;
     // some private var
     private Vector2 _direction;
     private bool _jump;
     private bool _isGrounded;
     private Vector3 _normalSurface;
     private Vector3 _tangentSurface;
+
+
+    void Start()
+    {
+        this.interfaceInput = GetComponent<InterfaceInput>();
+    }
     
     void Update()
     {
         // Inputs
-        _direction = playerInput.actions["Deplacement"].ReadValue<Vector2>(); // get direction input
-        _jump = playerInput.actions["Jump"].IsPressed();
+        _direction = interfaceInput.movement();
+        _jump = interfaceInput.jump();
         
         OrientCharacter();
     }
@@ -57,9 +64,9 @@ public class CharacterController : MonoBehaviour
         if (!airControl && !_isGrounded) return;
         
         // move character
-        var biaisTransform = transformBias.transform;
-        float angle = ProjectAngle(_tangentSurface,Vector3.forward,transformBias.right);
-        Vector3 forward = transformBias.forward;
+        var biaisTransform = interfaceInput.renderForward();
+        float angle = ProjectAngle(_tangentSurface,Vector3.forward,biaisTransform.right);
+        Vector3 forward = biaisTransform.forward;
         
         if (angle <= maxSlopeAngle)
         {
@@ -100,10 +107,11 @@ public class CharacterController : MonoBehaviour
     
     void OrientCharacter()
     {
+        if (!orienteCharacter) return;
         var up = rigidBody.transform.up;
-        Vector3 forward = Vector3.ProjectOnPlane(cameraPlayer.transform.forward, up);
+        Vector3 forward = Vector3.ProjectOnPlane(interfaceInput.forwardTransform().forward, up);
         
-        transformBias.transform.LookAt(this.rigidBody.transform.position + forward*2);
+        interfaceInput.renderForward().transform.LookAt(this.rigidBody.transform.position + forward*2);
         
     }
     
@@ -122,14 +130,14 @@ public class CharacterController : MonoBehaviour
         Vector3 postiion = rigidBody.transform.position + Vector3.up*0.35f;
 
         _isGrounded = false;
-        _normalSurface = transformBias.up;
-        _tangentSurface = transformBias.forward;
+        _normalSurface = interfaceInput.renderForward().up;
+        _tangentSurface = interfaceInput.renderForward().forward;
 
         if (_jump) return;
         if (Physics.SphereCast(postiion, 0.8f, -rigidBody.transform.up, out hit, 1f,GroundLayer))
         {
             _normalSurface = hit.normal;
-            _tangentSurface = Vector3.Cross( transformBias.transform.right,hit.normal);
+            _tangentSurface = Vector3.Cross( interfaceInput.renderForward().transform.right,hit.normal);
             _isGrounded =  true;
             
             _normalSurface = _normalSurface.normalized;
@@ -151,7 +159,6 @@ public class CharacterController : MonoBehaviour
         Gizmos.DrawWireSphere((transform2.position + Vector3.up*.35f) -transform2.up*1f ,.8f);
         
         Gizmos.color = Color.green;
-
         var position = this.transform.position;
         Gizmos.DrawRay(position,_normalSurface*10f);
         Gizmos.DrawRay(position,_tangentSurface*10f);
