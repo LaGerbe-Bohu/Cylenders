@@ -20,8 +20,6 @@ public class CharacterInput : MonoBehaviour,InterfaceInput
     {
         return playerInput.actions[DeplacementName].ReadValue<Vector2>();;
     }
-
-
     public Transform renderForward()
     {
         return this.renderTransform;
@@ -36,7 +34,5 @@ public class CharacterInput : MonoBehaviour,InterfaceInput
     {
         return this.forwTransform;
     }
-    
-    
     
 }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterView : MonoBehaviour
@@ -54,13 +51,10 @@ public class CharacterView : MonoBehaviour
         rotation.y += Input.GetAxisRaw(yAxis) *  -mouseSensitivy * Time.deltaTime;
         rotation.y =  Mathf.Clamp(rotation.y, -maxRotation, maxRotation);
         
-        
         Quaternion xQuat = Quaternion.Euler(0.0f,rotation.x, 0.0f);
         Quaternion yQuat = Quaternion.Euler(rotation.y,0.0f, 0.0f);
         
-        
         cameraPlayer.transform.localRotation = xQuat*yQuat;
-
     }
     
 }
