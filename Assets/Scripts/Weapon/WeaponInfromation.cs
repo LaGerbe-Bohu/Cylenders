@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponInfromation : MonoBehaviour
@@ -25,20 +26,22 @@ public class WeaponInfromation : MonoBehaviour
 
     public void HandSetting(Transform tr)
     {
-        
+
+        this.transform.rotation = Quaternion.LookRotation(tr.forward);
         this.transform.SetParent(tr);
         this.transform.position = tr.transform.position;
         this.Rigidbody.isKinematic = true;
         this.Collider.enabled = false;
-        this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         
     }
 
     public void DropSetting()
     {
+        
         this.transform.parent = null;
         this.Rigidbody.isKinematic = false;
         this.Collider.enabled = true;
+        
     }
 
     // Update is called once per frame
