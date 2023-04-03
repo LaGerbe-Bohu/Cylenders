@@ -23,7 +23,8 @@ public class WeaponManager : MonoBehaviour
     
     void Update()
     {
-        
+        // DOIT êTRE REMPLACER PAR LE NEW INPUT SYSTEME
+        // DOIT gérer aussi plusieurs mains
         if (Input.GetKeyDown(KeyCode.A))
         {
             Rarm = true;
@@ -34,7 +35,7 @@ public class WeaponManager : MonoBehaviour
             Drop = true;
         }
 
-        if (Input.GetMouseButton(0) && isHolding)
+        if (Input.GetMouseButton(0) && isHolding) 
         {
             currentWeapon[1].WeaponInterface.WeaponAction();
         }
@@ -59,7 +60,6 @@ public class WeaponManager : MonoBehaviour
         if (isHolding && Drop)
         {
             isHolding = false;
-            
             currentWeapon[1].DropSetting();
         }
 

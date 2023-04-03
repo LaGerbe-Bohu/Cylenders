@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// Singleton qui me permettra d'accéder à certiaines variables n'importe d'où dans le code
+    /// </summary>
+    /// 
     public static GameManager instance;
     
     
     //public field
     [SerializeField]
     private Transform Player;
-
-
+    
     public Transform getPlayer()
     {
         return this.Player;
@@ -23,15 +26,4 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

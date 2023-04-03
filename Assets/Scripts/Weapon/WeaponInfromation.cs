@@ -11,6 +11,7 @@ public class WeaponInfromation : MonoBehaviour
     public I_WeaponInterface WeaponInterface;
     void Start()
     {
+        // Peut être changer ca parce que c'est pas très propre
         if (Rigidbody == false)
         {
             Rigidbody = this.GetComponent<Rigidbody>();
