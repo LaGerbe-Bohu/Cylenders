@@ -33,7 +33,7 @@ public class WeaponInfromation : MonoBehaviour
 
         this.transform.rotation = Quaternion.LookRotation(tr.forward);
         this.transform.SetParent(tr);
-        this.transform.position = tr.transform.position;
+        this.transform.localPosition = Vector3.zero;
         this.Rigidbody.isKinematic = true;
         this.Collider.enabled = false;
         
