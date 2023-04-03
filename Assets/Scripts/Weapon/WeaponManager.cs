@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 public class WeaponManager : MonoBehaviour
 {
@@ -13,15 +12,15 @@ public class WeaponManager : MonoBehaviour
     public LayerMask WeaponLayer;
 
     private WeaponInfromation[] currentWeapon;
-    private bool isHolding = false;
-    private bool Rarm = false;
-    private bool Drop = false;
+    private bool isHolding;
+    private bool Rarm;
+    private bool Drop;
 
     private void Start()
     {
         currentWeapon = new WeaponInfromation[2];
     }
-
+    
     void Update()
     {
         
@@ -35,16 +34,19 @@ public class WeaponManager : MonoBehaviour
             Drop = true;
         }
 
+        if (Input.GetMouseButton(0) && isHolding)
+        {
+            currentWeapon[1].WeaponInterface.WeaponAction();
+        }
+
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         RaycastHit hit;
 
         if (Physics.Raycast(Player.transform.position, Camera.transform.forward, out hit,10f,WeaponLayer))
         {
-            Debug.Log("Weapon Detect");
             
             if (Rarm)
             {

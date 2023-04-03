@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponInfromation : MonoBehaviour
@@ -9,8 +8,7 @@ public class WeaponInfromation : MonoBehaviour
 
     public Rigidbody Rigidbody;
     public Collider Collider;
-    
-    // Start is called before the first frame update
+    public I_WeaponInterface WeaponInterface;
     void Start()
     {
         if (Rigidbody == false)
@@ -21,6 +19,11 @@ public class WeaponInfromation : MonoBehaviour
         if (Collider == false)
         {
             Collider = this.GetComponent<Collider>();
+        }
+
+        if (WeaponInterface != null)
+        {
+            WeaponInterface = this.GetComponent<I_WeaponInterface>();
         }
     }
 
@@ -35,6 +38,7 @@ public class WeaponInfromation : MonoBehaviour
         
     }
 
+    // setting fonction quand une arme est drop
     public void DropSetting()
     {
         
@@ -44,7 +48,6 @@ public class WeaponInfromation : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
