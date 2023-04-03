@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+
 public class WeaponManager : MonoBehaviour
 {
     /// <summary>
@@ -7,14 +9,17 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
 
     public Transform[] slotForWeapon; // ce sont les slots où les armes iront se mettre 
-    public Transform Player;
-    public Transform Camera;
-    public LayerMask WeaponLayer;
+    [FormerlySerializedAs("Player")] public Transform player;
+    [FormerlySerializedAs("Camera")] public Transform camera;
+    [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
 
     private WeaponInfromation[] currentWeapon;
-    private bool isHolding;
-    private bool Rarm;
-    private bool Drop;
+    private bool rIsHolding;
+    private bool lIsHolding;
+    private bool rArm;
+    private bool lArm;
+    private bool lDrop;
+    private bool rDrop;
 
     private void Start()
     {
@@ -27,15 +32,30 @@ public class WeaponManager : MonoBehaviour
         // DOIT gérer aussi plusieurs mains
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Rarm = true;
+            rArm = true;
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            lArm = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            rDrop = true;
+        }
+        
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Drop = true;
+            lDrop = true;
         }
 
-        if (Input.GetMouseButton(0) && isHolding) 
+        if (Input.GetMouseButton(0) && rIsHolding && currentWeapon[0] != null) 
+        {
+            currentWeapon[0].WeaponInterface.WeaponAction();
+        }
+        
+        if (Input.GetMouseButton(1) && lIsHolding && currentWeapon[1] != null) 
         {
             currentWeapon[1].WeaponInterface.WeaponAction();
         }
@@ -46,25 +66,38 @@ public class WeaponManager : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(Player.transform.position, Camera.transform.forward, out hit,10f,WeaponLayer))
+        if (Physics.Raycast(player.transform.position, camera.transform.forward, out hit,10f,weaponLayer))
         {
-            
-            if (Rarm)
+            if (lArm && !lIsHolding)
             {
-                currentWeapon[1] =  hit.collider.GetComponent<WeaponInfromation>();
-                currentWeapon[1].HandSetting(slotForWeapon[1]);
-                isHolding = true;
+                currentWeapon[1] = hit.collider.GetComponent<WeaponInfromation>();
+                currentWeapon[1].HandSetting((slotForWeapon[1]));
+                lIsHolding = true;
+            }
+            
+            if (rArm && !rIsHolding)
+            {
+                currentWeapon[0] =  hit.collider.GetComponent<WeaponInfromation>();
+                currentWeapon[0].HandSetting(slotForWeapon[0]);
+                rIsHolding = true;
             }
         }
 
-        if (isHolding && Drop)
+        if (rIsHolding && rDrop)
         {
-            isHolding = false;
+            rIsHolding = false;
+            currentWeapon[0].DropSetting();
+        }
+
+        if (lIsHolding && lDrop)
+        {
+            lIsHolding = false;
             currentWeapon[1].DropSetting();
         }
 
-        Drop = false;
-        Rarm = false;
-
+        lDrop = false;
+        rDrop = false;
+        rArm = false;
+        lArm = false;
     }
 }
