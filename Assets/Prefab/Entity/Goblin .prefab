@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 4098715291914489910}
   - component: {fileID: 4098715291914489907}
   - component: {fileID: 4098715291914489914}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 'Goblin '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 4098715291914489910}
-  transformBias: {fileID: 4098715291863315280}
   acceleration: 60
   maxSpeed: 15
   jumpForce: 15
@@ -297,6 +296,7 @@ MonoBehaviour:
     m_Bits: 64
   airControl: 0
   maxSlopeAngle: 45
+  orienteCharacter: 0
 --- !u!1 &4098715292338973429
 GameObject:
   m_ObjectHideFlags: 0

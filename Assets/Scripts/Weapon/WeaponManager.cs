@@ -9,8 +9,8 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
 
     public Transform[] slotForWeapon; // ce sont les slots où les armes iront se mettre 
-    [FormerlySerializedAs("Player")] public Transform player;
-    [FormerlySerializedAs("Camera")] public Transform camera;
+    private Transform player;
+    private Transform camera;
     [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
 
     private WeaponInfromation[] currentWeapon;
@@ -24,6 +24,8 @@ public class WeaponManager : MonoBehaviour
     private void Start()
     {
         currentWeapon = new WeaponInfromation[2];
+        camera = GameManager.instance.camera;
+        player = GameManager.instance.player;
     }
     
     void Update()
@@ -50,12 +52,12 @@ public class WeaponManager : MonoBehaviour
             lDrop = true;
         }
 
-        if (Input.GetMouseButton(0) && rIsHolding && currentWeapon[0] != null) 
+        if (Input.GetMouseButtonDown(0) && rIsHolding && currentWeapon[0] != null) 
         {
             currentWeapon[0].WeaponInterface.WeaponAction();
         }
         
-        if (Input.GetMouseButton(1) && lIsHolding && currentWeapon[1] != null) 
+        if (Input.GetMouseButtonDown(1) && lIsHolding && currentWeapon[1] != null) 
         {
             currentWeapon[1].WeaponInterface.WeaponAction();
         }

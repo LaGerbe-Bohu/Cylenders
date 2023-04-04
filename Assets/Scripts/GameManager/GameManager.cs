@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,13 +14,8 @@ public class GameManager : MonoBehaviour
     
     
     //public field
-    [SerializeField]
-    private Transform Player;
-    
-    public Transform getPlayer()
-    {
-        return this.Player;
-    }
+    [FormerlySerializedAs("Player")] public Transform player;
+    public Transform camera;
 
     private void Awake()
     {

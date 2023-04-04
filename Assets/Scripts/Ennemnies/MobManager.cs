@@ -180,19 +180,23 @@ public class MobManager : MonoBehaviour
     {
         for (int i = 0; i < lstBoids.Length; i++)
         {
+            if (lstGameObject[i] != null )
+            {
+                
+                lstBoids[i].SetPosition( new Vector2(lstGameObject[i].position.x,lstGameObject[i].position.z));
+                lstBoids[i].SetDirection(new Vector2(lstGameObject[i].velocity.x,lstGameObject[i].velocity.z));
             
-            lstBoids[i].SetPosition( new Vector2(lstGameObject[i].position.x,lstGameObject[i].position.z));
-            lstBoids[i].SetDirection(new Vector2(lstGameObject[i].velocity.x,lstGameObject[i].velocity.z));
+                // Vector3 v1 = rule1(lstBoids[i], i);
+                Vector2 v2 = Rule2(lstBoids[i], i);
+                Vector2 v3 = Rule3(lstBoids[i], i);
+                Vector2 v4 = Target(lstBoids[i]);
             
-           // Vector3 v1 = rule1(lstBoids[i], i);
-            Vector2 v2 = Rule2(lstBoids[i], i);
-            Vector2 v3 = Rule3(lstBoids[i], i);
-            Vector2 v4 = Target(lstBoids[i]);
+                Vector2 finalDir = (lstBoids[i].GetDirection()  + v2 + v3 + v4).normalized;
             
-            Vector2 finalDir = (lstBoids[i].GetDirection()  + v2 + v3 + v4).normalized;
+                lstInputs[i].setDirection(finalDir);
+                // lstGameObject[i].AddForce(new Vector3(finalDir.x,0,finalDir.y),ForceMode.Impulse);
+            }
             
-            lstInputs[i].setDirection(finalDir);
-           // lstGameObject[i].AddForce(new Vector3(finalDir.x,0,finalDir.y),ForceMode.Impulse);
         }
     }
     
