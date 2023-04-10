@@ -4,21 +4,21 @@ public class MobInput : MonoBehaviour,InterfaceInput
 {
 
     public Transform orienteTransform;
-    private Vector3 direction;
+    private Vector2 direction;
 
 
-    public Vector3 getDirection()
+    public Vector2 getDirection()
     {
         return this.direction;
     }
     
 
-    public void setDirection(Vector3 d )
+    public void setDirection(Vector2 d )
     {
         this.direction = d;
     }
     
-    public Vector3 movement()
+    public Vector2 movement()
     {
         return direction;
     }

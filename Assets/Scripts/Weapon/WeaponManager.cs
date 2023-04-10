@@ -12,7 +12,7 @@ public class WeaponManager : MonoBehaviour
     private Transform player;
     private Transform camera;
     [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
-
+                                             
     private WeaponInfromation[] currentWeapon;
     private bool rIsHolding;
     private bool lIsHolding;

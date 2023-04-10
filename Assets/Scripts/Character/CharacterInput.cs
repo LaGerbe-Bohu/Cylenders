@@ -16,7 +16,7 @@ public class CharacterInput : MonoBehaviour,InterfaceInput
     public string DeplacementName;
     public string JumpName;
     
-    public Vector3 movement()
+    public Vector2 movement()
     {
         return playerInput.actions[DeplacementName].ReadValue<Vector2>();;
     }
