@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 4098715291914489914}
   - component: {fileID: 4174770379491401430}
   - component: {fileID: 5257151056173596469}
+  - component: {fileID: 3268432685721280327}
   m_Layer: 8
   m_Name: 'Goblin '
   m_TagString: Untagged
@@ -232,6 +233,7 @@ Transform:
   m_Children:
   - {fileID: 4098715291863315280}
   - {fileID: 3337131366476667578}
+  - {fileID: 8045503364055424079}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -335,6 +337,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3268432685721280327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4098715291914489912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f76c84c57025e9469d2f844e6f42311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4098715292338973429
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +446,52 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &5158080016665488545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8045503364055424079}
+  - component: {fileID: 5177022690878158620}
+  m_Layer: 0
+  m_Name: Enabler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8045503364055424079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5158080016665488545}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4098715291914489904}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5177022690878158620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5158080016665488545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413b5193e1153564eb3d2b6a57c0db90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ISM: {fileID: 3268432685721280327}
+  distanceFocus: 1
 --- !u!1 &6054501275424486656
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,3 +536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d85a4539710fe5e43977280db0af5f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMan: {fileID: 0}
+  mobInput: {fileID: 0}
+  Radius: 2
