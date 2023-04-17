@@ -11,15 +11,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// 
     public static GameManager instance;
-    
+
+    [SerializeField] private Renderer cylenderRender;
     
     //public field
     [FormerlySerializedAs("Player")] public Transform player;
     public Transform camera;
-
+    
+    [HideInInspector]
+    public float CylenderRadius;
     private void Awake()
     {
         instance = this;
+        CylenderRadius = cylenderRender.bounds.extents.magnitude;
+        
     }
 
 }
