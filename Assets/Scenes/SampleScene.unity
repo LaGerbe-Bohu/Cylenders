@@ -869,6 +869,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1206260168932139838, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: field of view
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260168932139838, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260169163845289, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.061
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260169423781174, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1206260170386352367, guid: dd8271b3171127548b83efa67f37b121, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -913,17 +929,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1206260170423847108, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260170482174641, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.259
+      objectReference: {fileID: 0}
     - target: {fileID: 1206260170482174641, guid: dd8271b3171127548b83efa67f37b121, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 1.545
       objectReference: {fileID: 0}
     - target: {fileID: 1206260170766430271, guid: dd8271b3171127548b83efa67f37b121, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1206260170836646707, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.259
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260170836646707, guid: dd8271b3171127548b83efa67f37b121, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 1.568
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd8271b3171127548b83efa67f37b121, type: 3}
@@ -986,11 +1014,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ffe531541fcb4b41acd8118fdd0f064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMob: 30
+  maxMob: 3
   EnnemiePrefab: {fileID: 413797015}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &911765112 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1206260170386352353, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+  m_PrefabInstance: {fileID: 742236047}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e47b803007869b4581885775103e0dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1073757178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,6 +1059,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af3f01e9922f9e468d6fcd8892d9e40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterInput: {fileID: 911765112}
+  playerLife: 5
   cylenderRender: {fileID: 676253293}
   player: {fileID: 742236050}
   camera: {fileID: 742236048}
@@ -1060,7 +1101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4098715291914489904, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4.631
       objectReference: {fileID: 0}
     - target: {fileID: 4098715291914489904, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1093,14 +1134,6 @@ PrefabInstance:
     - target: {fileID: 4098715291914489912, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
       propertyPath: m_Name
       value: 'Goblin '
-      objectReference: {fileID: 0}
-    - target: {fileID: 4098715291914489914, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
-      propertyPath: maxSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5177022690878158620, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
-      propertyPath: distanceFocus
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: effab2bad6e3a29419fd27759979fad4, type: 3}

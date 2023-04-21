@@ -226,7 +226,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4098715291914489912}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.87, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -293,8 +293,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 4098715291914489910}
-  acceleration: 60
-  maxSpeed: 15
+  acceleration: 20
+  maxSpeed: 1
   jumpForce: 15
   GroundLayer:
     serializedVersion: 2
@@ -315,10 +315,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateList:
-  - stateName: walkaround
+  - stateName: 0
     machineState: {fileID: 7749344462322133555}
-  - stateName: focus
+  - stateName: 1
     machineState: {fileID: 4127980799955308713}
+  - stateName: 2
+    machineState: {fileID: 4319564275809261026}
 --- !u!95 &5257151056173596469
 Animator:
   serializedVersion: 4
@@ -458,6 +460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8045503364055424079}
   - component: {fileID: 5177022690878158620}
+  - component: {fileID: 6826014218749902107}
   m_Layer: 0
   m_Name: Enabler
   m_TagString: Untagged
@@ -493,8 +496,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ISM: {fileID: 3268432685721280327}
-  distanceFocus: 5
-  maxDistnaceLoosFocus: 30
+  distanceFocus: 10
+  maxDistnaceLoosFocus: 20
+--- !u!114 &6826014218749902107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5158080016665488545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15207a719c1ac64b820142e0bbd3d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ISM: {fileID: 3268432685721280327}
+  distanceFight: 2
 --- !u!1 &6054501275424486656
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,6 +523,7 @@ GameObject:
   - component: {fileID: 3337131366476667578}
   - component: {fileID: 7749344462322133555}
   - component: {fileID: 4127980799955308713}
+  - component: {fileID: 4319564275809261026}
   m_Layer: 8
   m_Name: ScriptStateActions
   m_TagString: Untagged
@@ -557,3 +575,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateMan: {fileID: 0}
   mobInput: {fileID: 0}
+--- !u!114 &4319564275809261026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054501275424486656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e73741cabdb244da26828126795112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateMan: {fileID: 0}
+  mobInput: {fileID: 0}
+  Dps: 3

@@ -21,7 +21,7 @@ public class SwordAction : I_WeaponInterface
 
     public override void WeaponAction()
     {
-        Debug.Log("Sword Attack");
+       
         SwordAnimator.SetTrigger("Attack");
 
         RaycastHit hit;
@@ -29,7 +29,6 @@ public class SwordAction : I_WeaponInterface
         Debug.DrawRay(camera.position, camera.forward * WeaponInfromation.reach,Color.magenta);
         if (Physics.Raycast(camera.position, camera.forward,out hit, WeaponInfromation.reach, WeaponInfromation.ennemiesLayer))
         {
-            Debug.Log("hit");
             Destroy(hit.collider.gameObject);
         }
 

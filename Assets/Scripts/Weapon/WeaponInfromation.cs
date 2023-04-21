@@ -51,6 +51,7 @@ public class WeaponInfromation : MonoBehaviour
         this.transform.localPosition = Vector3.zero;
         this.Rigidbody.isKinematic = true;
         this.Collider.enabled = false;
+        this.transform.localScale = Vector3.one;
         
     }
 
@@ -65,7 +66,7 @@ public class WeaponInfromation : MonoBehaviour
         this.transform.parent = null;
         this.Rigidbody.isKinematic = false;
         this.Collider.enabled = true;
-        
+        this.transform.localScale = Vector3.one;
     }
 
     void Update()

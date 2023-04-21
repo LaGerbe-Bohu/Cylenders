@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,6 +12,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// 
     public static GameManager instance;
+
+    public CharacterInput characterInput;
     public int playerLife = 5;
     [SerializeField] private Renderer cylenderRender;
     
@@ -25,6 +28,12 @@ public class GameManager : MonoBehaviour
         instance = this;
         CylenderRadius = cylenderRender.bounds.extents.magnitude/2f;
         
+    }
+
+
+    public void PlayerHurt(int dommage)
+    {
+        this.playerLife -= dommage;
     }
 
 }
