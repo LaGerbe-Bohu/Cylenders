@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public struct StateInfo
 {
-    public string stateName;
+    public AvailaibleState stateName;
     public MachineState machineState;
 }
 
@@ -30,10 +30,10 @@ public class StateMachineScript : MonoBehaviour
         asi = animator.GetCurrentAnimatorStateInfo(0);
         for (int i = 0; i < stateList.Count; i++)
         {
-            Debug.Log(asi.IsName(stateList[i].stateName));
-            if (asi.IsName(stateList[i].stateName))
+         
+            if (asi.IsName(stateList[i].stateName.ToString()))
             {
-              
+                Debug.Log(stateList[i].stateName);
                 stateList[i].machineState.updateMachineState();
             }
                 

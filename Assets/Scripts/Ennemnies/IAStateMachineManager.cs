@@ -6,7 +6,7 @@ public enum AvailaibleState
 {
     walkaround,
     focus,
-    hit,
+    fight,
     death,
     run
 }
@@ -28,18 +28,12 @@ public class IAStateMachineManager : MonoBehaviour
 
     public void enableState(AvailaibleState v)
     {
-        if (v == AvailaibleState.focus)
-        {
-            animator.SetBool(v.ToString(),true);
-        }
+        animator.SetBool(v.ToString(),true);
     }
 
     public void disableState(AvailaibleState v)
     {
-        if (v == AvailaibleState.focus)
-        {
-            animator.SetBool(v.ToString(),false);
-        }
+        animator.SetBool(v.ToString(),false);
     }
     
 }

@@ -18,14 +18,17 @@ public class enablerSMFocus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if ( Vector3.Distance(Player.transform.position,this.transform.position) < distanceFocus )
         {
             ISM.enableState(AvailaibleState.focus);
+          
         } 
         
         if (Vector3.Distance(Player.transform.position, this.transform.position) > maxDistnaceLoosFocus)
         {
             ISM.disableState(AvailaibleState.focus);
+            
         }
     }
 }
