@@ -493,7 +493,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ISM: {fileID: 3268432685721280327}
-  distanceFocus: 1
+  distanceFocus: 5
+  maxDistnaceLoosFocus: 30
 --- !u!1 &6054501275424486656
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,3 +556,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMan: {fileID: 0}
+  mobInput: {fileID: 0}

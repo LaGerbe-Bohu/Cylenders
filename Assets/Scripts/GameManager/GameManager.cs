@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// 
     public static GameManager instance;
-
+    public int playerLife = 5;
     [SerializeField] private Renderer cylenderRender;
     
     //public field
