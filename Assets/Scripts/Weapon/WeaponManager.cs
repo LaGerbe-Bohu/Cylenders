@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
 public class WeaponManager : MonoBehaviour
@@ -9,6 +11,9 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
 
     public Transform[] slotForWeapon; // ce sont les slots où les armes iront se mettre 
+
+    public CanHit[] canHits;
+    public Animator[] animators;
     private Transform player;
     private Transform camera;
     [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
@@ -52,18 +57,36 @@ public class WeaponManager : MonoBehaviour
             lDrop = true;
         }
 
-        if (Input.GetMouseButtonDown(0) && rIsHolding && currentWeapon[0] != null) 
+        
+        Assert.AreEqual(animators.Length,2);
+        
+        if (Input.GetMouseButtonDown(0) && rIsHolding && currentWeapon[0] != null)
         {
-            currentWeapon[0].WeaponInterface.WeaponAction();
+            animators[0].SetTrigger("Attack");
+            StartCoroutine( Attack(0));
+          
         }
         
         if (Input.GetMouseButtonDown(1) && lIsHolding && currentWeapon[1] != null) 
         {
-            currentWeapon[1].WeaponInterface.WeaponAction();
+            animators[1].SetTrigger("Attack");
+            StartCoroutine( Attack(1));
         }
 
     }
 
+    IEnumerator Attack(int i)
+    {
+        Debug.Log(canHits[i].Hit);
+        while (!canHits[i].Hit)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        
+        currentWeapon[i].WeaponInterface.WeaponAction();
+    }
+    
+    
     void FixedUpdate()
     {
         RaycastHit hit;

@@ -11,9 +11,7 @@ public class SwordAction : I_WeaponInterface
     /// 
 
     private WeaponInfromation WeaponInfromation;
-    public Animator SwordAnimator;
-
-
+    
     private void Start()
     {
         WeaponInfromation = GetComponent<WeaponInfromation>();
@@ -21,8 +19,6 @@ public class SwordAction : I_WeaponInterface
 
     public override void WeaponAction()
     {
-       
-        SwordAnimator.SetTrigger("Attack");
 
         RaycastHit hit;
         Transform camera = GameManager.instance.camera;

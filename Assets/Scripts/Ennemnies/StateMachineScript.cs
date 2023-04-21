@@ -33,7 +33,6 @@ public class StateMachineScript : MonoBehaviour
          
             if (asi.IsName(stateList[i].stateName.ToString()))
             {
-                Debug.Log(stateList[i].stateName);
                 stateList[i].machineState.updateMachineState();
             }
                 
