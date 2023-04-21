@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -23,10 +24,18 @@ public class GameManager : MonoBehaviour
     
     [HideInInspector]
     public float CylenderRadius;
+
+    [HideInInspector]
+    public UnityEvent e_PlayerHurt;
     private void Awake()
     {
         instance = this;
         CylenderRadius = cylenderRender.bounds.extents.magnitude/2f;
+
+        if (e_PlayerHurt == null)
+        {
+            e_PlayerHurt = new UnityEvent();
+        }
         
     }
 
@@ -34,6 +43,7 @@ public class GameManager : MonoBehaviour
     public void PlayerHurt(int dommage)
     {
         this.playerLife -= dommage;
+        e_PlayerHurt.Invoke();
     }
 
 }
