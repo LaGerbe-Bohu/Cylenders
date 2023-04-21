@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 1206260168975208994}
   - component: {fileID: 1206260168975209020}
   - component: {fileID: 1206260168975209021}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Render
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 1206260170386352353}
   - component: {fileID: 1206260170386352358}
   - component: {fileID: 1206260170386352359}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,9 +736,7 @@ MonoBehaviour:
   slotForWeapon:
   - {fileID: 1206260170836646707}
   - {fileID: 1206260170482174641}
-  Player: {fileID: 1206260170386352367}
-  Camera: {fileID: 1206260170438130793}
-  WeaponLayer:
+  weaponLayer:
     serializedVersion: 2
     m_Bits: 512
 --- !u!1 &1206260170836646704

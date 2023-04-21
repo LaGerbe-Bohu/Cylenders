@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        CylenderRadius = cylenderRender.bounds.extents.magnitude;
+        CylenderRadius = cylenderRender.bounds.extents.magnitude/2f;
         
     }
 

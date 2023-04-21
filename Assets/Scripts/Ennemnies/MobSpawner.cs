@@ -4,22 +4,32 @@ using UnityEngine;
 
 public class MobSpawner : MonoBehaviour
 {
+    public int maxMob;
     public GameObject EnnemiePrefab;
-
+    public LayerMask groundLayer;
     private GameManager GM;
+
+    private int counter = 0;
     // Start is called before the first frame update
     void Start()
     {
         GM = GameManager.instance;
-    
+        
+        while (counter < maxMob)
+        {
+            GameObject go = Instantiate(EnnemiePrefab, this.transform.position, Quaternion.identity);
+            go.transform.SetParent(this.transform);
+            Vector3 randompos = Random.insideUnitCircle * GM.CylenderRadius;
+            RaycastHit hit;
+
+            if (Physics.Raycast(new Vector3(randompos.x, 10, randompos.y),Vector3.down,out hit,1000f,groundLayer))
+            {
+                go.transform.position = new Vector3(randompos.x, hit.point.y, randompos.y);    
+            }
+            counter++;
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-        GameObject go = Instantiate(EnnemiePrefab, this.transform.position, Quaternion.identity);
-        go.transform.SetParent(this.transform);
-        go.transform.position = Random.insideUnitCircle * GM.CylenderRadius; // faire un vecteur 2 pas un 3 
-    }
+
 }
