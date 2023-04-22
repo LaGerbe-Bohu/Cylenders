@@ -22,8 +22,7 @@ public class SwordAction : I_WeaponInterface
 
         RaycastHit hit;
         Transform camera = GameManager.instance.camera;
-        Debug.DrawRay(camera.position, camera.forward * WeaponInfromation.reach,Color.magenta);
-        if (Physics.Raycast(camera.position, camera.forward,out hit, WeaponInfromation.reach, WeaponInfromation.ennemiesLayer))
+        if (Physics.Raycast(camera.position, camera.forward,out hit, GameManager.instance.PlayerReach, WeaponInfromation.ennemiesLayer))
         {
             Destroy(hit.collider.gameObject);
         }

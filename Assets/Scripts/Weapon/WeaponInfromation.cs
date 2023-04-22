@@ -7,8 +7,7 @@ public class WeaponInfromation : MonoBehaviour
     /// Ce script permet de stocker des var utiles des armes pour le WeaponManager.
     /// </summary>
 
-    [Header("Values")] 
-    public float reach;
+    [Header("Values")]
     public LayerMask ennemiesLayer;
     [Header("Conpenents")]
     public Rigidbody Rigidbody;
