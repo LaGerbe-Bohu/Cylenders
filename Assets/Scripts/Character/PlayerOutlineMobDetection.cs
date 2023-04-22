@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class EventDetection : UnityEvent<Collider>
 {
 }
-public class PlayerMobDetection : MonoBehaviour
+public class PlayerOutlineMobDetection : MonoBehaviour
 {
     private GameManager GM;
     public LayerMask LM;
@@ -49,6 +49,7 @@ public class PlayerMobDetection : MonoBehaviour
     private void UnDetect(Collider coll){
         
         List<Renderer> lst =  lastDetect.GetComponent<EnnemieInformation>().lstRender;
+        
         for (int i = 0; i < lst.Count; i++)
         {
             Material[] mat = lst[i].materials;

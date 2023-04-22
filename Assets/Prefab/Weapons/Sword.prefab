@@ -98,6 +98,11 @@ MonoBehaviour:
   Rigidbody: {fileID: 6357338842198609768}
   Collider: {fileID: 6357338842198609771}
   WeaponInterface: {fileID: -9078657720121818382}
+  renderers:
+  - {fileID: 6357338842718932591}
+  - {fileID: 6357338843366598665}
+  - {fileID: 6357338843588007867}
+  ScaleInHand: 1.5
 --- !u!1 &6357338842718932589
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +164,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 379b0b6076d7dfa4b99fc00351183393, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -242,7 +247,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 379b0b6076d7dfa4b99fc00351183393, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -325,7 +330,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 379b0b6076d7dfa4b99fc00351183393, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

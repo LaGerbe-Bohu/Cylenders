@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponInfromation : MonoBehaviour
@@ -13,7 +14,8 @@ public class WeaponInfromation : MonoBehaviour
     public Rigidbody Rigidbody;
     public Collider Collider;
     public I_WeaponInterface WeaponInterface;
-
+    public List<Renderer> renderers;
+    public float ScaleInHand;
     void Start()
     {
         // Peut être changer ca parce que c'est pas très propre
@@ -44,7 +46,7 @@ public class WeaponInfromation : MonoBehaviour
         this.transform.localPosition = Vector3.zero;
         this.Rigidbody.isKinematic = true;
         this.Collider.enabled = false;
-        this.transform.localScale = Vector3.one;
+        this.transform.localScale = Vector3.one*ScaleInHand;
         
     }
 

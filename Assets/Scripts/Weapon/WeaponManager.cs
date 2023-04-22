@@ -11,7 +11,6 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
 
     public Transform[] slotForWeapon; // ce sont les slots où les armes iront se mettre 
-
     public CanHit[] canHits;
     public Animator[] animators;
     private Transform player;
@@ -91,7 +90,7 @@ public class WeaponManager : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(player.transform.position, camera.transform.forward, out hit,10f,weaponLayer))
+        if (Physics.Raycast(player.transform.position, camera.transform.forward, out hit,GameManager.instance.PlayerReach,weaponLayer))
         {
             if (lArm && !lIsHolding)
             {

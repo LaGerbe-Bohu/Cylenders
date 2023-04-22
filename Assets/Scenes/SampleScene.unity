@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterInput: {fileID: 911765112}
   playerLife: 5
-  PlayerReach: 2
+  PlayerReach: 5
   cylenderRender: {fileID: 676253293}
   player: {fileID: 742236050}
   camera: {fileID: 742236048}
