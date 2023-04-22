@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public CharacterInput characterInput;
     public int playerLife = 5;
+    public float PlayerReach = 2f;
     [SerializeField] private Renderer cylenderRender;
     
     //public field

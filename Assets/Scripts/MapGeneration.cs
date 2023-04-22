@@ -17,7 +17,11 @@ public class MapGeneration : MonoBehaviour
     
     private Texture2D GenerateDC(Texture2D texture)
     {
-        Random.InitState(Seed);        
+        if (Seed != 0)
+        {
+            Random.InitState(Seed);    
+        }
+                
         int h = texture.width;
 
         for (int x = 0; x < h; x++)
