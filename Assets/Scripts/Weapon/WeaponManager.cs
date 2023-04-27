@@ -35,15 +35,15 @@ public class WeaponManager : MonoBehaviour
     void Update()
     {
         // DOIT êTRE REMPLACER PAR LE NEW INPUT SYSTEME
-        // DOIT gérer aussi plusieurs mains
+        
         if (Input.GetKeyDown(KeyCode.A))
         {
-            rArm = true;
+            lArm = true;
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            lArm = true;
+            rArm = true;
         }
 
         if (Input.GetKeyDown(KeyCode.G))
