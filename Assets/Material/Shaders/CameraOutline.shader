@@ -3,9 +3,12 @@ Shader "Unlit/CameraOutline"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _FarPlaneDepth ("Soft Particles Factor", float) = 1.0
-        _TexelDistance ("Soft Particles Factor", range(0.0001,0.01)) = 1.0
-        
+        _FarPlaneDepth ("FarPlaneDepth", float) = 1.0
+        _TexelDistance ("TexelDistance", range(0.0001,0.01)) = 1.0
+        _DistanceModulation ("DistanceModulation", float) = 1.0
+        _Fresnel ("Fresnel", float) = 1.0
+        _GrazingAngleMaskPower("GrazingAngleMaskPower",float)=0
+        _Color("Color",color)=(0,0,0)
     }
     SubShader
     {
@@ -65,20 +68,20 @@ Shader "Unlit/CameraOutline"
             }
 
 
-            const float3x3 SobelX{
-                _TexelDistance, 0, -_TexelDistance,
-                2*_TexelDistance, 0, -2*_TexelDistance,
-                _TexelDistance, 0, -_TexelDistance
+            static const int SobelX[3][3] = {
+                {1, 0, -1},
+                {2, 0, -2},
+                {1, 0, -1}
             };
 
 
-             const float3x3 SobelY{
-                   _TexelDistance, 2*_TexelDistance, _TexelDistance,
-                0, 0, 0,
-                -_TexelDistance, -2*_TexelDistance, -_TexelDistance
+             static const int SobelY[3][3] = {
+                {1, 2, 1},
+                {0, 0, 0},
+                {-1, -2, -1}
             };
-       
-            float getRobertsCross(sampler2D sampl, float2 pos)
+            
+            float3 getRobertsCross(sampler2D sampl, float2 pos)
             {
 
                 if (pos.x < 0 || pos.x > 1 || pos.y < 0 || pos.y > 1)
@@ -88,62 +91,64 @@ Shader "Unlit/CameraOutline"
 
      
                 
-                float y0 = tex2D(sampl, pos).r;
-                float y1 = tex2D(sampl, pos + float2(_TexelDistance, _TexelDistance)).r;
-                float y2 = tex2D(sampl, pos + float2(_TexelDistance, 0)).r;
-                float y3 = tex2D(sampl, pos + float2(0, _TexelDistance)).r;
+                float3 y0 = tex2D(sampl, pos);
+                float3 y1 = tex2D(sampl, pos + float2(_TexelDistance, _TexelDistance));
+                float3 y2 = tex2D(sampl, pos + float2(_TexelDistance, 0));
+                float3 y3 = tex2D(sampl, pos + float2(0, _TexelDistance));
 
-                float Gx = abs(y0 - y1);
-                float Gy = abs(y2 - y3);
+                float3 Gx = abs(y0 - y1);
+                float3 Gy = abs(y2 - y3);
 
                 return Gx+Gy;
             }
             
-            float getSobel(sampler2D,float2 pos)
+            float3 getSobel(sampler2D sampl,float2 pos)
             {
-                float Gx = 0.0;
-
-                float uv = mul(SobelX,pos);
 
                 
-                Gx += samples[0] * SobelX[0]; // top left (factor +1)
-                Gx += samples[2] * SobelX[2]; // top right (factor -1)
-                Gx += samples[3] * SobelX[3]; // center left (factor +2)
-                Gx += samples[4] * SobelX[4]; // center right (factor -2)
-                Gx += samples[5] * SobelX[5]; // bottom left (factor +1)
-                Gx += samples[7] * SobelX[7]; // bottom right (factor -1)
-
-                float Gy = 0.0;
-                Gy += samples[0] * SobelY[0]; // top left (factor +1)
-                Gy += samples[1] * SobelY[1]; // top center (factor +2)
-                Gy += samples[2] * SobelY[2]; // top right (factor +1)
-                Gy += samples[5] * SobelY[5]; // bottom left (factor -1)
-                Gy += samples[6] * SobelY[6]; // bottom center (factor -2)
-                Gy += samples[7] * SobelY[7];
+                float3 Gx;
+                float3 Gy;
                 
-                return  0.0;   
+                for (int i = 0; i < 3;i++)
+                {
+                     for (int j = 0; j < 3;j++)
+                    {
+                        Gx += tex2D(sampl, pos + float2(i*_TexelDistance,j*_TexelDistance))* SobelX[i][j];
+                        Gy +=tex2D(sampl, pos + float2(i*_TexelDistance,j*_TexelDistance)) * SobelY[i][j];
+                    }
+                }
+                
+                 return  abs(Gx) + abs(Gy);
             }
-            
+            float3 _Color;
+            float _DistanceModulation;
+            float _Fresnel;
+            float _GrazingAngleMaskPower;
             fixed4 frag (v2f i) : SV_Target
             {
                 
                 float2 uv = i.screenuv.xy / i.screenuv.w;
+                
                 float depth = (tex2D(_CameraDepthTexture   , uv).r);
-                float3 Dnormals = (tex2D(_CameraDepthNormalsTexture   , uv));
+                float4 Dnormals = (tex2D(_CameraDepthNormalsTexture   , uv));
                 float3 color = (tex2D(_MainTex   , uv));
                 
                 depth = LinearEyeDepth(depth);
                 depth = 1-invLerp(0,_FarPlaneDepth,depth);
-
                 
-           
-
-
-                float Outline =( getRobertsCross(_MainTex,uv).x + getRobertsCross(_CameraDepthTexture,uv).x   + getRobertsCross(_CameraDepthNormalsTexture,uv).x ) ;
-
-                float3 output = lerp(color,float3(0,0,0),Outline.x);
-
-                return float4( Outline.xxx,1);
+                float3 V = UNITY_MATRIX_IT_MV[2].xyz;
+                
+                float3 normal;
+                DecodeDepthNormal(Dnormals, depth, normal);
+             
+                float fresnel = pow(1.0 - saturate(dot(normal, -V)), _Fresnel);
+                
+                //float Outline =( getRobertsCross(_MainTex,uv).x + getRobertsCross(_CameraDepthTexture,uv).x   + getRobertsCross(_CameraDepthNormalsTexture,uv).x ) ;
+                float2 Outline =   1-( getSobel(_CameraDepthTexture,uv).r + (getSobel(_CameraDepthNormalsTexture,uv).x + getSobel(_MainTex,uv).x ));
+                float3 output = smoothstep(.1,1,Outline.xxx);
+                float3 c = lerp(float3(0,0,0),color,Outline.x);
+                
+                return float4(c,1);
             }
             ENDCG
         }

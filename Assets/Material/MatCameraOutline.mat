@@ -26,8 +26,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FarPlaneDepth: 80
+    - _DistanceModulation: 1
+    - _FarPlaneDepth: 0
+    - _Fresnel: 3
+    - _GrazingAngleMaskPower: 0.5
     - _InvFade: 12272.19
-    - _TexelDistance: 0.004
-    m_Colors: []
+    - _TexelDistance: 0.00147
+    m_Colors:
+    - _Color: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
   m_BuildTextureStacks: []
