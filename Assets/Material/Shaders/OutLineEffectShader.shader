@@ -192,10 +192,8 @@ Shader "Hidden/BOHU/OutLine"
                 float edge =  (max(max( edgeN,edgeD),edgeT));
                 float3 output = lerp(color ,_Color,edge.x);
                 //float3 output = float3(edgeD.x,edgeD.x==0 && edgeN.x ,edgeN.x==0 && edgeT.x );
-
-
                 
-                return float4(output.xyz,1);
+                return float4(output,1);
             }
             ENDCG
         }

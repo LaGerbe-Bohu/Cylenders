@@ -5,6 +5,8 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -13,10 +15,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// 
     public static GameManager instance;
-
+    
     public CharacterInput characterInput;
     public int playerLife = 5;
     public float PlayerReach = 2f;
+    public List<GenerationPreset> LstGenerationPreset;
     [SerializeField] private Renderer cylenderRender;
     
     //public field
@@ -40,6 +43,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public GenerationPreset GetRandomGeneration()
+    {
+        return LstGenerationPreset[Random.Range(0, LstGenerationPreset.Count)];
+    }
+    
 
     public void PlayerHurt(int dommage)
     {

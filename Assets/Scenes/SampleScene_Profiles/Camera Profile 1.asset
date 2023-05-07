@@ -21,16 +21,16 @@ MonoBehaviour:
     value: 0.02
   Scale:
     overrideState: 1
-    value: 2
+    value: 1
   DepthThreshold:
     overrideState: 1
-    value: 0.1
+    value: 0.016
   NormalThreshold:
     overrideState: 1
-    value: 0.84
+    value: 0.7
   DepthNormalThresholdScale:
     overrideState: 1
-    value: -0.91
+    value: -0.9
   TextureThreshold:
     overrideState: 1
     value: 0.2

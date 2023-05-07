@@ -779,8 +779,6 @@ MonoBehaviour:
   rendererCompenent: {fileID: 676253288}
   meshFilter: {fileID: 676253289}
   meshCollider: {fileID: 676253292}
-  startPoint: {x: 0.5, y: 0.2, z: 0.8, w: 0.4}
-  treshold: 2050
   Seed: 0
 --- !u!64 &676253292
 MeshCollider:
@@ -1286,6 +1284,9 @@ MonoBehaviour:
   characterInput: {fileID: 911765112}
   playerLife: 5
   PlayerReach: 5
+  LstGenerationPreset:
+  - {fileID: 11400000, guid: 75aeaf3926df4d842bd9652859ff2414, type: 2}
+  - {fileID: 11400000, guid: 3848f4247d994744a93b2a93af44f8ff, type: 2}
   cylenderRender: {fileID: 676253293}
   player: {fileID: 742236050}
   camera: {fileID: 499840210}

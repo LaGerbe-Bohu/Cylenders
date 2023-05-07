@@ -8,12 +8,16 @@ public class MapGeneration : MonoBehaviour
     public Renderer rendererCompenent;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
-    private Texture2D texture;
-
-    [Header("Values")] 
-    public Vector4 startPoint;
-    public float treshold;
     public int Seed;
+    private Texture2D texture;
+    private GameManager GM;
+    private GenerationPreset Preset;
+    
+    [Header("Values")] 
+    private Vector4 startPoint;
+    private float treshold;
+    private Color color;
+  
     
     private Texture2D GenerateDC(Texture2D texture)
     {
@@ -117,10 +121,16 @@ public class MapGeneration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Preset = GameManager.instance.GetRandomGeneration();
+        this.color = Preset.color;
+        this.startPoint = Preset.startPoint;
+        this.treshold = Preset.treshold;
+
         texture = new Texture2D(size, size);
         texture = GenerateDC(texture);
-        rendererCompenent.material.mainTexture = texture;
-     
+        rendererCompenent.material.color = color;
+        
+        
         Vector3[] vertices;
         Mesh m = meshFilter.mesh;
         vertices = m.vertices;
