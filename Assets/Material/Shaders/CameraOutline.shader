@@ -1,20 +1,20 @@
-Shader "Unlit/CameraOutline"
+Shader "Hidden/CameraOutline"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _FarPlaneDepth ("FarPlaneDepth", float) = 1.0
-        _TexelDistance ("TexelDistance", range(0.0001,0.01)) = 1.0
+        _Scale ("Scale", float) = 1.0
         _DistanceModulation ("DistanceModulation", float) = 1.0
-        _Fresnel ("Fresnel", float) = 1.0
-        _GrazingAngleMaskPower("GrazingAngleMaskPower",float)=0
-        _Color("Color",color)=(0,0,0)
+        _DepthThreshold ("DepthThreshold", float) = 1.0
+        _NormalThreshold ("NormalThreshold", float) = 1.0
+        _Color("EdgeColor",color)=(0,0,0)
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
-
+        
         Pass
         {
             CGPROGRAM
@@ -61,7 +61,7 @@ Shader "Unlit/CameraOutline"
             sampler2D _CameraDepthTexture   ;
             sampler2D _CameraDepthNormalsTexture    ;
             float _FarPlaneDepth;
-            float _TexelDistance;
+            float _Scale;
             float4 invLerp(float4 A, float4 B, float4 T)
             {
                 return (T - A)/(B - A);
@@ -80,41 +80,53 @@ Shader "Unlit/CameraOutline"
                 {0, 0, 0},
                 {-1, -2, -1}
             };
+
+
             
-            float3 getRobertsCross(sampler2D sampl, float2 pos)
+            static const int RobertX[2][2] = {
+                {1, 0},
+                {0, -1 },
+             
+            };
+
+
+             static const int RobertY[2][2] = {
+                {0, 1},
+                {-1, 0},
+            };
+
+            float4 _MainTex_TexelSize;
+            float4 getRobertsCross(sampler2D sampl, float2 pos)
             {
 
-                if (pos.x < 0 || pos.x > 1 || pos.y < 0 || pos.y > 1)
-                {
-                    return 0.0;
-                }
-
-     
+                float4 Gx  = (0,0,0);
+                float4 Gy = (0,0,0);
                 
-                float3 y0 = tex2D(sampl, pos);
-                float3 y1 = tex2D(sampl, pos + float2(_TexelDistance, _TexelDistance));
-                float3 y2 = tex2D(sampl, pos + float2(_TexelDistance, 0));
-                float3 y3 = tex2D(sampl, pos + float2(0, _TexelDistance));
-
-                float3 Gx = abs(y0 - y1);
-                float3 Gy = abs(y2 - y3);
-
-                return Gx+Gy;
+                for (int i = 0; i < 2;i++)
+                {
+                     for (int j = 0; j < 2;j++)
+                    {
+                        Gx += tex2D(sampl, pos + float2(i*_MainTex_TexelSize.x*_Scale,j*_MainTex_TexelSize.y*_Scale))* RobertX[i][j];
+                        Gy +=tex2D(sampl, pos + float2(i*_MainTex_TexelSize.x*_Scale,j*_MainTex_TexelSize.y*_Scale)) * RobertY[i][j];
+                    }
+                }
+                
+                 return  abs(Gx) + abs(Gy);
             }
             
-            float3 getSobel(sampler2D sampl,float2 pos)
+            float4 getSobel(sampler2D sampl,float2 pos)
             {
 
                 
-                float3 Gx;
-                float3 Gy;
+                float4 Gx;
+                float4 Gy;
                 
                 for (int i = 0; i < 3;i++)
                 {
                      for (int j = 0; j < 3;j++)
                     {
-                        Gx += tex2D(sampl, pos + float2(i*_TexelDistance,j*_TexelDistance))* SobelX[i][j];
-                        Gy +=tex2D(sampl, pos + float2(i*_TexelDistance,j*_TexelDistance)) * SobelY[i][j];
+                        Gx += tex2D(sampl, pos + float2(i*_MainTex_TexelSize.x*_Scale,j*_MainTex_TexelSize.y*_Scale))* SobelX[i][j];
+                        Gy +=tex2D(sampl, pos + float2(i*_MainTex_TexelSize.x*_Scale,j*_MainTex_TexelSize.y*_Scale)) * SobelY[i][j];
                     }
                 }
                 
@@ -124,31 +136,40 @@ Shader "Unlit/CameraOutline"
             float _DistanceModulation;
             float _Fresnel;
             float _GrazingAngleMaskPower;
+            float _DepthThreshold;
+            float _NormalThreshold;
             fixed4 frag (v2f i) : SV_Target
             {
                 
-                float2 uv = i.screenuv.xy / i.screenuv.w;
+                float2 uv =i.screenuv.xy/i.screenuv.w;
                 
                 float depth = (tex2D(_CameraDepthTexture   , uv).r);
                 float4 Dnormals = (tex2D(_CameraDepthNormalsTexture   , uv));
                 float3 color = (tex2D(_MainTex   , uv));
                 
-                depth = LinearEyeDepth(depth);
-                depth = 1-invLerp(0,_FarPlaneDepth,depth);
+                depth = (depth);
+                depth = invLerp(0,_FarPlaneDepth,depth);
                 
                 float3 V = UNITY_MATRIX_IT_MV[2].xyz;
                 
                 float3 normal;
-                DecodeDepthNormal(Dnormals, depth, normal);
-             
-                float fresnel = pow(1.0 - saturate(dot(normal, -V)), _Fresnel);
+                
+                depth = depth * _DepthThreshold;
+
+                float trehsoldNormal = Dnormals * _NormalThreshold;
                 
                 //float Outline =( getRobertsCross(_MainTex,uv).x + getRobertsCross(_CameraDepthTexture,uv).x   + getRobertsCross(_CameraDepthNormalsTexture,uv).x ) ;
-                float2 Outline =   1-( getSobel(_CameraDepthTexture,uv).r + (getSobel(_CameraDepthNormalsTexture,uv).x + getSobel(_MainTex,uv).x ));
-                float3 output = smoothstep(.1,1,Outline.xxx);
-                float3 c = lerp(float3(0,0,0),color,Outline.x);
+                float edgeDepth =   ( getSobel(_CameraDepthTexture,uv).r);
+  
+                edgeDepth = edgeDepth >depth  ? 1:0;
                 
-                return float4(c,1);
+                float edgeNormal =   (  getSobel(_CameraDepthNormalsTexture,uv).r)+(  getSobel(_CameraDepthNormalsTexture,uv).g);
+                edgeNormal = edgeNormal > (1-depth)*_NormalThreshold  ? 1:0;
+                float edge =  edgeDepth + edgeNormal;
+                
+                float3 output = lerp(color ,_Color,edge.x);
+				
+                return float4(1,1,1,1);
             }
             ENDCG
         }

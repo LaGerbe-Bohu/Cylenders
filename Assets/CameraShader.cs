@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,18 +8,14 @@ using UnityEngine;
 public class CameraShader : MonoBehaviour
 {
 
+    public Material mat;
     public Camera cam;
     // Start is called before the first frame update
     void Start()
     {
         cam = GetComponent<Camera>();
-
-        cam.depthTextureMode = DepthTextureMode.Depth | DepthTextureMode.DepthNormals | DepthTextureMode.MotionVectors;
+        cam.depthTextureMode = DepthTextureMode.Depth | DepthTextureMode.DepthNormals;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+    
 }
