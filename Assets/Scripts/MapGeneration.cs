@@ -148,7 +148,9 @@ public class MapGeneration : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Instantiate(castle);
+          GameObject go =  Instantiate(castle);
+          
+          go.GetComponent<StructuresManager>().findPlace();
         }
         
      

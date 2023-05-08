@@ -60,15 +60,8 @@ public class StructuresManager : MonoBehaviour
         
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
 
-        StartCoroutine(findPlace());
-
-    }
-
-    IEnumerator findPlace()
+    public void findPlace()
     {
         LoadVec();
         
@@ -76,7 +69,7 @@ public class StructuresManager : MonoBehaviour
         int idx = 0;
         while (!trouver && idx < 300)
         {
-            this.gameObject.layer = LayerMask.NameToLayer("Default");
+          
             trouver = true;
        
             Vector3 randompos = Random.insideUnitCircle * GameManager.instance.CylenderRadius;
@@ -88,6 +81,7 @@ public class StructuresManager : MonoBehaviour
             }
 
             idx++;
+            
             for (int i = 0; i < Vec.Count; i++)
             {
                 
@@ -100,7 +94,7 @@ public class StructuresManager : MonoBehaviour
                 }
             }
 
-            this.gameObject.layer = LayerMask.NameToLayer("GroundLayer");
+           
                 
             for (int i = 0; i < lstAnchors.Count; i++)
             {
@@ -119,9 +113,8 @@ public class StructuresManager : MonoBehaviour
                 }
 
             }
-            
-       
-            yield return new WaitForFixedUpdate();
+      
+         
         }
         
    
@@ -131,7 +124,6 @@ public class StructuresManager : MonoBehaviour
             Destroy(this.gameObject);
          
         }
-        
         
     }
     
