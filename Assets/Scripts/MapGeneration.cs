@@ -9,6 +9,7 @@ public class MapGeneration : MonoBehaviour
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
     public int Seed;
+    public GameObject castle;
     private Texture2D texture;
     private GameManager GM;
     private GenerationPreset Preset;
@@ -21,11 +22,7 @@ public class MapGeneration : MonoBehaviour
     
     private Texture2D GenerateDC(Texture2D texture)
     {
-        if (Seed != 0)
-        {
-            Random.InitState(Seed);    
-        }
-                
+        
         int h = texture.width;
 
         for (int x = 0; x < h; x++)
@@ -148,7 +145,14 @@ public class MapGeneration : MonoBehaviour
         meshFilter.mesh.RecalculateNormals();
         meshFilter.mesh.RecalculateBounds();
         meshCollider.sharedMesh = m;
-       
+
+        for (int i = 0; i < 3; i++)
+        {
+            Instantiate(castle);
+        }
+        
+     
+
     }
 
 }

@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// 
     public static GameManager instance;
-    
+
+    public int Seed;
     public CharacterInput characterInput;
     public int playerLife = 5;
     public float PlayerReach = 2f;
@@ -39,6 +40,19 @@ public class GameManager : MonoBehaviour
         if (e_PlayerHurt == null)
         {
             e_PlayerHurt = new UnityEvent();
+        }
+
+        
+        
+        if (Seed != 0)
+        {
+            Random.InitState(Seed);    
+        }
+        else
+        {
+            int s = Random.Range(0, int.MaxValue);
+            Random.InitState(s);
+            Debug.Log(s);
         }
         
     }

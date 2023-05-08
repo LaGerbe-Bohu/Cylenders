@@ -25,5 +25,5 @@ Material:
     - _Threshold: 0.52
     m_Colors:
     - _BottomColor: {r: 0.78930813, g: 0.90433455, b: 1, a: 1}
-    - _TopColor: {r: 0.15294118, g: 0.54901963, b: 0.8784314, a: 1}
+    - _TopColor: {r: 0.22327036, g: 0.6481114, b: 1, a: 1}
   m_BuildTextureStacks: []

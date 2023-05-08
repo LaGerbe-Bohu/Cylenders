@@ -173,7 +173,7 @@ Shader "Hidden/BOHU/OutLine"
                 float VdotN = saturate( 1-dot(normal,-i.viewSpaceDir)) * _DepthNormalThresholdScale + 1;
                 
 ;
-                float2 waggyUv = uv  /*+  float2(cos(uv.y*100 )*(0.0005),cos(uv.x*100)*(0.0005)) */;
+                float2 waggyUv = uv  /*+  float2(cos(uv.y*100 )*(0.0005),cos(uv.x*100)*(0.0005))*/ ;
                 
                 float2 edgeDepth = getRobertsCross(_CameraDepthTexture,waggyUv).rg;
                 float edgeD =  max(edgeDepth.x, edgeDepth.y);
