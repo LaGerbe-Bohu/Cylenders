@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ab06567f82c6814f921df8260072ec1, type: 3}
-  m_Name: Montains
+  m_Name: Dessert
   m_EditorClassIdentifier: 
   startPoint: {x: 0.8, y: 0.8, z: 0.8, w: 0.8}
-  treshold: 500
-  color: {r: 1, g: 0.38431373, b: 0.40784314, a: 0}
+  treshold: 5000
+  color: {r: 0.9811321, g: 0.85426605, b: 0.7096238, a: 0}
   lstStructures:
   - strcture: {fileID: 5061967139081864558, guid: c475df8e945a07345870a6fc3034113b, type: 3}
     number: 1
-  - strcture: {fileID: 8967017940565434693, guid: c2a16d809eb7d94428bebbf0b3eca2cf, type: 3}
-    number: 50
+  - strcture: {fileID: 8970706666475085666, guid: 9e5dad29f0f95be4280b6d999b052986, type: 3}
+    number: 1
   - strcture: {fileID: 5304500917948283592, guid: fd551978c72ce904cb280558566adf1e, type: 3}
-    number: 50
+    number: 300

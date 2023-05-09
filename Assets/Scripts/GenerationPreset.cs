@@ -8,4 +8,6 @@ public class GenerationPreset : ScriptableObject
     public Vector4 startPoint;
     public float treshold;
     public Color color;
+    public List<StructGenerationSettings> lstStructures;
+
 }

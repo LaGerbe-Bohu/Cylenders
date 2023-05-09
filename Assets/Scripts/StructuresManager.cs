@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Matrix4x4 = UnityEngine.Matrix4x4;
 using Random = UnityEngine.Random;
+using Vector2 = System.Numerics.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 
@@ -14,7 +16,7 @@ public class StructuresManager : MonoBehaviour
     public Transform OriginBounding;
     public float HeightCheck;
     public float DistanceBounding;
-  
+    public float radiusCheck = .5f;
     public LayerMask LM;
 
     List<Vector3> Vec = new List<Vector3>();
@@ -26,20 +28,18 @@ public class StructuresManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         
-        for (float i = 0.0f; i < 2*Mathf.PI; i+=(2*Mathf.PI)/(float)(counterRay>=1 ? counterRay : 1.0f ))
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(OriginBounding.position,new Vector3(Mathf.Cos(i),0,Mathf.Sin(i) )*DistanceBounding);
-            
-        }
+        
+        Gizmos.color = Color.yellow;
+        Circle.DrawGizmoDisk(OriginBounding,DistanceBounding);
+        
         
         for (int i = 0; i < lstAnchors.Count; i++)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(lstAnchors[i].transform.position,.5f);
+            Gizmos.DrawWireSphere(lstAnchors[i].transform.position,radiusCheck);
             
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(lstAnchors[i].transform.position + Vector3.down*HeightCheck,.5f);
+            Gizmos.DrawWireSphere(lstAnchors[i].transform.position + Vector3.down*HeightCheck,radiusCheck);
 
 
 
@@ -51,12 +51,12 @@ public class StructuresManager : MonoBehaviour
 
 
 
-    public int findPlace(List<Transform> lstStructures)
+    public int findPlace(List<StructuresManager> lstStructures)
     {
         
         bool trouver = false;
         int idx = 0;
-        while (!trouver && idx < 300)
+        while (!trouver && idx < 1000)
         {
           
             trouver = true;
@@ -73,7 +73,8 @@ public class StructuresManager : MonoBehaviour
             
             for (int i = 0; i < lstStructures.Count; i++)
             {
-                if (Vector3.Distance(lstStructures[i].position, this.transform.position) < DistanceBounding  && lstStructures[i] != this.transform)
+                
+                if (Vector3.Distance(lstStructures[i].transform.position , this.transform.position) < DistanceBounding + lstStructures[i].DistanceBounding && lstStructures[i] != this.transform)
                 {
                     trouver = false;
                     Debug.Log("touche");
@@ -83,14 +84,14 @@ public class StructuresManager : MonoBehaviour
             for (int i = 0; i < lstAnchors.Count; i++)
             {
 
-                if (Physics.SphereCast(lstAnchors[i].transform.position + Vector3.down * HeightCheck, .5f, Vector3.down,
+                if (Physics.SphereCast(lstAnchors[i].transform.position + Vector3.down * HeightCheck, radiusCheck, Vector3.down,
                     out hit, Mathf.Infinity, LM))
                 {
                     trouver = false;
                     break;
                 }
 
-                if (!Physics.SphereCast(lstAnchors[i].transform.position, .5f, Vector3.down, out hit, Mathf.Infinity, LM))
+                if (!Physics.SphereCast(lstAnchors[i].transform.position, radiusCheck, Vector3.down, out hit, Mathf.Infinity, LM))
                 {
                     trouver = false;
                     break;
@@ -102,7 +103,7 @@ public class StructuresManager : MonoBehaviour
         }
         
    
-        if (!trouver || idx >= 300)
+        if (!trouver || idx >= 1000)
         {
             Destroy(this.gameObject);
         }

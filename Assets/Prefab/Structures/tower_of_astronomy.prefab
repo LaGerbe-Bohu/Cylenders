@@ -1733,7 +1733,7 @@ MonoBehaviour:
   - {fileID: 1037928802058135125}
   OriginBounding: {fileID: 1920630449637883968}
   HeightCheck: 2.45
-  DistanceBounding: 41.26
+  DistanceBounding: 19.2
   LM:
     serializedVersion: 2
     m_Bits: 64

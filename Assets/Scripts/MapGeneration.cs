@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[System.Serializable]
+public struct StructGenerationSettings
+{
+    public GameObject strcture;
+    public float number;
+}
+
 public class MapGeneration : MonoBehaviour
 {
     public int size;
     public Renderer rendererCompenent;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
-    public int Seed;
-    public GameObject castle;
     private Texture2D texture;
     private GameManager GM;
     private GenerationPreset Preset;
@@ -19,8 +24,8 @@ public class MapGeneration : MonoBehaviour
     private Vector4 startPoint;
     private float treshold;
     private Color color;
+    private List<StructGenerationSettings> lstStructures;
 
-    private List<Transform> lstStructures;
 
     private Texture2D GenerateDC(Texture2D texture)
     {
@@ -125,7 +130,8 @@ public class MapGeneration : MonoBehaviour
         this.color = Preset.color;
         this.startPoint = Preset.startPoint;
         this.treshold = Preset.treshold;
-
+        this.lstStructures = Preset.lstStructures;
+        
         texture = new Texture2D(size, size);
         texture = GenerateDC(texture);
         rendererCompenent.material.color = color;
@@ -150,25 +156,24 @@ public class MapGeneration : MonoBehaviour
         meshCollider.sharedMesh = m;
 
 
-        lstStructures = new List<Transform>();
-        for (int i = 0; i < 3; i++)
+        List<StructuresManager> str = new List<StructuresManager>();
+        for (int i = 0; i < lstStructures.Count; i++)
         {
-            GameObject go =  Instantiate(castle);
-            structe++;
-            go.GetComponent<StructuresManager>().findPlace(lstStructures);
-            
-            if (go != null)
+            for (int j = 0; j < lstStructures[i].number; j++)
             {
-               lstStructures.Add(go.transform);
+                GameObject go =  Instantiate(lstStructures[i].strcture);
+                structe++;
+                StructuresManager t =  go.GetComponent<StructuresManager>();
+                t.findPlace(str);
+            
+                if (go != null)
+                {
+                    str.Add(t);
+                }
             }
+
         }
         
-
     }
-
-    private void Update()
-    {
-        
-
-    }
+    
 }

@@ -15,3 +15,8 @@ MonoBehaviour:
   startPoint: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
   treshold: 2050
   color: {r: 0.485226, g: 0.8207547, b: 0.5279297, a: 0}
+  lstStructures:
+  - strcture: {fileID: 8970706666475085666, guid: 9e5dad29f0f95be4280b6d999b052986, type: 3}
+    number: 3
+  - strcture: {fileID: 8970706666475085666, guid: 9e5dad29f0f95be4280b6d999b052986, type: 3}
+    number: 3
