@@ -1322,7 +1322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af3f01e9922f9e468d6fcd8892d9e40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seed: 1641737810
+  Seed: 0
   characterInput: {fileID: 911765112}
   playerLife: 5
   PlayerReach: 5

@@ -1794,7 +1794,7 @@ MonoBehaviour:
   OriginBounding: {fileID: 1920630449637883968}
   HeightCheck: 2.45
   StartDistanceBounding: 18.71
-  HeightBounding: 44.6
+  HeightBounding: 13.62
   CounterRay: 8
   LM:
     serializedVersion: 2

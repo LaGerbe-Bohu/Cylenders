@@ -115,6 +115,7 @@ public class MapGeneration : MonoBehaviour
         return texture;
     }
 
+    private int structe = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -146,15 +147,18 @@ public class MapGeneration : MonoBehaviour
         meshFilter.mesh.RecalculateBounds();
         meshCollider.sharedMesh = m;
 
-        for (int i = 0; i < 3; i++)
-        {
-          GameObject go =  Instantiate(castle);
-          
-          go.GetComponent<StructuresManager>().findPlace();
-        }
         
-     
 
     }
 
+    private void Update()
+    {
+        if(structe < 3)
+        {
+            GameObject go =  Instantiate(castle);
+            structe++;
+            Debug.Log(go.GetComponent<StructuresManager>().findPlace()+ " "+structe);
+        }
+
+    }
 }

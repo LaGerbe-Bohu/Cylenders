@@ -50,18 +50,17 @@ public class StructuresManager : MonoBehaviour
 
     void LoadVec()
     {
-         Vec = new List<Vector3>();
+        Vec = new List<Vector3>();
 
-        for (float i = 0.0f; i < 2*Mathf.PI*CounterRay; i+=(2*Mathf.PI)/CounterRay)
+        for (float i = 0.0f; i < 2*Mathf.PI; i+=(2*Mathf.PI)/CounterRay)
         {
             Vec.Add(new Vector3(Mathf.Cos(i),0,Mathf.Sin(i) ));
         }
         
-        
     }
     
 
-    public void findPlace()
+    public int findPlace()
     {
         LoadVec();
         
@@ -120,13 +119,11 @@ public class StructuresManager : MonoBehaviour
    
         if (!trouver || idx >= 300)
         {
-         
             Destroy(this.gameObject);
-         
         }
-        
+
+        return idx;
     }
-    
     
     // Update is called once per frame
     void Update()
