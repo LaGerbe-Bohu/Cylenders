@@ -41,8 +41,6 @@ public class GameManager : MonoBehaviour
         {
             e_PlayerHurt = new UnityEvent();
         }
-
-        
         
         if (Seed != 0)
         {
