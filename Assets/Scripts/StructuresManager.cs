@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
@@ -12,23 +13,23 @@ public class StructuresManager : MonoBehaviour
     public List<Transform> lstAnchors;
     public Transform OriginBounding;
     public float HeightCheck;
-    public float StartDistanceBounding;
-    public float HeightBounding;
-    public float CounterRay;
-    public LayerMask LM;
+    public float DistanceBounding;
   
-    
+    public LayerMask LM;
+
     List<Vector3> Vec = new List<Vector3>();
     
+    [Header("Debug")]
+    public int counterRay;
+    
+
     private void OnDrawGizmos()
     {
-
-        LoadVec();
-       
-        for (int i = 0; i < Vec.Count; i++)
+        
+        for (float i = 0.0f; i < 2*Mathf.PI; i+=(2*Mathf.PI)/(float)(counterRay>=1 ? counterRay : 1.0f ))
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(OriginBounding.position + Vec[i]*StartDistanceBounding,Vec[i]*HeightBounding);
+            Gizmos.DrawRay(OriginBounding.position,new Vector3(Mathf.Cos(i),0,Mathf.Sin(i) )*DistanceBounding);
             
         }
         
@@ -48,21 +49,10 @@ public class StructuresManager : MonoBehaviour
         }
     }
 
-    void LoadVec()
-    {
-        Vec = new List<Vector3>();
 
-        for (float i = 0.0f; i < 2*Mathf.PI; i+=(2*Mathf.PI)/CounterRay)
-        {
-            Vec.Add(new Vector3(Mathf.Cos(i),0,Mathf.Sin(i) ));
-        }
-        
-    }
-    
 
-    public int findPlace()
+    public int findPlace(List<Transform> lstStructures)
     {
-        LoadVec();
         
         bool trouver = false;
         int idx = 0;
@@ -81,20 +71,15 @@ public class StructuresManager : MonoBehaviour
 
             idx++;
             
-            for (int i = 0; i < Vec.Count; i++)
+            for (int i = 0; i < lstStructures.Count; i++)
             {
-                
-                if(Physics.SphereCast(OriginBounding.position + Vec[i]*StartDistanceBounding,2f,Vec[i],out hit,HeightBounding,LM))
+                if (Vector3.Distance(lstStructures[i].position, this.transform.position) < DistanceBounding  && lstStructures[i] != this.transform)
                 {
                     trouver = false;
                     Debug.Log("touche");
-               
-                    break;
                 }
             }
 
-           
-                
             for (int i = 0; i < lstAnchors.Count; i++)
             {
 

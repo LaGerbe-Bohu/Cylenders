@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,8 +19,9 @@ public class MapGeneration : MonoBehaviour
     private Vector4 startPoint;
     private float treshold;
     private Color color;
-  
-    
+
+    private List<Transform> lstStructures;
+
     private Texture2D GenerateDC(Texture2D texture)
     {
         
@@ -147,18 +149,26 @@ public class MapGeneration : MonoBehaviour
         meshFilter.mesh.RecalculateBounds();
         meshCollider.sharedMesh = m;
 
+
+        lstStructures = new List<Transform>();
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject go =  Instantiate(castle);
+            structe++;
+            go.GetComponent<StructuresManager>().findPlace(lstStructures);
+            
+            if (go != null)
+            {
+               lstStructures.Add(go.transform);
+            }
+        }
         
 
     }
 
     private void Update()
     {
-        if(structe < 3)
-        {
-            GameObject go =  Instantiate(castle);
-            structe++;
-            Debug.Log(go.GetComponent<StructuresManager>().findPlace()+ " "+structe);
-        }
+        
 
     }
 }
