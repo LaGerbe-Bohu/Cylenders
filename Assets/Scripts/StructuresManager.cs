@@ -1,14 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Matrix4x4 = UnityEngine.Matrix4x4;
 using Random = UnityEngine.Random;
-using Vector2 = System.Numerics.Vector2;
 using Vector3 = UnityEngine.Vector3;
-
 
 public class StructuresManager : MonoBehaviour
 {
@@ -24,7 +17,6 @@ public class StructuresManager : MonoBehaviour
     [Header("Debug")]
     public int counterRay;
     
-
     private void OnDrawGizmos()
     {
         
@@ -63,10 +55,23 @@ public class StructuresManager : MonoBehaviour
        
             Vector3 randompos = Random.insideUnitCircle * GameManager.instance.CylenderRadius;
             RaycastHit hit;
-      
+            
+
+            foreach (Transform tr in this.transform)
+            {
+                if (tr.CompareTag("AlwaysDefault")) continue;
+                tr.gameObject.layer = LayerMask.NameToLayer("Default");    
+            }
+            
             if (Physics.Raycast(new Vector3(randompos.x, 10, randompos.y), Vector3.down, out hit, 1000f, LM))
             {
                 this.transform.position = new Vector3(randompos.x, hit.point.y, randompos.y);
+            }
+            
+            foreach (Transform tr in this.transform)
+            {
+                if (tr.CompareTag("AlwaysDefault")) continue;
+                tr.gameObject.layer = LayerMask.NameToLayer("GroundLayer");    
             }
 
             idx++;

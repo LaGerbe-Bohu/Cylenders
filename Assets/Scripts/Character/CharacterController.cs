@@ -22,6 +22,7 @@ public class CharacterController : MonoBehaviour
     public float acceleration;
     public float maxSpeed;
     public float jumpForce;
+    public float AirControlScaler = 0.1f;
     public LayerMask GroundLayer;
     [Space] 
     public bool airControl = false;
@@ -60,8 +61,14 @@ public class CharacterController : MonoBehaviour
     
     void MoveCharacter()
     {
-
+       
         if (!airControl && !_isGrounded) return;
+        float scaler = this.AirControlScaler;
+        
+        if (!airControl || _isGrounded)
+        {
+            scaler = 1.0f;
+        }
         
         // move character
         var biaisTransform = interfaceInput.renderForward();
@@ -87,7 +94,7 @@ public class CharacterController : MonoBehaviour
         // Movement
         if (_direction.magnitude > float.Epsilon)
         {
-            Vector3 move = (forward * (_direction.y ) + right * (_direction.x )).normalized * acceleration;
+            Vector3 move = (forward * (_direction.y ) + right * (_direction.x )).normalized * (acceleration * scaler);
             rigidBody.AddForce(move,ForceMode.Impulse); 
         }
         

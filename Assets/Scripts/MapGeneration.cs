@@ -161,7 +161,7 @@ public class MapGeneration : MonoBehaviour
         {
             for (int j = 0; j < lstStructures[i].number; j++)
             {
-                GameObject go =  Instantiate(lstStructures[i].strcture);
+                GameObject go =  Instantiate(lstStructures[i].strcture, this.transform, true);
                 structe++;
                 StructuresManager t =  go.GetComponent<StructuresManager>();
                 t.findPlace(str);

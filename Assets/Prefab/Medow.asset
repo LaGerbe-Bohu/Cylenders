@@ -16,6 +16,8 @@ MonoBehaviour:
   treshold: 2050
   color: {r: 0.485226, g: 0.8207547, b: 0.5279297, a: 0}
   lstStructures:
+  - strcture: {fileID: 5061967139081864558, guid: c475df8e945a07345870a6fc3034113b, type: 3}
+    number: 1
   - strcture: {fileID: 8970706666475085666, guid: 9e5dad29f0f95be4280b6d999b052986, type: 3}
     number: 3
   - strcture: {fileID: 8970706666475085666, guid: 9e5dad29f0f95be4280b6d999b052986, type: 3}

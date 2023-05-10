@@ -800,6 +800,22 @@ PrefabInstance:
       propertyPath: cameraPlayer
       value: 
       objectReference: {fileID: 499840212}
+    - target: {fileID: 1206260170386352358, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: maxSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260170386352358, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: jumpForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260170386352358, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: airControl
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260170386352358, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: AirControlScaler
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1206260170386352359, guid: dd8271b3171127548b83efa67f37b121, type: 3}
       propertyPath: animRight
       value: 
@@ -902,6 +918,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1206260170766430271, guid: dd8271b3171127548b83efa67f37b121, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206260170766430271, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1206260170836646704, guid: dd8271b3171127548b83efa67f37b121, type: 3}
@@ -1228,7 +1248,9 @@ MonoBehaviour:
   playerLife: 5
   PlayerReach: 5
   LstGenerationPreset:
-  - {fileID: 11400000, guid: 2148cb57bc5bb31479e49feb262e564b, type: 2}
+  - {fileID: 11400000, guid: 935e2f36eb8848b429f01c78c4d22f79, type: 2}
+  - {fileID: 11400000, guid: 75aeaf3926df4d842bd9652859ff2414, type: 2}
+  - {fileID: 11400000, guid: 3848f4247d994744a93b2a93af44f8ff, type: 2}
   cylenderRender: {fileID: 676253293}
   player: {fileID: 742236050}
   camera: {fileID: 499840210}
