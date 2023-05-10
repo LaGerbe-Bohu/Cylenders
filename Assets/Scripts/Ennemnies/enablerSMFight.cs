@@ -22,6 +22,8 @@ public class enablerSMFight : MonoBehaviour
             ISM.enableState(AvailaibleState.fight);
             ISM.disableState(AvailaibleState.focus);
             
+          
+            
         }
         else
         {

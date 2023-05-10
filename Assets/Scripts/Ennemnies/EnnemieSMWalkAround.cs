@@ -39,7 +39,6 @@ public class EnnemieSMWalkAround : MachineState
            {
                StopCoroutine(coroutine);
            }
-           Debug.Log(coroutine);
            coroutine = StartCoroutine(walkaround());
        }
 

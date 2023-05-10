@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MobInput : MonoBehaviour,InterfaceInput
 {
 
     public Transform orienteTransform;
     private Vector2 direction;
-
 
     public Vector2 getDirection()
     {

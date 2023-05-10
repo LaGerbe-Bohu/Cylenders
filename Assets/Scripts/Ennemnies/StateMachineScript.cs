@@ -31,7 +31,7 @@ public class StateMachineScript : MonoBehaviour
          
             if (asi.IsName(stateList[i].stateName.ToString()))
             {
-         
+                Debug.Log(   stateList[i].stateName + " aller");
                 stateList[i].machineState.updateMachineState();
             }
                 

@@ -35,8 +35,6 @@ public class PlayerOutlineMobDetection : MonoBehaviour
         List<Renderer> lst =  coll.GetComponent<EnnemieInformation>().lstRender;
         for (int i = 0; i < lst.Count; i++)
         {
-            
-            Debug.Log("rentre");
             Material[] mat = lst[i].materials;
             
             Array.Resize(ref mat,mat.Length+1);

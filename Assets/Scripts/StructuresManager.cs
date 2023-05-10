@@ -82,7 +82,7 @@ public class StructuresManager : MonoBehaviour
                 if (Vector3.Distance(lstStructures[i].transform.position , this.transform.position) < DistanceBounding + lstStructures[i].DistanceBounding && lstStructures[i] != this.transform)
                 {
                     trouver = false;
-                    Debug.Log("touche");
+                
                 }
             }
 

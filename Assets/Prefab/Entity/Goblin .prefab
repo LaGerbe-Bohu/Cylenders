@@ -261,7 +261,7 @@ Rigidbody:
   m_GameObject: {fileID: 4098715291914489912}
   serializedVersion: 2
   m_Mass: 50
-  m_Drag: 1
+  m_Drag: 3
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -294,16 +294,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 4098715291914489910}
-  acceleration: 20
-  maxSpeed: 1
-  jumpForce: 15
-  AirControlScaler: 0.1
+  acceleration: 70
+  maxSpeed: 10
+  jumpForce: 10
+  AirControlScaler: 0.2
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
-  airControl: 0
+  airControl: 1
   maxSlopeAngle: 45
-  orienteCharacter: 0
+  orienteCharacter: 1
 --- !u!114 &4174770379491401430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,8 +514,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ISM: {fileID: 3268432685721280327}
-  distanceFocus: 10
-  maxDistnaceLoosFocus: 20
+  distanceFocus: 20
+  maxDistnaceLoosFocus: 40
 --- !u!114 &6826014218749902107
 MonoBehaviour:
   m_ObjectHideFlags: 0

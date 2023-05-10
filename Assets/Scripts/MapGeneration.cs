@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -16,6 +17,7 @@ public class MapGeneration : MonoBehaviour
     public Renderer rendererCompenent;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
+    public NavMeshSurface NMS;
     private Texture2D texture;
     private GameManager GM;
     private GenerationPreset Preset;
@@ -154,7 +156,8 @@ public class MapGeneration : MonoBehaviour
         meshFilter.mesh.RecalculateNormals();
         meshFilter.mesh.RecalculateBounds();
         meshCollider.sharedMesh = m;
-
+        
+ 
 
         List<StructuresManager> str = new List<StructuresManager>();
         for (int i = 0; i < lstStructures.Count; i++)
@@ -174,6 +177,7 @@ public class MapGeneration : MonoBehaviour
 
         }
         
+        NMS.BuildNavMesh();
     }
     
 }
