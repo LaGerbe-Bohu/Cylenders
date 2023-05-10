@@ -51,6 +51,7 @@ public class EnnemieSMWalkAround : MachineState
        while (counter > 0)
        {
            mobInput.setDirection(targetPoint);
+           Debug.Log(mobInput);
            counter -= Time.deltaTime;
            yield return null;
        }
