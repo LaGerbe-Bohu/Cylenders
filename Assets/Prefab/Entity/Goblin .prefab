@@ -297,6 +297,7 @@ MonoBehaviour:
   acceleration: 20
   maxSpeed: 1
   jumpForce: 15
+  AirControlScaler: 0.1
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -577,7 +578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateMan: {fileID: 0}
   mobInput: {fileID: 0}
-  Radius: 2
+  counter: 3
 --- !u!114 &4127980799955308713
 MonoBehaviour:
   m_ObjectHideFlags: 0
