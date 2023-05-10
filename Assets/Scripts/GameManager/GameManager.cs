@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 
@@ -22,7 +23,7 @@ public class GameManager : MonoBehaviour
     public float PlayerReach = 2f;
     public List<GenerationPreset> LstGenerationPreset;
     [SerializeField] private Renderer cylenderRender;
-    
+    public GameObject PlayerPrefab;
     //public field
     [FormerlySerializedAs("Player")] public Transform player;
     public Transform camera;
@@ -36,6 +37,26 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         CylenderRadius = cylenderRender.bounds.extents.magnitude/2f;
+
+        if (!GameObject.FindWithTag("Player"))
+        {
+            GameObject go = Instantiate(PlayerPrefab);
+        
+            this.player = go.transform;
+            Object.DontDestroyOnLoad(player.gameObject);
+            this.camera = this.player.transform.GetChild(1);
+            characterInput = this.player.GetComponent<CharacterInput>();
+        }
+        else
+        {
+            GameObject go = GameObject.FindWithTag("Player");
+            this.player = go.transform;
+            Object.DontDestroyOnLoad(player.gameObject);
+            this.camera = this.player.transform.GetChild(1);
+            characterInput = this.player.GetComponent<CharacterInput>();
+        }
+        
+        this.player.position = new Vector3(0, 30f, 0);
 
         if (e_PlayerHurt == null)
         {
