@@ -46,7 +46,7 @@ public class EnnemieSMFocus : MachineState
         for (int i = 0; i < path.corners.Length - 1; i++)
             Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
 
-        Vector3 dir = (  path.corners[1] - stateMan.transform.position).normalized;
+        Vector3 dir =  (path.corners[1] - stateMan.transform.position);
         
         mobInput.setDirection(new Vector2(dir.x,dir.z));
         
