@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,8 @@ public enum AvailaibleState
     focus,
     fight,
     death,
-    run
+    run,
+    hit
 }
 
 [RequireComponent(typeof(Animator))]
@@ -35,6 +37,7 @@ public class IAStateMachineManager : MonoBehaviour
     public bool getStateValue(AvailaibleState v)
     {
         if (animator == null) return false;
+
         return animator.GetBool(v.ToString());
     }
 

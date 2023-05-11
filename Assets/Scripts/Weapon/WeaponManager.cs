@@ -76,7 +76,6 @@ public class WeaponManager : MonoBehaviour
 
     IEnumerator Attack(int i)
     {
-        Debug.Log(canHits[i].Hit);
         while (!canHits[i].Hit)
         {
             yield return new WaitForEndOfFrame();

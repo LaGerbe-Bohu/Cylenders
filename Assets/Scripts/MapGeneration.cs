@@ -18,6 +18,8 @@ public class MapGeneration : MonoBehaviour
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
     public NavMeshSurface NMS;
+    public MobSpawner MobSpawner;
+    
     private Texture2D texture;
     private GameManager GM;
     private GenerationPreset Preset;
@@ -156,8 +158,6 @@ public class MapGeneration : MonoBehaviour
         meshFilter.mesh.RecalculateNormals();
         meshFilter.mesh.RecalculateBounds();
         meshCollider.sharedMesh = m;
-        
- 
 
         List<StructuresManager> str = new List<StructuresManager>();
         for (int i = 0; i < lstStructures.Count; i++)
@@ -178,6 +178,8 @@ public class MapGeneration : MonoBehaviour
         }
         
         NMS.BuildNavMesh();
+        MobSpawner.SpawnCharacter();
+
     }
     
 }

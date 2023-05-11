@@ -43,7 +43,7 @@ public class EnnemieSMFocus : MachineState
     {
         NavMesh.CalculatePath(this.transform.position, player.transform.position, NavMesh.AllAreas, path);
         
-        if (path.corners.Length <= 0) return;
+        if (path.corners.Length <= 1) return;
         
         for (int i = 0; i < path.corners.Length - 1; i++)
             Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);

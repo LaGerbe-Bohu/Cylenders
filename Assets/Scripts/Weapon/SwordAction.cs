@@ -10,6 +10,8 @@ public class SwordAction : I_WeaponInterface
     /// </summary>
     /// 
 
+    public float Dommage = 1;
+    public float Reach;
     private WeaponInfromation WeaponInfromation;
     
     private void Start()
@@ -24,7 +26,19 @@ public class SwordAction : I_WeaponInterface
         Transform camera = GameManager.instance.camera;
         if (Physics.Raycast(camera.position, camera.forward,out hit, GameManager.instance.PlayerReach, WeaponInfromation.ennemiesLayer))
         {
-            Destroy(hit.collider.gameObject);
+           
+            EnnemieInformation EI = hit.collider.GetComponent<EnnemieInformation>();
+
+            if (EI)
+            {
+                EI.life -= Dommage;
+                EI.Hurt(this.transform.position);
+                if (EI.life <= 0)
+                {
+                    Destroy(EI.gameObject);
+                }
+            }
+
         }
 
     }

@@ -518,17 +518,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1977213792, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
-      propertyPath: m_NavMeshData
+    - target: {fileID: 676253291, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
+      propertyPath: MobSpawner
       value: 
-      objectReference: {fileID: 23800000, guid: af3d9599f4550ef4ca92a4527b5b0d6f, type: 2}
-    - target: {fileID: 1977213792, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
-      propertyPath: m_UseGeometry
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1977213792, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
-      propertyPath: m_OverrideTileSize
-      value: 0
+      objectReference: {fileID: 698631312}
+    - target: {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
+      propertyPath: maxMob
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4866553491296170144, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: m_Name
@@ -580,55 +576,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
---- !u!1 &908806903
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 908806904}
-  - component: {fileID: 908806905}
-  m_Layer: 0
-  m_Name: MobSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &908806904
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908806903}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.870001, y: 0.17158997, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &908806905
+--- !u!114 &698631312 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
+  m_PrefabInstance: {fileID: 676253285}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908806903}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ffe531541fcb4b41acd8118fdd0f064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMob: 1
-  EnnemiePrefab: {fileID: 4098715291914489912, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &1073757178
 GameObject:
   m_ObjectHideFlags: 0

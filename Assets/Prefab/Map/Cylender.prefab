@@ -58,7 +58,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.25
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: af3d9599f4550ef4ca92a4527b5b0d6f, type: 2}
 --- !u!1 &4866553491296170144
@@ -278,6 +278,24 @@ MonoBehaviour:
   meshFilter: {fileID: 4225574671461313469}
   meshCollider: {fileID: 676253292}
   NMS: {fileID: 1977213792}
+  MobSpawner: {fileID: 0}
+--- !u!114 &698631312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450442423104552610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ffe531541fcb4b41acd8118fdd0f064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMob: 1
+  EnnemiePrefab: {fileID: 4098715291914489912, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &940014632106058776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6f4d6d7301ce80d4c894e197929ad620, type: 3}
