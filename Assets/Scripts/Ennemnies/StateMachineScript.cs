@@ -15,10 +15,10 @@ public class StateMachineScript : MonoBehaviour
 {
     public List<StateInfo> stateList;
 
+    
     private Animator animator;
     private AnimatorStateInfo asi;
-
-    private Color currentState;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -30,8 +30,9 @@ public class StateMachineScript : MonoBehaviour
     private void OnDrawGizmos()
     {
         Color c = Color.white;
+        if (animator == null) return; 
         asi = animator.GetCurrentAnimatorStateInfo(0);
-        for (int i = 0; i < stateList.Count; i++)
+        for (int i = stateList.Count-1; i >= 0; i--)
         {
             if (asi.IsName(stateList[i].stateName.ToString()))
             {
@@ -47,14 +48,15 @@ public class StateMachineScript : MonoBehaviour
     void Update()
     {
         asi = animator.GetCurrentAnimatorStateInfo(0);
+        
         for (int i = 0; i < stateList.Count; i++)
         {
          
             if (asi.IsName(stateList[i].stateName.ToString()))
             {
-                Debug.Log(   stateList[i].stateName + " aller");
+         
                 stateList[i].machineState.updateMachineState();
-                currentState = stateList[i].debug;
+             
             }
                 
         }

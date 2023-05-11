@@ -106,7 +106,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 1.91
+    agentRadius: 2
     agentHeight: 2
     agentSlope: 45
     agentClimb: 0.4
@@ -114,7 +114,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.63666666
+    cellSize: 0.6666667
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: fee5dcf41d9f58c4381b79c45054a72d, type: 2}
 --- !u!1001 &42513033
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -521,7 +521,15 @@ PrefabInstance:
     - target: {fileID: 1977213792, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: e562b267641553b4e8fdcd2ae75ef8a7, type: 2}
+      objectReference: {fileID: 23800000, guid: af3d9599f4550ef4ca92a4527b5b0d6f, type: 2}
+    - target: {fileID: 1977213792, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
+      propertyPath: m_UseGeometry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1977213792, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
+      propertyPath: m_OverrideTileSize
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4866553491296170144, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: m_Name
       value: Cylender
@@ -616,7 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ffe531541fcb4b41acd8118fdd0f064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMob: 4
+  maxMob: 1
   EnnemiePrefab: {fileID: 4098715291914489912, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
   groundLayer:
     serializedVersion: 2

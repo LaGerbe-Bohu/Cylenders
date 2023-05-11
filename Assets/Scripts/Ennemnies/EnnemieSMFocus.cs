@@ -27,6 +27,7 @@ public class EnnemieSMFocus : MachineState
         path = new NavMeshPath();
     }
 
+    
     /*
     public override void updateMachineState()
     {
@@ -37,10 +38,11 @@ public class EnnemieSMFocus : MachineState
     }
     */
     
+    
     public override void updateMachineState()
     {
         NavMesh.CalculatePath(this.transform.position, player.transform.position, NavMesh.AllAreas, path);
-
+        
         if (path.corners.Length <= 0) return;
         
         for (int i = 0; i < path.corners.Length - 1; i++)
@@ -51,5 +53,6 @@ public class EnnemieSMFocus : MachineState
         mobInput.setDirection(new Vector2(dir.x,dir.z));
         
     }
+    
     
 }

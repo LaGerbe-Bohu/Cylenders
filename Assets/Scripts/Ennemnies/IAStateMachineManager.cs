@@ -32,6 +32,12 @@ public class IAStateMachineManager : MonoBehaviour
         animator.SetBool(v.ToString(),true);
     }
 
+    public bool getStateValue(AvailaibleState v)
+    {
+        if (animator == null) return false;
+        return animator.GetBool(v.ToString());
+    }
+
     public void disableState(AvailaibleState v)
     {
         if (animator == null) return;

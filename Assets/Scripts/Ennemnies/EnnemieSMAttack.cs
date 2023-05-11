@@ -7,7 +7,7 @@ public class EnnemieSMAttack : MachineState
     public Transform stateMan;
     public MobInput mobInput;
     public float Dps = 1;
-    
+    public Rigidbody rb;
     private Transform player;
 
     private GameManager GM;
@@ -28,7 +28,7 @@ public class EnnemieSMAttack : MachineState
 
         player = GameManager.instance.player;
         GM = GameManager.instance;
-        counter = -1;
+        counter = Dps;
     }
 
     
@@ -37,7 +37,7 @@ public class EnnemieSMAttack : MachineState
         mobInput.setDirection(Vector2.zero);
 
         counter -= Time.deltaTime;
-
+    
         if (counter < 0)
         {
             counter = Dps;

@@ -16,6 +16,7 @@ public class MobInput : MonoBehaviour,InterfaceInput
 
     public void setDirection(Vector2 d )
     {
+        Debug.Log(d);
         this.direction = d;
     }
     

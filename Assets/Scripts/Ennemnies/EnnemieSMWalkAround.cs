@@ -14,6 +14,7 @@ public class EnnemieSMWalkAround : MachineState
     private Vector2 originPoint;
     private bool reach = true;
     private Coroutine coroutine;
+    private float cc;
     private void Start()
     {
        if (stateMan == null)
@@ -26,41 +27,25 @@ public class EnnemieSMWalkAround : MachineState
            mobInput = this.transform.parent.GetComponent<MobInput>();
        }
 
-
-
+       cc = this.counter;
+       targetPoint = Random.insideUnitCircle;
+       
        originPoint = new Vector2(stateMan.position.x,stateMan.position.z);
     }
 
     public override void updateMachineState()
     {
-       if (reach && mobInput )
+       if (mobInput )
        {
-           if (coroutine != null)
+           mobInput.setDirection(targetPoint);
+           cc -= Time.deltaTime;
+           if (cc < 0)
            {
-               StopCoroutine(coroutine);
+               cc = this.counter;
+               targetPoint = Random.insideUnitCircle;
            }
-           coroutine = StartCoroutine(walkaround());
        }
-
     }
 
-    IEnumerator walkaround()
-    {
-       targetPoint = Random.insideUnitCircle;
-       reach = false;
-       float counter = this.counter;
-       
-       while (counter > 0)
-       {
-           
-            mobInput.setDirection(targetPoint);
 
-           counter -= Time.deltaTime;
-           yield return null;
-       }
-        
-       reach = true;
-    }
-
-   
 }

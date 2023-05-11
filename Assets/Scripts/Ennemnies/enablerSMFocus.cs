@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
+
 
 public class enablerSMFocus : MonoBehaviour
 {
@@ -19,16 +17,14 @@ public class enablerSMFocus : MonoBehaviour
     void Update()
     {
         
-        if ( Vector3.Distance(Player.transform.position,this.transform.position) < distanceFocus )
+        if ( Vector3.Distance(Player.transform.position,this.transform.position) < distanceFocus  && !ISM.getStateValue(AvailaibleState.fight))
         {
             ISM.enableState(AvailaibleState.focus);
-          
         } 
         
         if (Vector3.Distance(Player.transform.position, this.transform.position) > maxDistnaceLoosFocus)
         {
             ISM.disableState(AvailaibleState.focus);
-            
         }
     }
 }
