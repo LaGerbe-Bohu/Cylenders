@@ -524,7 +524,7 @@ PrefabInstance:
       objectReference: {fileID: 698631312}
     - target: {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: maxMob
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4866553491296170144, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: m_Name
@@ -622,8 +622,6 @@ MonoBehaviour:
   PlayerReach: 5
   LstGenerationPreset:
   - {fileID: 11400000, guid: 935e2f36eb8848b429f01c78c4d22f79, type: 2}
-  - {fileID: 11400000, guid: 75aeaf3926df4d842bd9652859ff2414, type: 2}
-  - {fileID: 11400000, guid: 3848f4247d994744a93b2a93af44f8ff, type: 2}
   cylenderRender: {fileID: 6379776504343322384}
   PlayerPrefab: {fileID: 1206260170766430271, guid: dd8271b3171127548b83efa67f37b121, type: 3}
   player: {fileID: 0}

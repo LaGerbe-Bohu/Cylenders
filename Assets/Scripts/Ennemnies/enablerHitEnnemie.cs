@@ -6,7 +6,7 @@ public class enablerHitEnnemie : MonoBehaviour
 {
     public float strundTime = 1f;
     public IAStateMachineManager ISM;
-
+    public EnnemieSMHit ESH;
     private Coroutine co;
     private float counter;
     public void Hit()
@@ -17,7 +17,6 @@ public class enablerHitEnnemie : MonoBehaviour
         }
 
          co = StartCoroutine(stund());
-
     }
 
     IEnumerator stund()
@@ -25,7 +24,7 @@ public class enablerHitEnnemie : MonoBehaviour
         ISM.enableState(AvailaibleState.hit);
         ISM.disableState(AvailaibleState.focus);
         ISM.disableState(AvailaibleState.fight);
-        
+        ESH.resetTimer();
         yield return new WaitForSeconds(strundTime);
         
         ISM.disableState(AvailaibleState.hit);

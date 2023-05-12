@@ -17,12 +17,13 @@ public class enablerSMFocus : MonoBehaviour
     void Update()
     {
         
-        if ( Vector3.Distance(Player.transform.position,this.transform.position) < distanceFocus  && !ISM.getStateValue(AvailaibleState.fight))
+        if ( Vector3.Distance(Player.transform.position,this.transform.position) < distanceFocus  
+             && !ISM.getStateValue(AvailaibleState.fight) )
         {
             ISM.enableState(AvailaibleState.focus);
         } 
         
-        if (Vector3.Distance(Player.transform.position, this.transform.position) > maxDistnaceLoosFocus)
+        if (Vector3.Distance(Player.transform.position, this.transform.position) > maxDistnaceLoosFocus || ISM.getStateValue(AvailaibleState.hit))
         {
             ISM.disableState(AvailaibleState.focus);
         }
