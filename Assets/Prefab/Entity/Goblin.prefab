@@ -296,7 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 4098715291914489910}
   acceleration: 90
-  maxSpeed: 7
+  maxSpeed: 4
   jumpForce: 10
   AirControlScaler: 0.2
   GroundLayer:
