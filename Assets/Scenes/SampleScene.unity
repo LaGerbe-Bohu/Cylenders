@@ -524,7 +524,7 @@ PrefabInstance:
       objectReference: {fileID: 698631312}
     - target: {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: maxMob
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4866553491296170144, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: m_Name
