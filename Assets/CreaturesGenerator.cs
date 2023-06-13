@@ -12,8 +12,7 @@ public enum LimbType
    
     Arm ,
     Body,
-    Articulation,
-    Liaison
+    Articulation
 }
 
 public class Limb
@@ -44,7 +43,13 @@ public class Limb
     public Limb(LimbType t)
     {
         type = t;
-        NbLimb = CreaturesGenerator.getNext(type);
+     
+        NbLimb =  CreaturesGenerator.getNext(type);
+        if (t == LimbType.Articulation)
+        {
+            NbLimb = Random.Range(1, CreaturesGenerator.getNext(type));
+        }
+        
         next = new List<Limb>();
     }
 
@@ -81,16 +86,28 @@ public class CreaturesGenerator : MonoBehaviour
     public static List<LimbValue> sListValue;
     public LimbType firstType;
     public int Height;
-    private Limb firstLimb;
+    [HideInInspector]
+    public Limb firstLimb;
+    public int seed = 5;
     private static readonly float Phi = Mathf.PI * (3.0f - Mathf.Sqrt(5.0f));
     [HideInInspector] 
     public Rigidbody RBofCreature;
 
+    public List<CreatureMovement> mov;
     public CreatureMovement tempLaison;
-    public void Start()
+    
+
+    private void Awake()
+    {
+        Generator(seed);
+    }
+
+    public void Generator(int s)
     {
         sListValue = ListValue;
         firstLimb = new Limb(firstType);
+        mov = new List<CreatureMovement>();
+        Random.InitState(s);
         
         firstLimb.transform = Instantiate(getObject(firstLimb.type), this.transform.position,Quaternion.identity).transform;
         firstLimb.limpEmplacement = firstLimb.transform.GetComponent<LimbEplacement>();
@@ -99,10 +116,14 @@ public class CreaturesGenerator : MonoBehaviour
         RBofCreature = firstLimb.transform.GetComponent<Rigidbody>();
         CreateCreature(firstLimb,Height);
         GenerateCreature(firstLimb);
-
-    
     }
 
+
+
+
+    
+    
+    
     public GameObject getObject(LimbType v) 
     {
         for (int i = 0; i < ListValue.Count; i++)
@@ -145,12 +166,6 @@ public class CreaturesGenerator : MonoBehaviour
     {
         if (L == null) return;
 
-        if (L.transform.CompareTag("Articulation"))
-        {
-            tempLaison = L.transform.GetComponent<CreatureMovement>();
-    
-        }
-        
         for (int i = 0; i < L.next.Count; i++)
         {
             
@@ -166,12 +181,13 @@ public class CreaturesGenerator : MonoBehaviour
             L.next[i].transform.position -= offset;
             L.limpEmplacement.snapData[i].snapped = true;
             L.next[i].limpEmplacement.snapData[0].snapped = true;
-
-            if (L.next[i].type == LimbType.Liaison && tempLaison !=null || L.next[i].type == LimbType.Articulation && tempLaison !=null)
-            {
-                tempLaison.arms.Add(L.next[i].transform.GetComponent<HingeJoint>());
-            }
             
+            if (L.transform.CompareTag("Articulation"))
+            {
+                CreatureMovement CM = L.transform.GetComponent<CreatureMovement>();
+                CM.arms.Add(L.next[i].transform.GetComponent<HingeJoint>());
+                mov.Add(CM);
+            }
             
             Joint Hj = L.next[i].transform.GetComponent<Joint>();
            
@@ -190,11 +206,7 @@ public class CreaturesGenerator : MonoBehaviour
 
 
 
-        if (H <= 0 && L.type != LimbType.Arm)
-        {
-            L.NbLimb++;
-            L.next = new List<Limb>();
-            L.next.Add(new Limb(LimbType.Arm));
+        if (H <= 0){
             return;
         }
        
@@ -211,10 +223,6 @@ public class CreaturesGenerator : MonoBehaviour
                 if (L.type == LimbType.Arm && getObjetRate(LimbType.Articulation) > Random.Range(0f, 1f))
                 {
                     L.next.Add(new Limb(LimbType.Articulation));
-                }
-                else if(L.type == LimbType.Arm)
-                {
-                    L.next.Add(new Limb(LimbType.Liaison));
                 }
                 else
                 {
@@ -342,8 +350,12 @@ public class CreaturesGenerator : MonoBehaviour
     */    
 
     // Update is called once per frame
+
+  
     void Update()
     {
-        
+
+
+     
     }
 }

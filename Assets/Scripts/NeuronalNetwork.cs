@@ -21,8 +21,8 @@ public class NN
     private List<float> ao;
     private List<float> ah;
 
-    private List<List<float>> wi;
-    private List<List<float>> wo; 
+    public List<List<float>> wi;
+    public List<List<float>> wo; 
     
     private List<List<float>> ci;
     private List<List<float>> co;
@@ -239,13 +239,9 @@ public class NeuronalNetwork : MonoBehaviour
     void Start()
     {
         
-      
-        
         nn = new NN(inputs[0].intputs.Count, 2, inputs[0].output.Count);
         nn.train(inputs);
         nn.test(inputs);
-
-
 
     }
 

@@ -54,6 +54,16 @@ public class LimbEplacement : MonoBehaviour
 
     private void Update()
     {
-      
+        
+        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (this.CompareTag("Arm"))
+            {
+              
+            }
+        }
+
+        
     }
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public class CreatureMovement : MonoBehaviour
 {
@@ -16,10 +18,10 @@ public class CreatureMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Random.InitState(5);
         creature = this.transform.parent.GetComponent<CreaturesGenerator>().RBofCreature;
         RB = this.GetComponent<Rigidbody>();
         Hj = GetComponent<HingeJoint>();
-        arms = new List<HingeJoint>();
     }
 
 
@@ -53,6 +55,48 @@ public class CreatureMovement : MonoBehaviour
 
     }
 
+    public void Move(Vector3 localDir)
+    {
+        for (int i = 0; i < arms.Count; i++)
+        {
+              
+
+            if (arms.Count <= 1)
+            {
+                arms[i].axis = localDir;
+                Vector3 dir = this.transform.TransformDirection(localDir);
+           
+                this.RB.AddForce( (this.transform.position - (this.transform.position+  dir)).normalized*20F,ForceMode.VelocityChange);   
+            }
+              
+        }
+            
+        
+        /*
+        if (arms.Count > 1)
+        {
+                
+            Vector3 p= new Vector3();
+            for (int i = 0; i < arms.Count; i++)
+            {
+                p += (arms[i].transform.position - this.transform.position).normalized;
+            }
+                
+            p = this.transform.position + (p).normalized * 2f;
+                
+            this.RB.AddForce( (this.transform.position - p).normalized*20F,ForceMode.VelocityChange);                
+        }
+        else
+        {
+            Vector3 dir = this.transform.TransformDirection(localDir); 
+            //this.RB.AddForce( (this.transform.position - (this.transform.position+  dir)).normalized*20F,ForceMode.VelocityChange);   
+            
+        }
+
+*/
+
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -63,18 +107,13 @@ public class CreatureMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && arms.Count > 0)
         {
-         
-            for (int i = 0; i < arms.Count; i++)
-            {
-                
-            }
-            
+            Vector3 dir = new Vector3(Random.Range(-1, 1),Random.Range(-1, 1),Random.Range(-1, 1));
+            Move(dir); 
             
         }
-        else
-        {
-          
-        }
+
+
+  
         
     }
 }
