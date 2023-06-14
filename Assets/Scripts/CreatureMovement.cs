@@ -18,7 +18,7 @@ public class CreatureMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Random.InitState(5);
+    
         creature = this.transform.parent.GetComponent<CreaturesGenerator>().RBofCreature;
         RB = this.GetComponent<Rigidbody>();
         Hj = GetComponent<HingeJoint>();
@@ -66,7 +66,7 @@ public class CreatureMovement : MonoBehaviour
                 arms[i].axis = localDir;
                 Vector3 dir = this.transform.TransformDirection(localDir);
            
-                this.RB.AddForce( (this.transform.position - (this.transform.position+  dir)).normalized*20F,ForceMode.VelocityChange);   
+                this.RB.AddForce( (this.transform.position - (this.transform.position+  dir)).normalized*100f,ForceMode.VelocityChange);   
             }
               
         }

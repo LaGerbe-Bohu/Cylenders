@@ -6,12 +6,16 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-class Person
+public class Person
 {
     // le position n'est qu'un int parce que la liste de vertices est à une seule dimension
     public NN nn;
     public CreatureDeplacement CD;
     public float score;
+    
+    
+    
+    
 }
 
 public class Genetic : MonoBehaviour
@@ -28,26 +32,35 @@ public class Genetic : MonoBehaviour
     private MapGeneration mapGeneration;
     private Transform[] lstSphere;
     
-    
-    public void IntializeGenetic(Vector3[] _vert,MapGeneration MP)
+    [HideInInspector]
+    public int nbCorotine;
+
+    private void Start()
+    {
+        IntializeGenetic();
+    }
+
+    public void IntializeGenetic()
     {
         
         //generation de la population
-        mapGeneration = MP;
         population = new Person[nbIndiv];
 
         for (int i = 0; i < nbIndiv; i++)
         {
             GameObject go = Instantiate(CreaturePrefab,Vector3.zero, Quaternion.identity);
-            go.SetActive(false);
+            go.transform.position = this.transform.position + Vector3.right * i * 10;
+            go.transform.SetParent(this.transform);
             population[i] = new Person();
             population[i].CD = go.GetComponent<CreatureDeplacement>();
+            population[i].CD.Initialize();
             population[i].nn = population[i].CD.nn;
             population[i].score = float.MaxValue;
+            population[i].CD = go.GetComponent<CreatureDeplacement>();
         }
 
-        
-        best = new Person();
+
+        best = population[0];
 
         // start la coroutine
         StartCoroutine(ProcessGenetic());
@@ -60,29 +73,39 @@ public class Genetic : MonoBehaviour
         while (true)
         {
         
-            population = calculFitness(population);
+            Debug.Log("Start Fitness");
+
+            nbCorotine = population.Length;
+
             
-            //Person best = SortPerson(population)[0];
-            
-            
-            // voir si on n'a pas trouver un meilleur individu
+            calculFitness();
+
+            while (nbCorotine > 0)
+            {
+                yield return null;
+            }
+
             for (int i = 0; i < population.Length; i++)
             {
-                if (best.score < population[i].score)
-                {
-                    best = population[i];
-                }
-
+                population[i].score = population[i].CD.bestDistance;
             }
             
-            population[Random.Range(0, population.Length)] = best;
+      
+            population = Sort(population);
             
+                  
+            // voir si on n'a pas trouver un meilleur individu
+            if (best.score > population[^1].score)
+            {
+                best = population[^1];
+                best.score = population[^1].score;
+            }
+
             
             // selection biaisé
             List<Person> perso = new List<Person>();
             for (int i = 0; i < population.Length; i++){
-                int n = (int)(population[i].score*100);
-            
+                int n = (int)(Mathf.InverseLerp(0, population.Length - 1, i) * 100)+1;
             
                 for (int j = 0; j < n; ++j){
 
@@ -111,47 +134,62 @@ public class Genetic : MonoBehaviour
                 }
                 
                 //croisé
-                population[i] = croisement(perso[x], perso[y]);
+                population[i] = croisement(perso[x], perso[y],population[i]);
             }
             
+            
+            int k = Random.Range(0, population.Length);
+            population[k].nn.wi = (best.nn.wi);
 
             generation++;
             yield return new WaitForSeconds(timeToSleep);
         }
     }
+
     
-    
-    private Person[]  calculFitness(Person[] person)
+    public Person[] Sort(Person[] pop)
     {
-        for (int i = 0; i < person.Length; i++)
+        bool change = true;
+
+        while (change)
         {
-            bool b = person[i].CD.fitness();
+            change = false;
+            for (int i = 0; i < pop.Length-1; i++)
+            {
+                if (pop[i].score < pop[i + 1].score)
+                {
+                    change = true;
+                    (pop[i], pop[i + 1]) = (pop[i + 1], pop[i]);
+                }
+            }
         }
 
-        return person;
+        return pop;
     }
+    
 
-    private Person croisement(Person a,Person b)
+    void calculFitness()
     {
-
-        Person p = new Person();
+        //calculFitness
+        for (int i = 0; i < population.Length; i++)
+        {
+            population[i].CD.Initialize();
+            StartCoroutine( population[i].CD.fitness(this));
+        }
+        
+    }
+    
+    private Person croisement(Person a,Person b,Person d)
+    {
 
         List<List<float>> bytesA = a.nn.wi;
         List<List<float>> bytesB = b.nn.wi;
 
         List<List<float>> finalbyte = new List<List<float>>();
-        int r = Random.Range(0, finalbyte.Count);
-        int r2 = Random.Range(0, finalbyte[0].Count);
+        int r = Random.Range(0, bytesB.Count);
+        int r2 = Random.Range(0, bytesB[0].Count);
 
-        
-        for (int i = 0; i < finalbyte.Count; i++)
-        {
-            for (int j = 0; j < finalbyte[0].Count; j++)
-            {
-                finalbyte[i][j] =  bytesB[i][j];
-            }
-        }
-
+        finalbyte = new List<List<float>>(bytesB);
         
         for (int i = 0; i < r; i++)
         {
@@ -160,10 +198,7 @@ public class Genetic : MonoBehaviour
                 finalbyte[i][j] =  bytesA[i][j];
             }
         }
-
-        p.nn.wi = finalbyte;
-        p.score = 0;
-        
+     
         if (Random.Range(1, 100) <= mutation)
         {
             
@@ -173,8 +208,12 @@ public class Genetic : MonoBehaviour
             finalbyte[r][r2] = Random.Range(-2.0f, 2.0f);
        
         }
+        
+        d.nn.wi = finalbyte;
+        d.score =  float.MaxValue;
 
-        return p;
+
+        return d;
     }
 
 }

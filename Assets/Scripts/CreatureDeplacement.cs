@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CreatureDeplacement : MonoBehaviour
 {
@@ -16,15 +18,36 @@ public class CreatureDeplacement : MonoBehaviour
 
     [HideInInspector] public float bestDistance;
     private Coroutine fitnessCorotine;
-    private bool start = false;
     private Queue<IEnumerator> fitnessCalculation;
+    private Queue<IEnumerator> TmpfitnessCalculation;
     Inputs input = new Inputs();
+
+
+    private void OnJointBreak(float breakForce)
+    {
+        foreach (Transform tr in this.transform)
+        {
+            Destroy(tr.gameObject);
+        }
+
+
+        Debug.Log("BREAK");
+        CG.Generator(CG.seed);
+        this.firstLimb = CG.firstLimb;
+    }
+
+    private void Start()
+    {
+      
+        Initialize();
+    }
+
     // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
         firstLimb = CG.firstLimb;
         fitnessCalculation = new Queue<IEnumerator>();
-
+        Random.InitState((int)System.DateTime.Now.Ticks);
         input.intputs = new List<float>();
         input.output = new List<float>();
         input.intputs.Add( this.firstLimb.transform.up.x);
@@ -33,11 +56,12 @@ public class CreatureDeplacement : MonoBehaviour
         
         input.intputs.Add( this.firstLimb.transform.position.x);
         input.intputs.Add( this.firstLimb.transform.position.y);
-        input.intputs.Add( this.firstLimb.transform.position.z);       
-        
-        input.intputs.Add( target.transform.position.x);
-        input.intputs.Add( target.transform.position.y);
-        input.intputs.Add( target.transform.position.z);
+        input.intputs.Add( this.firstLimb.transform.position.z);
+
+ 
+        input.intputs.Add( Random.Range(-10, 10));
+        input.intputs.Add( Random.Range(-10, 10));
+        input.intputs.Add( Random.Range(-10, 10));
 
         for (int j = 0; j < CG.mov.Count; j++)
         {
@@ -52,16 +76,29 @@ public class CreatureDeplacement : MonoBehaviour
         lst.Add(input);
         nn.train(lst);
         
-        fitnessCalculation.Enqueue( CalculDistance(new Vector3(4, 0, 0))); 
-        fitnessCalculation.Enqueue( CalculDistance(new Vector3(-4, 0, 0))); 
-        fitnessCalculation.Enqueue( CalculDistance(new Vector3(0, 0, 4 ))); 
-        fitnessCalculation.Enqueue( CalculDistance(new Vector3(0, 0, -4)));
+        fitnessCalculation.Enqueue( CalculDistance( this.transform.position + new Vector3(4, 0, 0))); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(-4, 0, 0))); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, 4 ))); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, -4)));
+
+        TmpfitnessCalculation = new Queue<IEnumerator>(fitnessCalculation);
+        
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+   
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
            
+        /*
         timer -= Time.deltaTime;
 
         
@@ -93,21 +130,22 @@ public class CreatureDeplacement : MonoBehaviour
             
             Debug.Log(Vector3.Distance(firstLimb.transform.position, new Vector3(4,0,0)));
         }
-        
-      
-     
-    // fitness();
+        */
+   
     }
 
 
-    public void fitness()
+    public IEnumerator fitness(Genetic gen)
     {
-        if (!start && fitnessCalculation.Count > 0 )
+
+        while ( fitnessCalculation.Count > 0)
         {
-        
-            StartCoroutine(    fitnessCalculation.Dequeue());
+            yield return StartCoroutine(    fitnessCalculation.Dequeue());
         }
+
+        gen.nbCorotine--;
         
+        fitnessCalculation = new Queue<IEnumerator>(TmpfitnessCalculation);
     }
     
     IEnumerator CalculDistance(Vector3 position)
@@ -123,7 +161,7 @@ public class CreatureDeplacement : MonoBehaviour
    
         CG.Generator(CG.seed);
         this.firstLimb = CG.firstLimb;
-        start = true;
+
         while (idx < 10)
         {
             Inputs i = new Inputs();
@@ -150,12 +188,11 @@ public class CreatureDeplacement : MonoBehaviour
                 CG.mov[j].Move(d);
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1);
         }
 
-        start = false;
+
         bestDistance  += Vector3.Distance(firstLimb.transform.position, position);
-        Debug.Log(bestDistance);
 
     }
 

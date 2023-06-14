@@ -178,7 +178,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3232126502162392116}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.020000001, z: 0.020000005}
@@ -192,8 +192,8 @@ Rigidbody:
   m_GameObject: {fileID: 3232126502162392116}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 3
-  m_AngularDrag: 3
+  m_Drag: 10
+  m_AngularDrag: 10
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -224,8 +224,8 @@ HingeJoint:
     freeSpin: 1
   m_UseLimits: 1
   m_Limits:
-    min: 0
-    max: 360
+    min: -180
+    max: 180
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0

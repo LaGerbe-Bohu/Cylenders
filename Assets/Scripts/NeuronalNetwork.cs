@@ -175,10 +175,7 @@ public class NN
                 Update(inputs);
                 error += BackPropagation(targets,N,M);
 
-                if (i % 100 == 0)
-                {
-                    Debug.Log(error);
-                }
+             
             }
         }
     }
