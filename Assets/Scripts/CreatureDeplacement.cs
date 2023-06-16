@@ -42,6 +42,18 @@ public class CreatureDeplacement : MonoBehaviour
         Initialize();
     }
 
+
+    public void prewarm()
+    {
+        firstLimb = CG.firstLimb;
+        fitnessCalculation = new Queue<IEnumerator>();
+        fitnessCalculation.Enqueue( CalculDistance( this.transform.position + new Vector3(4, 0, 0))); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(-4, 0, 0))); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, 4 ))); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, -4)));
+        bestDistance = 0;
+    }
+
     // Start is called before the first frame update
     public void Initialize()
     {
@@ -71,26 +83,17 @@ public class CreatureDeplacement : MonoBehaviour
             input.output.Add(dir.z);
         }
         
-        nn = new NN(input.intputs.Count, 5, input.output.Count);
+        nn = new NN(input.intputs.Count, 20, input.output.Count);
         List<Inputs> lst = new List<Inputs>();
         lst.Add(input);
         nn.train(lst);
         
-        fitnessCalculation.Enqueue( CalculDistance( this.transform.position + new Vector3(4, 0, 0))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(-4, 0, 0))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, 4 ))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, -4)));
-
-        TmpfitnessCalculation = new Queue<IEnumerator>(fitnessCalculation);
-        
+        prewarm();
     }
 
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-   
-        
         
     }
 
@@ -144,8 +147,6 @@ public class CreatureDeplacement : MonoBehaviour
         }
 
         gen.nbCorotine--;
-        
-        fitnessCalculation = new Queue<IEnumerator>(TmpfitnessCalculation);
     }
     
     IEnumerator CalculDistance(Vector3 position)
@@ -190,8 +191,7 @@ public class CreatureDeplacement : MonoBehaviour
 
             yield return new WaitForSeconds(1);
         }
-
-
+        
         bestDistance  += Vector3.Distance(firstLimb.transform.position, position);
 
     }

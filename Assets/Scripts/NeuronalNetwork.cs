@@ -27,6 +27,23 @@ public class NN
     private List<List<float>> ci;
     private List<List<float>> co;
 
+    public NN(NN nn)
+    {
+        this.ni = nn.ni;
+        this.nh = nn.nh;
+        this.no = nn.no;
+
+        ai = nn.ai;
+        ah = nn.ah;
+        no = nn.no;
+
+        wi = nn.wi;
+        wo = nn.wo;
+
+        ci = nn.ci;
+        co = nn.co;
+    }
+    
     public NN(int _ni, int _nh, int _no)
     {
         this.ni = _ni+ 1;

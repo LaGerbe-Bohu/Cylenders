@@ -44,24 +44,27 @@ public class Genetic : MonoBehaviour
     {
         
         //generation de la population
-        population = new Person[nbIndiv];
-
-        for (int i = 0; i < nbIndiv; i++)
-        {
-            GameObject go = Instantiate(CreaturePrefab,Vector3.zero, Quaternion.identity);
-            go.transform.position = this.transform.position + Vector3.right * i * 10;
-            go.transform.SetParent(this.transform);
-            population[i] = new Person();
-            population[i].CD = go.GetComponent<CreatureDeplacement>();
-            population[i].CD.Initialize();
-            population[i].nn = population[i].CD.nn;
-            population[i].score = float.MaxValue;
-            population[i].CD = go.GetComponent<CreatureDeplacement>();
-        }
+        population = new Person[nbIndiv*nbIndiv];
+        int idx = 0;
+        for (int i =  -nbIndiv/2; i <  nbIndiv/2; i++)
+            for (int j = -nbIndiv/2; j < nbIndiv/2; j++)
+            {
+                GameObject go = Instantiate(CreaturePrefab, Vector3.zero, Quaternion.identity);
+                go.transform.position = this.transform.position + Vector3.right * i * 15 + Vector3.forward*j*15;
+                go.transform.SetParent(this.transform);
+                population[idx] = new Person();
+                population[idx].CD = go.GetComponent<CreatureDeplacement>();
+                population[idx].CD.Initialize();
+                population[idx].nn = population[idx].CD.nn;
+                population[idx].score = float.MaxValue;
+                population[idx].CD = go.GetComponent<CreatureDeplacement>();
+                idx++;
+            }
+        
 
 
         best = population[0];
-
+        best.score = float.MaxValue;
         // start la coroutine
         StartCoroutine(ProcessGenetic());
 
@@ -70,6 +73,8 @@ public class Genetic : MonoBehaviour
     IEnumerator ProcessGenetic()
     {
         int generation = 0;
+        float bestscore = float.MaxValue;
+        NN bestNN = population[0].nn;
         while (true)
         {
         
@@ -95,10 +100,10 @@ public class Genetic : MonoBehaviour
             
                   
             // voir si on n'a pas trouver un meilleur individu
-            if (best.score > population[^1].score)
+            if (bestscore > population[^1].score)
             {
-                best = population[^1];
-                best.score = population[^1].score;
+                bestNN = population[^1].nn;
+                bestscore = population[^1].score;
             }
 
             
@@ -115,7 +120,7 @@ public class Genetic : MonoBehaviour
                 }
             }
             
-            Debug.Log(" generation : "+ generation+ " best : "+best.score);
+            Debug.Log(" generation : "+ generation+ " best : "+bestscore);
             
             // reproduction
             for (int i = 0; i < nbIndiv; ++i){
@@ -139,10 +144,10 @@ public class Genetic : MonoBehaviour
             
             
             int k = Random.Range(0, population.Length);
-            population[k].nn.wi = (best.nn.wi);
+            population[k].nn = new NN(bestNN);
 
             generation++;
-            yield return new WaitForSeconds(timeToSleep);
+            yield return new WaitForSeconds(0);
         }
     }
 
