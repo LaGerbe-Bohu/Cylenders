@@ -82,8 +82,8 @@ public class CreatureDeplacement : MonoBehaviour
             input.output.Add(dir.y);
             input.output.Add(dir.z);
         }
-        
-        nn = new NN(input.intputs.Count, 20, input.output.Count);
+
+        nn = new NN(input.intputs.Count, 100, input.output.Count);
         List<Inputs> lst = new List<Inputs>();
         lst.Add(input);
         nn.train(lst);

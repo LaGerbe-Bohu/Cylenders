@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,10 +15,7 @@ public class Person
     public NN nn;
     public CreatureDeplacement CD;
     public float score;
-    
-    
-    
-    
+
 }
 
 public class Genetic : MonoBehaviour
@@ -25,6 +25,8 @@ public class Genetic : MonoBehaviour
     public int mutation = 1;
     public float timeToSleep = 1f;
     public GameObject CreaturePrefab;
+    public TextMeshProUGUI MPRO;
+    
     
     private Person best;
     private Person[] population;
@@ -32,9 +34,10 @@ public class Genetic : MonoBehaviour
     private MapGeneration mapGeneration;
     private Transform[] lstSphere;
     
+    
     [HideInInspector]
     public int nbCorotine;
-
+    private NN bestNN;
     private void Start()
     {
         IntializeGenetic();
@@ -74,7 +77,7 @@ public class Genetic : MonoBehaviour
     {
         int generation = 0;
         float bestscore = float.MaxValue;
-        NN bestNN = population[0].nn;
+        bestNN = population[0].nn;
         while (true)
         {
         
@@ -119,9 +122,9 @@ public class Genetic : MonoBehaviour
                     perso.Add(population[i]);
                 }
             }
-            
-            Debug.Log(" generation : "+ generation+ " best : "+bestscore);
-            
+
+
+            MPRO.text = " generation : " + generation + " best : " + bestscore + " last " + population[^1].score;
             // reproduction
             for (int i = 0; i < nbIndiv; ++i){
 
@@ -178,7 +181,7 @@ public class Genetic : MonoBehaviour
         //calculFitness
         for (int i = 0; i < population.Length; i++)
         {
-            population[i].CD.Initialize();
+            population[i].CD.prewarm();
             StartCoroutine( population[i].CD.fitness(this));
         }
         
@@ -221,4 +224,27 @@ public class Genetic : MonoBehaviour
         return d;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            saveNN savebest = new saveNN()
+            {
+                wi =bestNN.wi,
+                wo = bestNN.wo
+            };
+            
+            DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(saveNN));
+            MemoryStream msObj = new MemoryStream();
+            js.WriteObject(msObj, savebest);
+            msObj.Position = 0;
+            StreamReader sr = new StreamReader(msObj);
+            string json = sr.ReadToEnd();
+            sr.Close();
+            msObj.Close();
+            
+            File.WriteAllText(Application.dataPath+"/best.json", json);
+
+        }
+    }
 }

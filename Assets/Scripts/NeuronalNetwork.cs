@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,6 +10,17 @@ public class Inputs
 {
     public List<float> intputs;
     public List<float> output;
+}
+
+[DataContract]
+public class saveNN
+{
+    [DataMember]
+    public List<List<float>> wi;
+    
+    [DataMember]
+    public List<List<float>> wo;
+    
 }
 
 public class NN
