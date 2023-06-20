@@ -199,25 +199,59 @@ public class Genetic : MonoBehaviour
 
         finalbyte = new List<List<float>>(bytesB);
         
-        for (int i = 0; i < r; i++)
+        for (int i = 0; i < Decimal.Floor(bytesB.Count/2); i++)
         {
-            for (int j = 0; j < r2; j++)
+            for (int j = 0; j < bytesB[0].Count; j++)
+            {
+                finalbyte[i][j] =  bytesA[i][j];
+            }
+        }
+        
+        d.nn.wi = new List<List<float>>(finalbyte);
+        
+        bytesA = a.nn.wo;
+        bytesB = b.nn.wo;
+
+        finalbyte = new List<List<float>>();
+        r = Random.Range(0, bytesB.Count);
+        r2 = Random.Range(0, bytesB[0].Count);
+
+        finalbyte = new List<List<float>>(bytesB);
+        
+        for (int i = 0; i < Decimal.Floor(bytesB.Count/2); i++)
+        {
+            for (int j = 0; j <bytesB[0].Count; j++)
             {
                 finalbyte[i][j] =  bytesA[i][j];
             }
         }
      
+        d.nn.wo = new List<List<float>>(finalbyte);
+        
         if (Random.Range(1, 100) <= mutation)
         {
             
             r = Random.Range(0, finalbyte.Count);
-            r2 = Random.Range(0, finalbyte[0].Count);
 
-            finalbyte[r][r2] = Random.Range(-2.0f, 2.0f);
-       
+            for (int i = 0; i < r; i++)
+            {
+                for (int j = 0; j < finalbyte[0].Count; j++)
+                {
+                    finalbyte[i][j] = Random.Range(-2.0f, 2.0f);
+                }
+            }
+
+
+            if (Random.Range(0f, 1f) < .5f)
+            {
+                d.nn.wo = new List<List<float>>(finalbyte);
+
+            }
+
+            d.nn.wi = new List<List<float>>(finalbyte);
         }
         
-        d.nn.wi = finalbyte;
+        
         d.score =  float.MaxValue;
 
 
