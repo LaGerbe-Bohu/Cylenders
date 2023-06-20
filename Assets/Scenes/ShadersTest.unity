@@ -1395,7 +1395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261ee36a13c1c5442a5e7f4019792a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nbIndiv: 10
+  nbIndiv: 20
   mutation: 10
   timeToSleep: 100
   CreaturePrefab: {fileID: 6041928457141213825, guid: 106bcd2c4a34df24b94648f40a12da87, type: 3}

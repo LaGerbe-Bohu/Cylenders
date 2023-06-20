@@ -194,9 +194,7 @@ public class Genetic : MonoBehaviour
         List<List<float>> bytesB = b.nn.wi;
 
         List<List<float>> finalbyte = new List<List<float>>();
-        int r = Random.Range(0, bytesB.Count);
-        int r2 = Random.Range(0, bytesB[0].Count);
-
+   
         finalbyte = new List<List<float>>(bytesB);
         
         for (int i = 0; i < Decimal.Floor(bytesB.Count/2); i++)
@@ -213,8 +211,6 @@ public class Genetic : MonoBehaviour
         bytesB = b.nn.wo;
 
         finalbyte = new List<List<float>>();
-        r = Random.Range(0, bytesB.Count);
-        r2 = Random.Range(0, bytesB[0].Count);
 
         finalbyte = new List<List<float>>(bytesB);
         
@@ -231,8 +227,18 @@ public class Genetic : MonoBehaviour
         if (Random.Range(1, 100) <= mutation)
         {
             
-            r = Random.Range(0, finalbyte.Count);
-
+           
+            bool wo = false;
+           
+            finalbyte = new List<List<float>>(d.nn.wi);
+            if (Random.Range(0f, 1f) < .5f)
+            {
+                 wo = true;
+                 finalbyte = new List<List<float>>(d.nn.wo);
+            }
+            
+            
+            float r = Random.Range(0, finalbyte.Count); 
             for (int i = 0; i < r; i++)
             {
                 for (int j = 0; j < finalbyte[0].Count; j++)
@@ -242,13 +248,19 @@ public class Genetic : MonoBehaviour
             }
 
 
-            if (Random.Range(0f, 1f) < .5f)
+            if (wo)
             {
                 d.nn.wo = new List<List<float>>(finalbyte);
-
             }
+            else
+            {
+                d.nn.wi = new List<List<float>>(finalbyte);
+            }
+            
+          
+            
 
-            d.nn.wi = new List<List<float>>(finalbyte);
+          
         }
         
         
