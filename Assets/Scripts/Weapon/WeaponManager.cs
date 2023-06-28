@@ -9,10 +9,12 @@ public class WeaponManager : MonoBehaviour
     /// Ce script va permettre de déctecter un armes, et de la prendre dans sa main
     /// </summary>
     // Start is called before the first frame update
-
+    public Transform[] fingers;
     public Transform[] slotForWeapon; // ce sont les slots où les armes iront se mettre 
     public CanHit[] canHits;
     public Animator[] animators;
+    public Transform renderRHandObject;
+    public Transform riggedRightArm;
     private Transform player;
     private Transform camera;
     [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
@@ -25,13 +27,35 @@ public class WeaponManager : MonoBehaviour
     private bool lDrop;
     private bool rDrop;
 
+    private bool animateFingers = false;
+    private Quaternion localRight;
+    private Transform localLeft;
+    public bool getAnimateFingers()
+    {
+        return this.animateFingers;
+    }
+
+    public Quaternion getlocalRight()
+    {
+        return this.localRight;
+    }
+    
+    
     private void Start()
     {
         currentWeapon = new WeaponInfromation[2];
         camera = GameManager.instance.camera;
         player = GameManager.instance.player;
+
+        if (fingers.Length > 0)
+        {
+            animateFingers = true;
+        }
+
+        localRight = this.renderRHandObject.rotation;
     }
-    
+
+    private float z = 0;
     void Update()
     {
         // DOIT êTRE REMPLACER PAR LE NEW INPUT SYSTEME
@@ -71,7 +95,7 @@ public class WeaponManager : MonoBehaviour
             animators[1].SetTrigger("Attack");
             StartCoroutine( Attack(1));
         }
-
+  
     }
 
     IEnumerator Attack(int i)
@@ -80,7 +104,8 @@ public class WeaponManager : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
         }
-        
+
+     
         currentWeapon[i].WeaponInterface.WeaponAction();
     }
     
@@ -94,14 +119,16 @@ public class WeaponManager : MonoBehaviour
             if (lArm && !lIsHolding)
             {
                 currentWeapon[1] = hit.collider.GetComponent<WeaponInfromation>();
-                currentWeapon[1].HandSetting((slotForWeapon[1]));
+          
+                currentWeapon[1].HandSetting((slotForWeapon[1]),this);
                 lIsHolding = true;
             }
             
             if (rArm && !rIsHolding)
             {
                 currentWeapon[0] =  hit.collider.GetComponent<WeaponInfromation>();
-                currentWeapon[0].HandSetting(slotForWeapon[0]);
+                currentWeapon[0].HandSetting(slotForWeapon[0],this);
+              
                 rIsHolding = true;
             }
         }
@@ -109,13 +136,14 @@ public class WeaponManager : MonoBehaviour
         if (rIsHolding && rDrop)
         {
             rIsHolding = false;
-            currentWeapon[0].DropSetting();
+            currentWeapon[0].DropSetting(this);
+       
         }
 
         if (lIsHolding && lDrop)
         {
             lIsHolding = false;
-            currentWeapon[1].DropSetting();
+            currentWeapon[1].DropSetting(this);
         }
 
         lDrop = false;
