@@ -28,6 +28,10 @@ public class CharacterController : MonoBehaviour
     public bool airControl = false;
     public float maxSlopeAngle = 45f;
 
+    [Space] 
+    public Animator RightHand;
+    public Animator LefttHand;
+    
     public bool orienteCharacter;
     // some private var
     private Vector2 _direction;
@@ -35,11 +39,16 @@ public class CharacterController : MonoBehaviour
     private bool _isGrounded;
     private Vector3 _normalSurface;
     private Vector3 _tangentSurface;
-
+    private bool  animated = false;
 
     void Start()
     {
         this.interfaceInput = GetComponent<InterfaceInput>();
+
+        if (RightHand != null && LefttHand != null)
+        {
+            animated = true;
+        }
     }
     
     void Update()
@@ -69,6 +78,8 @@ public class CharacterController : MonoBehaviour
         {
             scaler = 1.0f;
         }
+
+      
         
         // move character
         var biaisTransform = interfaceInput.renderForward();
@@ -91,13 +102,31 @@ public class CharacterController : MonoBehaviour
         Vector3 right =  biaisTransform.right;
 
         
+        if (animated)
+        {
+            RightHand.SetBool("Walk",false);
+            LefttHand.SetBool("Walk",false);
+        }
+
+        
         // Movement
         if (_direction.magnitude > float.Epsilon)
         {
             Vector3 move = (forward * (_direction.y ) + right * (_direction.x )).normalized * (acceleration * scaler);
             rigidBody.AddForce(move,ForceMode.Impulse); 
+            
+              
+            if (animated && _isGrounded )
+            {
+                RightHand.SetBool("Walk",true);
+                LefttHand.SetBool("Walk",true);
+              
+            }
+
         }
-        
+
+
+
         // Normalise speed
         var velocity = rigidBody.velocity;
         float tmpY = velocity.y;

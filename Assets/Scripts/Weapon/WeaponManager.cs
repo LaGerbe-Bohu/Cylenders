@@ -15,6 +15,7 @@ public class WeaponManager : MonoBehaviour
     public Animator[] animators;
     public Transform renderRHandObject;
     public Transform riggedRightArm;
+    public Transform riggedlefttArm;
     private Transform player;
     private Transform camera;
     [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
@@ -119,13 +120,15 @@ public class WeaponManager : MonoBehaviour
             if (lArm && !lIsHolding)
             {
                 currentWeapon[1] = hit.collider.GetComponent<WeaponInfromation>();
-          
+                
+                riggedlefttArm.gameObject.SetActive(false);
                 currentWeapon[1].HandSetting((slotForWeapon[1]),this);
                 lIsHolding = true;
             }
             
             if (rArm && !rIsHolding)
             {
+                riggedRightArm.gameObject.SetActive(false);
                 currentWeapon[0] =  hit.collider.GetComponent<WeaponInfromation>();
                 currentWeapon[0].HandSetting(slotForWeapon[0],this);
               
@@ -137,6 +140,7 @@ public class WeaponManager : MonoBehaviour
         {
             rIsHolding = false;
             currentWeapon[0].DropSetting(this);
+            riggedRightArm.gameObject.SetActive(true);
        
         }
 
@@ -144,6 +148,7 @@ public class WeaponManager : MonoBehaviour
         {
             lIsHolding = false;
             currentWeapon[1].DropSetting(this);
+            riggedlefttArm.gameObject.SetActive(true);
         }
 
         lDrop = false;

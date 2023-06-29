@@ -40,10 +40,7 @@ public class WeaponInfromation : MonoBehaviour
 
     public void HandSetting(Transform tr,WeaponManager w)
     {
-        if (w.getAnimateFingers())
-        {
-            w.renderRHandObject.transform.localRotation *= Quaternion.Euler(1, -90, 1);
-        }
+
         
         this.transform.rotation = Quaternion.LookRotation(tr.forward);
         this.transform.SetParent(tr);
@@ -57,11 +54,6 @@ public class WeaponInfromation : MonoBehaviour
     // setting fonction quand une arme est drop
     public void DropSetting(WeaponManager w)
     {
-        
-        if (w.getAnimateFingers())
-        {
-            w.renderRHandObject.transform.localRotation *= Quaternion.Euler(1, 90, 1);
-        }
         this.transform.parent = null;
         this.Rigidbody.isKinematic = false;
         this.Collider.enabled = true;
