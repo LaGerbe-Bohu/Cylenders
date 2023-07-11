@@ -10,6 +10,8 @@ public class MapGeneration : MonoBehaviour
     public MeshCollider meshCollider;
     private Texture2D texture;
 
+    public static MapGeneration instance;
+
     [Header("Values")] 
     public Vector4 startPoint;
     public float treshold;
@@ -114,31 +116,63 @@ public class MapGeneration : MonoBehaviour
         return texture;
     }
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        texture = new Texture2D(size, size);
-        texture = GenerateDC(texture);
-        rendererCompenent.material.mainTexture = texture; // le plain a un materiaux et la texture du materiaux devient la texture généré par le diamant carré
+        //texture = new Texture2D(size, size);
+        //texture = GenerateDC(texture);
+        //rendererCompenent.material.mainTexture = texture; // le plain a un materiaux et la texture du materiaux devient la texture généré par le diamant carré
      
+        //Vector3[] vertices;
+        //Mesh m = meshFilter.mesh; // recup le mesh du plain
+        //vertices = m.vertices; // recup les vertices du mesh du plain
+
+        //for (int i = 0; i < vertices.Length; i++) // loop sur les vertices
+        //{
+        //    Vector2Int texCoord = new Vector2Int((int) (m.uv[i].x * texture.width), (int) (m.uv[i].y * texture.height)); // recup l'uv du vertices
+        //    Color v = texture.GetPixel(texCoord.x, texCoord.y); // recupere la couleur du vertices dans la texture du diamant carré
+        //    float height = ((1-v.r)-0.3f);  // defini la hauteur du vertices en fonction de sa couleur
+        //                                    // v.r car texture n noir et blanc donc rgb on la meme valeur
+        //    vertices[i] += Vector3.forward * (height) / 100f; // applique la hauteur défini sur le vertices
+        //}
+
+        //meshFilter.mesh.vertices = vertices;
+        //meshFilter.mesh.RecalculateNormals();
+        //meshFilter.mesh.RecalculateBounds();
+        //meshCollider.sharedMesh = m;
+       
+    }
+
+    public void GenWithIa (Texture2D texture)
+    {
+        rendererCompenent.material.mainTexture = texture; // le plain a un materiaux et la texture du materiaux devient la texture généré par le diamant carré
+
         Vector3[] vertices;
-        Mesh m = meshFilter.mesh; // recup le mesh du plain
+        Mesh m = meshFilter.sharedMesh; // recup le mesh du plain
         vertices = m.vertices; // recup les vertices du mesh du plain
 
         for (int i = 0; i < vertices.Length; i++) // loop sur les vertices
         {
-            Vector2Int texCoord = new Vector2Int((int) (m.uv[i].x * texture.width), (int) (m.uv[i].y * texture.height)); // recup l'uv du vertices
+            Vector2Int texCoord = new Vector2Int((int)(m.uv[i].x * texture.width), (int)(m.uv[i].y * texture.height)); // recup l'uv du vertices
             Color v = texture.GetPixel(texCoord.x, texCoord.y); // recupere la couleur du vertices dans la texture du diamant carré
-            float height = ((1-v.r)-0.3f);  // defini la hauteur du vertices en fonction de sa couleur
-                                            // v.r car texture n noir et blanc donc rgb on la meme valeur
+            float height = ((1 - v.r) - 0.3f);  // defini la hauteur du vertices en fonction de sa couleur
+                                                // v.r car texture n noir et blanc donc rgb on la meme valeur
             vertices[i] += Vector3.forward * (height) / 100f; // applique la hauteur défini sur le vertices
         }
 
-        meshFilter.mesh.vertices = vertices;
-        meshFilter.mesh.RecalculateNormals();
-        meshFilter.mesh.RecalculateBounds();
+        meshFilter.sharedMesh.vertices = vertices;
+        meshFilter.sharedMesh.RecalculateNormals();
+        meshFilter.sharedMesh.RecalculateBounds();
         meshCollider.sharedMesh = m;
-       
     }
 
+    public void applyMat(Material mat)
+    {
+       
+    }
 }
