@@ -632,10 +632,12 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 1206260170766430271, guid: dd8271b3171127548b83efa67f37b121, type: 3}
   player: {fileID: 0}
   camera: {fileID: 0}
+  InAnimiantion: 0
   CylenderRadius: 0
   e_PlayerHurt:
     m_PersistentCalls:
       m_Calls: []
+  timeStepAnimation: 0
 --- !u!4 &1073757180
 Transform:
   m_ObjectHideFlags: 0

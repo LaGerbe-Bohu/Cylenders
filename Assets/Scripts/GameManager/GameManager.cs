@@ -27,12 +27,21 @@ public class GameManager : MonoBehaviour
     //public field
     [FormerlySerializedAs("Player")] public Transform player;
     public Transform camera;
+
+
+    private bool oldBool = false;
+    
+    [Header("Animation")] 
+    public bool InAnimiantion;
     
     [HideInInspector]
     public float CylenderRadius;
 
     [HideInInspector]
     public UnityEvent e_PlayerHurt;
+
+    [HideInInspector]
+    public float timeStepAnimation = 0;
     private void Awake()
     {
         instance = this;
@@ -74,6 +83,32 @@ public class GameManager : MonoBehaviour
             Debug.Log(s);
         }
         
+    }
+
+    private void Update()
+    {
+        if (InAnimiantion != oldBool && InAnimiantion == true)
+        {
+            timeStepAnimation = 1;
+        }
+        
+        if (InAnimiantion != oldBool && InAnimiantion == false)
+        {
+            timeStepAnimation = 0;
+        }
+        
+
+        oldBool = InAnimiantion;
+
+        if (oldBool)
+        {
+            timeStepAnimation -= Time.deltaTime;
+        }
+        else
+        {
+            timeStepAnimation += Time.deltaTime;
+        }
+
     }
 
     public GenerationPreset GetRandomGeneration()

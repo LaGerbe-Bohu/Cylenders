@@ -10,8 +10,15 @@ public class SwithRoom : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(0);
+            GameManager.instance.InAnimiantion = true;
+            StartCoroutine(change());
         }
+    }
+
+    IEnumerator change()
+    {
+        yield return new WaitForSeconds(2.3f);
+        SceneManager.LoadScene(0);
     }
 
     // Start is called before the first frame update
