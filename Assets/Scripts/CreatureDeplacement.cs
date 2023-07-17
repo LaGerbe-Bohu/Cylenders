@@ -39,33 +39,30 @@ public class CreatureDeplacement : MonoBehaviour
     private void Start()
     {
       
-        Initialize();
+        //  Initialize();
     }
 
 
-    public void prewarm()
+    public void prewarm(Genetic gen,int indice)
     {
         firstLimb = CG.firstLimb;
         fitnessCalculation = new Queue<IEnumerator>();
-        fitnessCalculation.Enqueue( CalculDistance( this.transform.position + new Vector3(4, 0, 0))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(-4, 0, 0))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, 4 ))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, -4)));
+        fitnessCalculation.Enqueue( CalculDistance( this.transform.position + new Vector3(10, 0, 0),gen,indice)); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(-10, 0, 0),gen,indice)); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, 10 ),gen,indice)); 
+        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, -10),gen,indice));
         bestDistance = 0;
     }
 
     // Start is called before the first frame update
-    public void Initialize()
+    public void Initialize(Genetic gen,int indice)
     {
         firstLimb = CG.firstLimb;
         fitnessCalculation = new Queue<IEnumerator>();
         Random.InitState((int)System.DateTime.Now.Ticks);
         input.intputs = new List<float>();
         input.output = new List<float>();
-        input.intputs.Add( this.firstLimb.transform.up.x);
-        input.intputs.Add( this.firstLimb.transform.up.y);
-        input.intputs.Add( this.firstLimb.transform.up.z);
-        
+
         input.intputs.Add( this.firstLimb.transform.position.x);
         input.intputs.Add( this.firstLimb.transform.position.y);
         input.intputs.Add( this.firstLimb.transform.position.z);
@@ -75,6 +72,15 @@ public class CreatureDeplacement : MonoBehaviour
         input.intputs.Add( Random.Range(-10, 10));
         input.intputs.Add( Random.Range(-10, 10));
 
+        foreach (Transform tr in this.transform)
+        {
+            Vector3 localPosition = firstLimb.transform.InverseTransformPoint(tr.position);
+                
+            input.intputs.Add(localPosition.x);
+            input.intputs.Add(localPosition.y);
+            input.intputs.Add(localPosition.z);
+        }
+        
         for (int j = 0; j < CG.mov.Count; j++)
         {
             Vector3 dir = new Vector3(Random.Range(-1, 1),Random.Range(-1, 1),Random.Range(-1, 1));
@@ -88,7 +94,7 @@ public class CreatureDeplacement : MonoBehaviour
         lst.Add(input);
         nn.train(lst);
         
-        prewarm();
+        prewarm( gen, indice);
     }
 
 
@@ -149,35 +155,36 @@ public class CreatureDeplacement : MonoBehaviour
         gen.nbCorotine--;
     }
     
-    IEnumerator CalculDistance(Vector3 position)
+    IEnumerator CalculDistance(Vector3 position,Genetic gen,int indice)
     {
 
         int idx = 0;
 
-        foreach (Transform tr in this.transform)
-        {
-            Destroy(tr.gameObject);
-        }
-
-   
-        CG.Generator(CG.seed);
-        this.firstLimb = CG.firstLimb;
+       gen.Respawn(indice);
 
         while (idx < 10)
         {
             Inputs i = new Inputs();
             i.intputs = new List<float>();
-            i.intputs.Add(this.firstLimb.transform.up.x);
-            i.intputs.Add(this.firstLimb.transform.up.y);
-            i.intputs.Add(this.firstLimb.transform.up.z);
-
+           
             i.intputs.Add(this.firstLimb.transform.position.x);
             i.intputs.Add(this.firstLimb.transform.position.y);
             i.intputs.Add(this.firstLimb.transform.position.z);
 
-            i.intputs.Add(position.x);
-            i.intputs.Add(position.y);
-            i.intputs.Add(position.z);
+            Vector3 dr = (position - this.firstLimb.transform.position).normalized;
+            
+            i.intputs.Add(dr.x);
+            i.intputs.Add(dr.y);
+            i.intputs.Add(dr.z);
+
+            foreach (Transform tr in this.transform)
+            {
+                Vector3 localPosition = firstLimb.transform.InverseTransformPoint(tr.position);
+                
+                i.intputs.Add(localPosition.x);
+                i.intputs.Add(localPosition.y);
+                i.intputs.Add(localPosition.z);
+            }
 
             List<float> d2 = nn.Update(i.intputs);
           

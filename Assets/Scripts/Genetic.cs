@@ -15,7 +15,7 @@ public class Person
     public NN nn;
     public CreatureDeplacement CD;
     public float score;
-
+    
 }
 
 public class Genetic : MonoBehaviour
@@ -43,28 +43,45 @@ public class Genetic : MonoBehaviour
         IntializeGenetic();
     }
 
+
+    private GameObject First;
+
     public void IntializeGenetic()
     {
         
         //generation de la population
-        population = new Person[nbIndiv*nbIndiv];
-        int idx = 0;
-        for (int i =  -nbIndiv/2; i <  nbIndiv/2; i++)
-            for (int j = -nbIndiv/2; j < nbIndiv/2; j++)
-            {
-                GameObject go = Instantiate(CreaturePrefab, Vector3.zero, Quaternion.identity);
-                go.transform.position = this.transform.position + Vector3.right * i * 15 + Vector3.forward*j*15;
-                go.transform.SetParent(this.transform);
-                population[idx] = new Person();
-                population[idx].CD = go.GetComponent<CreatureDeplacement>();
-                population[idx].CD.Initialize();
-                population[idx].nn = population[idx].CD.nn;
-                population[idx].score = float.MaxValue;
-                population[idx].CD = go.GetComponent<CreatureDeplacement>();
-                idx++;
-            }
+        population = new Person[nbIndiv];
+      
         
-
+        GameObject go = Instantiate(CreaturePrefab, Vector3.zero, Quaternion.identity);
+        go.transform.SetParent(this.transform);
+     
+        
+        population[0] = new Person();
+        population[0].CD = go.GetComponent<CreatureDeplacement>();
+        population[0].CD.CG.Generator(population[0].CD.CG.seed);
+        population[0].CD.Initialize(this,0);
+        population[0].nn = population[0].CD.nn;
+        population[0].score = float.MaxValue;
+        population[0].CD = go.GetComponent<CreatureDeplacement>();
+        First = Instantiate(go);
+        First.name = "FIRST";
+        
+        
+        for (int idx = 1; idx < nbIndiv; idx++)
+        {
+            go = Instantiate(go);
+            go.transform.SetParent(this.transform);
+            population[idx] = new Person();
+            population[idx].CD = go.GetComponent<CreatureDeplacement>();
+            population[idx].CD.CG = go.GetComponent<CreaturesGenerator>();
+            population[idx].CD.CG.firstLimb = population[0].CD.CG.firstLimb;
+            population[idx].CD.Initialize(this,idx);
+            population[idx].nn = population[idx].CD.nn;
+            population[idx].score = float.MaxValue;
+            population[idx].CD = go.GetComponent<CreatureDeplacement>();
+           
+        }
 
         best = population[0];
         best.score = float.MaxValue;
@@ -73,6 +90,19 @@ public class Genetic : MonoBehaviour
 
     }
 
+    public void Respawn(int i)
+    {
+        Transform go = population[i].CD.transform;
+
+        for (int j = 0; j < go.transform.childCount; j++)
+        {
+            go.GetChild(j).transform.position = First.transform.GetChild(j).transform.position;
+            go.GetChild(j).transform.localScale = First.transform.GetChild(j).transform.localScale;
+            go.GetChild(j).transform.rotation = First.transform.GetChild(j).transform.rotation;
+        }
+        
+    }
+    
     IEnumerator ProcessGenetic()
     {
         int generation = 0;
@@ -181,7 +211,7 @@ public class Genetic : MonoBehaviour
         //calculFitness
         for (int i = 0; i < population.Length; i++)
         {
-            population[i].CD.prewarm();
+            population[i].CD.prewarm(this,i);
             StartCoroutine( population[i].CD.fitness(this));
         }
         
@@ -256,10 +286,6 @@ public class Genetic : MonoBehaviour
             {
                 d.nn.wi = new List<List<float>>(finalbyte);
             }
-            
-          
-            
-
           
         }
         

@@ -23,6 +23,10 @@ public class Limb
     public List<Limb> next;
     public int NbLimb;
    
+    public GameObject GameObject()
+    {
+        return transform.gameObject;
+    }
     
     public Limb()
     {
@@ -93,13 +97,15 @@ public class CreaturesGenerator : MonoBehaviour
     [HideInInspector] 
     public Rigidbody RBofCreature;
 
+    public LayerMask layer;
     public List<CreatureMovement> mov;
     public CreatureMovement tempLaison;
-    
 
+
+    
     private void Awake()
     {
-        Generator(seed);
+        // Generator(seed);
     }
 
     public void Generator(int s)
@@ -113,6 +119,7 @@ public class CreaturesGenerator : MonoBehaviour
         firstLimb.limpEmplacement = firstLimb.transform.GetComponent<LimbEplacement>();
         firstLimb.NbLimb = firstLimb.limpEmplacement.snapData.Count;
         firstLimb.transform.SetParent(this.transform);
+        firstLimb.transform.gameObject.layer = LayerMask.NameToLayer("Creature");
         RBofCreature = firstLimb.transform.GetComponent<Rigidbody>();
         CreateCreature(firstLimb,Height);
         GenerateCreature(firstLimb);
@@ -171,7 +178,7 @@ public class CreaturesGenerator : MonoBehaviour
             
             if (L.limpEmplacement.snapData[i].snapped) continue;
             
-  
+        
             MeshRenderer b = getObject(L.next[i].type).GetComponent<MeshRenderer>();
             L.next[i].transform = Instantiate(getObject(L.next[i].type),this.transform).transform;
             L.next[i].limpEmplacement = L.next[i].transform .GetComponent<LimbEplacement>();
@@ -181,7 +188,7 @@ public class CreaturesGenerator : MonoBehaviour
             L.next[i].transform.position -= offset;
             L.limpEmplacement.snapData[i].snapped = true;
             L.next[i].limpEmplacement.snapData[0].snapped = true;
-            
+            L.next[i].transform.gameObject.layer = LayerMask.NameToLayer("Creature");
             if (L.transform.CompareTag("Articulation"))
             {
                 CreatureMovement CM = L.transform.GetComponent<CreatureMovement>();
@@ -203,8 +210,6 @@ public class CreaturesGenerator : MonoBehaviour
     
     public void CreateCreature(Limb L,int H)
     {
-
-
 
         if (H <= 0){
             return;
