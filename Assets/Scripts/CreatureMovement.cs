@@ -27,6 +27,7 @@ public class CreatureMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        /*
         if (arms.Count <= 0) return;
         Vector3 p= new Vector3();
         for (int i = 0; i < arms.Count; i++)
@@ -50,7 +51,7 @@ public class CreatureMovement : MonoBehaviour
 
         Gizmos.DrawLine(p,this.transform.position);
 
-      
+      */
 
 
     }
@@ -66,7 +67,7 @@ public class CreatureMovement : MonoBehaviour
                 arms[i].axis = localDir;
                 Vector3 dir = this.transform.TransformDirection(localDir);
            
-                this.RB.AddForce( (this.transform.position - (this.transform.position+  dir)).normalized*100f,ForceMode.VelocityChange);   
+                this.RB.AddForce(dir.normalized*100f,ForceMode.VelocityChange);   
             }
               
         }

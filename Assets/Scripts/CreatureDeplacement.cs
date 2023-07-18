@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using Newtonsoft.Json;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -19,9 +22,7 @@ public class CreatureDeplacement : MonoBehaviour
     [HideInInspector] public float bestDistance;
     private Coroutine fitnessCorotine;
     private Queue<IEnumerator> fitnessCalculation;
-    private Queue<IEnumerator> TmpfitnessCalculation;
     Inputs input = new Inputs();
-
 
     private void OnJointBreak(float breakForce)
     {
@@ -29,9 +30,7 @@ public class CreatureDeplacement : MonoBehaviour
         {
             Destroy(tr.gameObject);
         }
-
-
-        Debug.Log("BREAK");
+        
         CG.Generator(CG.seed);
         this.firstLimb = CG.firstLimb;
     }
@@ -39,41 +38,61 @@ public class CreatureDeplacement : MonoBehaviour
     private void Start()
     {
       
-        Initialize();
+        // Initialize();
     }
 
+    void LoadBest(string name,NN nn)
+    {
+      
+        string fileName = Application.dataPath+"/"+name;
+        string jsonString = File.ReadAllText(fileName);
+        saveNN sNN = JsonConvert.DeserializeObject<saveNN>(jsonString);
 
-    public void prewarm()
+        nn.wi = sNN.wi;
+        nn.wo = sNN.wo;
+    }
+    
+
+
+    public void prewarm(Genetic gen,int indice)
     {
         firstLimb = CG.firstLimb;
         fitnessCalculation = new Queue<IEnumerator>();
-        fitnessCalculation.Enqueue( CalculDistance( this.transform.position + new Vector3(4, 0, 0))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(-4, 0, 0))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, 4 ))); 
-        fitnessCalculation.Enqueue( CalculDistance(this.transform.position + new Vector3(0, 0, -4)));
+
+        fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(4, 0, 0),gen,indice));
+        fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(-4, 0, 0),gen,indice));
+        fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(0, 0, 4),gen,indice));
+        fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(0, 0, -4),gen,indice));
+        //fitnessCalculation.Enqueue( CalculDistance( this.transform.position + new Vector3(10, 0, 0)));
         bestDistance = 0;
     }
 
     // Start is called before the first frame update
-    public void Initialize()
+    public void Initialize(Genetic gen,int indice)
     {
         firstLimb = CG.firstLimb;
         fitnessCalculation = new Queue<IEnumerator>();
-        Random.InitState((int)System.DateTime.Now.Ticks);
+        Random.InitState(((int)System.DateTime.Now.Ticks));
         input.intputs = new List<float>();
         input.output = new List<float>();
+
+        Vector3 d = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10)).normalized;
+        
+        input.intputs.Add( d.x);
+        input.intputs.Add( d.y);
+        input.intputs.Add( d.z);
+    
         input.intputs.Add( this.firstLimb.transform.up.x);
         input.intputs.Add( this.firstLimb.transform.up.y);
         input.intputs.Add( this.firstLimb.transform.up.z);
         
-        input.intputs.Add( this.firstLimb.transform.position.x);
-        input.intputs.Add( this.firstLimb.transform.position.y);
-        input.intputs.Add( this.firstLimb.transform.position.z);
-
- 
-        input.intputs.Add( Random.Range(-10, 10));
-        input.intputs.Add( Random.Range(-10, 10));
-        input.intputs.Add( Random.Range(-10, 10));
+        for (int j = 0; j < CG.mov.Count; j++)
+        {
+            Vector3 dir = (CG.mov[j].transform.position - this.firstLimb.transform.position).normalized;
+            input.intputs.Add(dir.x);
+            input.intputs.Add(dir.y);
+            input.intputs.Add(dir.z);
+        }
 
         for (int j = 0; j < CG.mov.Count; j++)
         {
@@ -83,115 +102,92 @@ public class CreatureDeplacement : MonoBehaviour
             input.output.Add(dir.z);
         }
 
-        nn = new NN(input.intputs.Count, 100, input.output.Count);
+        nn = new NN(input.intputs.Count, (input.output.Count * input.intputs.Count)*10, input.output.Count);
         List<Inputs> lst = new List<Inputs>();
         lst.Add(input);
-        nn.train(lst);
+        //nn.train(lst);
         
-        prewarm();
+        prewarm(gen, indice);
+      
     }
-
 
     private void OnDrawGizmos()
     {
-        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(this.transform.position + new Vector3(10, 0, 0),0.5f);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-           
-        /*
-        timer -= Time.deltaTime;
-
-        
-        if (timer < 0)
-        {
-            timer = 1.0f;
-            Inputs i = new Inputs();
-            i.intputs = new List<float>();
-            i.intputs.Add( this.firstLimb.transform.up.x);
-            i.intputs.Add( this.firstLimb.transform.up.y);
-            i.intputs.Add( this.firstLimb.transform.up.z);
-            
-            i.intputs.Add( this.firstLimb.transform.position.x);
-            i.intputs.Add( this.firstLimb.transform.position.y);
-            i.intputs.Add( this.firstLimb.transform.position.z);       
-            
-            i.intputs.Add( target.transform.position.x);
-            i.intputs.Add( target.transform.position.y);
-            i.intputs.Add( target.transform.position.z);
-            
-            List<float> d2 = nn.Update(i.intputs);
-
-            int idx = 0;
-            for (int j = 0; j < CG.mov.Count; j++)
-            {
-                Vector3 d = new Vector3(d2[idx++], d2[idx++], d2[idx++]);
-                CG.mov[j].Move(d);
-            }
-            
-            Debug.Log(Vector3.Distance(firstLimb.transform.position, new Vector3(4,0,0)));
-        }
-        */
-   
-    }
-
+    
 
     public IEnumerator fitness(Genetic gen)
     {
 
         while ( fitnessCalculation.Count > 0)
         {
-            yield return StartCoroutine(    fitnessCalculation.Dequeue());
+            var c = fitnessCalculation.Dequeue();
+            yield return StartCoroutine(c);
         }
 
         gen.nbCorotine--;
     }
-    
-    IEnumerator CalculDistance(Vector3 position)
+
+    private void Update()
+    {
+     
+    }
+
+    IEnumerator CalculDistance(Vector3 position,Genetic gen,int indice)
     {
 
         int idx = 0;
-
-        foreach (Transform tr in this.transform)
-        {
-            Destroy(tr.gameObject);
-        }
-
-   
-        CG.Generator(CG.seed);
-        this.firstLimb = CG.firstLimb;
-
-        while (idx < 10)
+        gen.Respawn(indice);
+        
+        while (idx < 15)
         {
             Inputs i = new Inputs();
             i.intputs = new List<float>();
+         
+            Vector3 dir = (position - this.firstLimb.transform.position).normalized;
+            
+            i.intputs.Add(dir.x);
+            i.intputs.Add(dir.y);
+            i.intputs.Add(dir.z);
+            
+    
             i.intputs.Add(this.firstLimb.transform.up.x);
             i.intputs.Add(this.firstLimb.transform.up.y);
             i.intputs.Add(this.firstLimb.transform.up.z);
+            
+            for (int j = 0; j < CG.mov.Count; j++)
+            {
+                dir = (CG.mov[j].transform.position - this.firstLimb.transform.position).normalized;
+                i.intputs.Add(dir.x);
+                i.intputs.Add(dir.y);
+                i.intputs.Add(dir.z);
+            }
 
-            i.intputs.Add(this.firstLimb.transform.position.x);
-            i.intputs.Add(this.firstLimb.transform.position.y);
-            i.intputs.Add(this.firstLimb.transform.position.z);
-
-            i.intputs.Add(position.x);
-            i.intputs.Add(position.y);
-            i.intputs.Add(position.z);
-
+            
             List<float> d2 = nn.Update(i.intputs);
-          
+
+            for (int j = 0; j < d2.Count-3; j+=3)
+            {
+                Debug.Log(d2[j]+", "+d2[j+1]+" ,"+d2[j+2]);
+            }
+            
+            
+            
             idx++;
             int k = 0;
             for (int j = 0; j < CG.mov.Count; j++)
             {
                 Vector3 d = new Vector3(d2[k++], d2[k++], d2[k++]);
-                CG.mov[j].Move(d);
+                //CG.mov[j].Move(d);
             }
 
+            this.firstLimb.transform.GetComponent<Rigidbody>().AddForce(dir,ForceMode.Impulse);
+            
             yield return new WaitForSeconds(1);
         }
-        
+       
         bestDistance  += Vector3.Distance(firstLimb.transform.position, position);
 
     }

@@ -14,7 +14,7 @@ public class WeaponManager : MonoBehaviour
     public CanHit[] canHits;
     public Animator[] animators;
     private Transform player;
-    private Transform camera;
+    private Transform cameraPlayer;
     [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
                                              
     private WeaponInfromation[] currentWeapon;
@@ -28,7 +28,7 @@ public class WeaponManager : MonoBehaviour
     private void Start()
     {
         currentWeapon = new WeaponInfromation[2];
-        camera = GameManager.instance.camera;
+        cameraPlayer = GameManager.instance.cameraPlayer;
         player = GameManager.instance.player;
     }
     
@@ -89,7 +89,7 @@ public class WeaponManager : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(player.transform.position, camera.transform.forward, out hit,GameManager.instance.PlayerReach,weaponLayer))
+        if (Physics.Raycast(player.transform.position, cameraPlayer.transform.forward, out hit,GameManager.instance.PlayerReach,weaponLayer))
         {
             if (lArm && !lIsHolding)
             {

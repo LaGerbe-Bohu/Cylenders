@@ -28,7 +28,7 @@ public class SnapData
 public class LimbEplacement : MonoBehaviour
 {
     public List<SnapData> snapData;
-    private bool find = false;
+
     private void OnEnable()
     {
        

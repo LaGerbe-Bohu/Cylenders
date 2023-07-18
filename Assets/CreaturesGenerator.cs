@@ -99,7 +99,7 @@ public class CreaturesGenerator : MonoBehaviour
 
     private void Awake()
     {
-        Generator(seed);
+        // Generator(seed);
     }
 
     public void Generator(int s)
@@ -114,15 +114,12 @@ public class CreaturesGenerator : MonoBehaviour
         firstLimb.NbLimb = firstLimb.limpEmplacement.snapData.Count;
         firstLimb.transform.SetParent(this.transform);
         RBofCreature = firstLimb.transform.GetComponent<Rigidbody>();
+        firstLimb.transform.gameObject.layer = LayerMask.NameToLayer("Creature");
         CreateCreature(firstLimb,Height);
         GenerateCreature(firstLimb);
+        
     }
 
-
-
-
-    
-    
     
     public GameObject getObject(LimbType v) 
     {
@@ -181,7 +178,7 @@ public class CreaturesGenerator : MonoBehaviour
             L.next[i].transform.position -= offset;
             L.limpEmplacement.snapData[i].snapped = true;
             L.next[i].limpEmplacement.snapData[0].snapped = true;
-            
+            L.next[i].transform.gameObject.layer = LayerMask.NameToLayer("Creature");
             if (L.transform.CompareTag("Articulation"))
             {
                 CreatureMovement CM = L.transform.GetComponent<CreatureMovement>();

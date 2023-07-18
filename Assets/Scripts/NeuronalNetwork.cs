@@ -62,7 +62,8 @@ public class NN
         this.nh = _nh;
         this.no = _no;
 
-        Random.InitState(0);
+        Random.InitState(((int)System.DateTime.Now.Ticks));
+
         
         ai = Initizateur(ni, 1.0f);
         ah = Initizateur(nh, 1.0f);
@@ -90,6 +91,7 @@ public class NN
 
         ci = makeMatrice(ni, nh,0.0f);
         co = makeMatrice(nh, no,0.0f);
+        
     }
 
     public List<float> Update(List<float> inputs)

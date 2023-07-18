@@ -9,29 +9,8 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class Person
-{
-    // le position n'est qu'un int parce que la liste de vertices est à une seule dimension
-    public NN nn;
-    public CreatureDeplacement CD;
-    public float score;
-    public BasicCreature BC;
 
-    public Person(Person p)
-    {
-        this.nn = new NN(p.nn);
-        this.CD = p.CD;
-        this.score = p.score;
-    }
-
-    public Person()
-    {
-      
-    }
-
-}
-
-public class Genetic : MonoBehaviour
+public class GeneticCube : MonoBehaviour
 {
     // nombre d'individu par génération
     public int nbIndiv = 10;
@@ -56,65 +35,34 @@ public class Genetic : MonoBehaviour
         IntializeGenetic();
     }
 
-    
-    private GameObject First;
-    
     public void IntializeGenetic()
     {
         
+        //generation de la population
         population = new Person[nbIndiv];
-
-        
-        GameObject go = Instantiate(CreaturePrefab, Vector3.zero, Quaternion.identity);
-        go.transform.SetParent(this.transform);
-     
-        
-        population[0] = new Person();
-        population[0].CD = go.GetComponent<CreatureDeplacement>();
-        population[0].CD.CG.Generator(population[0].CD.CG.seed);
-        population[0].CD.Initialize(this,0);
-        population[0].nn = population[0].CD.nn;
-        population[0].score = float.MaxValue;
-        population[0].CD = go.GetComponent<CreatureDeplacement>();
-        First = Instantiate(go);
-        First.name = "FIRST";
-        
-        
-        for (int idx = 1; idx < nbIndiv; idx++)
+        int idx = 0;
+        for (int i = 0;i < nbIndiv ; i++)
         {
-            go = Instantiate(go);
+            GameObject go = Instantiate(CreaturePrefab, Vector3.zero, Quaternion.identity);
+            go.transform.position = this.transform.position;
             go.transform.SetParent(this.transform);
             population[idx] = new Person();
-            population[idx].CD = go.GetComponent<CreatureDeplacement>();
-            population[idx].CD.CG = go.GetComponent<CreaturesGenerator>();
-            population[idx].CD.CG.firstLimb = population[0].CD.CG.firstLimb;
-            population[idx].CD.Initialize(this,idx);
-            population[idx].nn = population[idx].CD.nn;
+            population[idx].BC = go.GetComponent<BasicCreature>();
+            population[idx].BC.Initialization();
+            population[idx].nn = population[idx].BC.nn;
             population[idx].score = float.MaxValue;
-            population[idx].CD = go.GetComponent<CreatureDeplacement>();
-           
+            idx++;
         }
-
+           
+            
         best = population[0];
         best.score = float.MaxValue;
         // start la coroutine
         StartCoroutine(ProcessGenetic());
     }
-
-    public void Respawn(int i)
-    {
-        Transform go = population[i].CD.transform;
-
-        for (int j = 0; j < go.transform.childCount; j++)
-        {
-            go.GetChild(j).transform.position = First.transform.GetChild(j).transform.position;
-            go.GetChild(j).transform.localScale = First.transform.GetChild(j).transform.localScale;
-            go.GetChild(j).transform.rotation = First.transform.GetChild(j).transform.rotation;
-        }
-        
-    }
-
     
+    
+
     IEnumerator ProcessGenetic()
     {
         int generation = 0;
@@ -126,7 +74,6 @@ public class Genetic : MonoBehaviour
             Debug.Log("Start Fitness");
 
             nbCorotine = population.Length;
-
             
             calculFitness();
 
@@ -137,13 +84,19 @@ public class Genetic : MonoBehaviour
 
             for (int i = 0; i < population.Length; i++)
             {
-                population[i].score = population[i].CD.bestDistance;
+                population[i].score = population[i].BC.bestDistance;
             }
             
       
             population = Sort(population);
+
+            float avg = 0f;
+            for (int i = 0; i < population.Length; i++)
+            {
+                avg += population[i].score;
+            } 
             
-                  
+            
             // voir si on n'a pas trouver un meilleur individu
             if (bestscore > population[^1].score)
             {
@@ -164,8 +117,7 @@ public class Genetic : MonoBehaviour
                     perso.Add(population[i]);
                 }
             }
-
-
+            
             MPRO.text = " generation : " + generation + " best : " + bestscore + " last " + population[^1].score;
             // reproduction
             for (int i = 0; i < population.Length; ++i){
@@ -185,8 +137,9 @@ public class Genetic : MonoBehaviour
                 
                 //croisé
                 population[i] = croisement(perso[x], perso[y],population[i]);
-            }
+            } 
             
+            Debug.Log(population.Length);
             
             int k = Random.Range(0, population.Length);
             population[k].nn = new NN(bestNN);
@@ -223,8 +176,8 @@ public class Genetic : MonoBehaviour
         //calculFitness
         for (int i = 0; i < population.Length; i++)
         {
-            population[i].CD.prewarm(this,i);
-            StartCoroutine( population[i].CD.fitness(this));
+            population[i].BC.prewarm();
+            StartCoroutine( population[i].BC.fitness(this));
         }
         
     }
@@ -253,9 +206,9 @@ public class Genetic : MonoBehaviour
         List<List<float>> finalbyte = new List<List<float>>();
         DeepCopy(bytesB,ref finalbyte);
         
-        for (int i = 0; i < bytesB.Count; i++)
+        for (int i = 0; i <finalbyte.Count; i++)
         {
-            for (int j = 0; j < bytesB[0].Count; j+=2)
+            for (int j = 0; j < finalbyte[0].Count; j+=2)
             {
                 finalbyte[i][j] =  bytesA[i][j];
             }
@@ -282,7 +235,7 @@ public class Genetic : MonoBehaviour
         
         if (Random.Range(1, 100) <= mutation)
         {
-            
+
            
             bool wo = false;
            
@@ -292,7 +245,7 @@ public class Genetic : MonoBehaviour
                  wo = true;
                  finalbyte = new List<List<float>>(d.nn.wo);
                  DeepCopy( d.nn.wo,ref finalbyte);
-            }
+            }   
             
             
             float r = Random.Range(0, finalbyte.Count); 
@@ -313,9 +266,6 @@ public class Genetic : MonoBehaviour
             {
                 DeepCopy(finalbyte,ref d.nn.wi);
             }
-            
-          
-            
 
           
         }
@@ -326,6 +276,7 @@ public class Genetic : MonoBehaviour
 
         return d;
     }
+
 
     private void Update()
     {

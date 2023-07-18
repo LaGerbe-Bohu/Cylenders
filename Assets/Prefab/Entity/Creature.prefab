@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6041928457141213828}
   - component: {fileID: 6041928457141213824}
   - component: {fileID: 6041928457141213831}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Creature
   m_TagString: Articulation
   m_Icon: {fileID: 0}
@@ -60,6 +60,7 @@ MonoBehaviour:
     nbNext: 3
   firstType: 1
   Height: 4
+  seed: 5
   RBofCreature: {fileID: 0}
   mov: []
   tempLaison: {fileID: 0}
