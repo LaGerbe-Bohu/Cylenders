@@ -64,10 +64,10 @@ public class CreatureMovement : MonoBehaviour
 
             if (arms.Count <= 1)
             {
-                arms[i].axis = localDir;
+                arms[i].axis = localDir.normalized;
                 Vector3 dir = this.transform.TransformDirection(localDir);
            
-                this.RB.AddForce(dir.normalized*100f,ForceMode.VelocityChange);   
+                this.RB.AddForce(dir.normalized*100.0f*Time.fixedDeltaTime,ForceMode.VelocityChange);
             }
               
         }

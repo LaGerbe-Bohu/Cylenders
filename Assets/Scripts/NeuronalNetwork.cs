@@ -61,14 +61,10 @@ public class NN
         this.ni = _ni+ 1;
         this.nh = _nh;
         this.no = _no;
-
-        Random.InitState(((int)System.DateTime.Now.Ticks));
-
         
         ai = Initizateur(ni, 1.0f);
         ah = Initizateur(nh, 1.0f);
         ao = Initizateur(no, 1.0f);
-
 
         wi = makeMatrice(ni, nh);
         wo = makeMatrice(nh, no);

@@ -22,8 +22,11 @@ public class Limb
     public Transform transform;
     public List<Limb> next;
     public int NbLimb;
-   
-    
+
+    public void setTransfrom(Transform tr)
+    {
+        transform = tr;
+    }
     public Limb()
     {
            

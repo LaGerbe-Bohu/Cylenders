@@ -102,7 +102,7 @@ public class CreatureDeplacement : MonoBehaviour
             input.output.Add(dir.z);
         }
 
-        nn = new NN(input.intputs.Count, (input.output.Count * input.intputs.Count)*10, input.output.Count);
+        nn = new NN(input.intputs.Count, (input.output.Count + input.intputs.Count), input.output.Count);
         List<Inputs> lst = new List<Inputs>();
         lst.Add(input);
         //nn.train(lst);
@@ -120,13 +120,14 @@ public class CreatureDeplacement : MonoBehaviour
 
     public IEnumerator fitness(Genetic gen)
     {
-
+        int nb = fitnessCalculation.Count;
         while ( fitnessCalculation.Count > 0)
         {
             var c = fitnessCalculation.Dequeue();
             yield return StartCoroutine(c);
         }
 
+        bestDistance = (bestDistance / (float)nb);
         gen.nbCorotine--;
     }
 
@@ -141,13 +142,12 @@ public class CreatureDeplacement : MonoBehaviour
         int idx = 0;
         gen.Respawn(indice);
         
-        while (idx < 15)
+        while (idx <500)
         {
             Inputs i = new Inputs();
             i.intputs = new List<float>();
          
             Vector3 dir = (position - this.firstLimb.transform.position).normalized;
-            
             i.intputs.Add(dir.x);
             i.intputs.Add(dir.y);
             i.intputs.Add(dir.z);
@@ -163,29 +163,20 @@ public class CreatureDeplacement : MonoBehaviour
                 i.intputs.Add(dir.x);
                 i.intputs.Add(dir.y);
                 i.intputs.Add(dir.z);
+               
+           
             }
 
-            
             List<float> d2 = nn.Update(i.intputs);
-
-            for (int j = 0; j < d2.Count-3; j+=3)
-            {
-                Debug.Log(d2[j]+", "+d2[j+1]+" ,"+d2[j+2]);
-            }
-            
-            
-            
             idx++;
             int k = 0;
             for (int j = 0; j < CG.mov.Count; j++)
             {
                 Vector3 d = new Vector3(d2[k++], d2[k++], d2[k++]);
-                //CG.mov[j].Move(d);
+                CG.mov[j].Move(d);
             }
 
-            this.firstLimb.transform.GetComponent<Rigidbody>().AddForce(dir,ForceMode.Impulse);
-            
-            yield return new WaitForSeconds(1);
+            yield return new WaitForFixedUpdate();
         }
        
         bestDistance  += Vector3.Distance(firstLimb.transform.position, position);

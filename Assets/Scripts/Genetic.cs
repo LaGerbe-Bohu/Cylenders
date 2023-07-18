@@ -87,7 +87,8 @@ public class Genetic : MonoBehaviour
             population[idx] = new Person();
             population[idx].CD = go.GetComponent<CreatureDeplacement>();
             population[idx].CD.CG = go.GetComponent<CreaturesGenerator>();
-            population[idx].CD.CG.firstLimb = population[0].CD.CG.firstLimb;
+            population[idx].CD.CG.firstLimb = new Limb();
+            population[idx].CD.CG.firstLimb.setTransfrom(go.transform.GetChild(0));
             population[idx].CD.Initialize(this,idx);
             population[idx].nn = population[idx].CD.nn;
             population[idx].score = float.MaxValue;
@@ -96,6 +97,7 @@ public class Genetic : MonoBehaviour
         }
 
         best = population[0];
+        
         best.score = float.MaxValue;
         // start la coroutine
         StartCoroutine(ProcessGenetic());
@@ -166,7 +168,7 @@ public class Genetic : MonoBehaviour
             }
 
 
-            MPRO.text = " generation : " + generation + " best : " + bestscore + " last " + population[^1].score;
+            MPRO.text = " generation : " + generation + " best : " + bestscore + " last " + population[^1].score + " "+population[^1].nn.wi[0][0];
             // reproduction
             for (int i = 0; i < population.Length; ++i){
 
@@ -179,9 +181,9 @@ public class Genetic : MonoBehaviour
                 y = Random.Range(0,perso.Count);
 
                 //pour êtrecertain que les parents ne soient pas identique
-                while ( perso[x] == perso[y] ){
+              /*  while ( perso[x] == perso[y] ){
                     y =  Random.Range(0,perso.Count);
-                }
+                }*/
                 
                 //croisé
                 population[i] = croisement(perso[x], perso[y],population[i]);
@@ -190,7 +192,7 @@ public class Genetic : MonoBehaviour
             
             int k = Random.Range(0, population.Length);
             population[k].nn = new NN(bestNN);
-
+        
             generation++;
             yield return new WaitForSeconds(0);
         }

@@ -1393,7 +1393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -25}
+  m_AnchoredPosition: {x: -306.6, y: -25}
   m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1643215940
@@ -1718,8 +1718,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261ee36a13c1c5442a5e7f4019792a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nbIndiv: 50
-  mutation: 10
+  nbIndiv: 150
+  mutation: 5
   timeToSleep: 1
   CreaturePrefab: {fileID: 6041928457141213825, guid: 106bcd2c4a34df24b94648f40a12da87, type: 3}
   MPRO: {fileID: 1643215940}
