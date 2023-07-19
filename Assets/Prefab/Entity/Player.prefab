@@ -634,7 +634,7 @@ MonoBehaviour:
   AirControlScaler: 0.2
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
   airControl: 1
   maxSlopeAngle: 45
   RightHand: {fileID: 1032631128}

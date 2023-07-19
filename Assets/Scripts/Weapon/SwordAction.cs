@@ -23,7 +23,7 @@ public class SwordAction : I_WeaponInterface
     {
 
         RaycastHit hit;
-        Transform camera = GameManager.instance.camera;
+        Transform camera = GameManager.instance.cameraPlayer;
         if (Physics.Raycast(camera.position, camera.forward,out hit, GameManager.instance.PlayerReach, WeaponInfromation.ennemiesLayer))
         {
            

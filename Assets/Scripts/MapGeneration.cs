@@ -159,6 +159,15 @@ public class MapGeneration : MonoBehaviour
         meshFilter.mesh.RecalculateBounds();
         meshCollider.sharedMesh = m;
 
+        StrctureGeneration();
+        
+        NMS.BuildNavMesh();
+        MobSpawner.SpawnCharacter();
+
+    }
+
+    void StrctureGeneration()
+    {
         List<StructuresManager> str = new List<StructuresManager>();
         for (int i = 0; i < lstStructures.Count; i++)
         {
@@ -176,10 +185,6 @@ public class MapGeneration : MonoBehaviour
             }
 
         }
-        
-        NMS.BuildNavMesh();
-        MobSpawner.SpawnCharacter();
-
     }
     
 }

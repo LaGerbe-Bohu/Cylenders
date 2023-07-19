@@ -1,14 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class MobSpawner : MonoBehaviour
 {
     public int maxMob;
-    public GameObject EnnemiePrefab;
+    public EnnemieInformation EnnemiePrefab;
     public LayerMask groundLayer;
+    public LayerMask negatifLayer;
     private GameManager GM;
 
+    private bool firstFrame =true;
     private int counter = 0;
     // Start is called before the first frame update
     public void SpawnCharacter()
@@ -17,19 +22,36 @@ public class MobSpawner : MonoBehaviour
         
         while (counter < maxMob)
         {
-            GameObject go = Instantiate(EnnemiePrefab, this.transform.position, Quaternion.identity);
-            go.transform.SetParent(this.transform);
-            Vector3 randompos = Random.insideUnitCircle * GM.CylenderRadius;
-            RaycastHit hit;
 
-            if (Physics.Raycast(new Vector3(randompos.x, 10, randompos.y),Vector3.down,out hit,1000f,groundLayer))
+            bool find = false;
+            int gdf = 0;
+            while (!find && gdf < 1000)
             {
-                go.transform.position = new Vector3(randompos.x, hit.point.y, randompos.y);    
+                Vector3 randompos = Random.insideUnitCircle * GM.CylenderRadius;
+                RaycastHit hit;
+                if (Physics.Raycast(new Vector3(randompos.x, 100, randompos.y),Vector3.down,out hit,1000f,groundLayer) && !Physics.Raycast(new Vector3(randompos.x, 100, randompos.y),Vector3.down,1000f,negatifLayer))
+                {
+                    GameObject go = Instantiate(EnnemiePrefab.prefab, hit.point+new Vector3(0,-EnnemiePrefab.footPosition.localPosition.y,0), Quaternion.identity);
+                    find = true;
+                }
+
+                gdf++;
+                
+                
             }
+
+            if (gdf >= 1000)
+            {
+                Debug.LogError("gdf supérieur à 1000");    
+            }
+         
             counter++;
         }
-
+       
     }
 
-
+    public void Update()
+    {
+       
+    }
 }

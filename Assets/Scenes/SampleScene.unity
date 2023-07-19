@@ -526,6 +526,14 @@ PrefabInstance:
       propertyPath: maxMob
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
+      propertyPath: EnnemiePrefab
+      value: 
+      objectReference: {fileID: 6354918054574748609, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
+    - target: {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
+      propertyPath: negatifLayer.m_Bits
+      value: 4096
+      objectReference: {fileID: 0}
     - target: {fileID: 4866553491296170144, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: m_Name
       value: Cylender
@@ -631,7 +639,7 @@ MonoBehaviour:
   cylenderRender: {fileID: 6379776504343322384}
   PlayerPrefab: {fileID: 1206260170766430271, guid: dd8271b3171127548b83efa67f37b121, type: 3}
   player: {fileID: 0}
-  camera: {fileID: 0}
+  cameraPlayer: {fileID: 0}
   InAnimiantion: 0
   CylenderRadius: 0
   e_PlayerHurt:

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerPrefab;
     //public field
     [FormerlySerializedAs("Player")] public Transform player;
-    public Transform camera;
+    [FormerlySerializedAs("camera")] public Transform cameraPlayer;
 
 
     private bool oldBool = false;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         
             this.player = go.transform;
             Object.DontDestroyOnLoad(player.gameObject);
-            this.camera = this.player.transform.GetChild(1);
+            this.cameraPlayer = this.player.transform.GetChild(1);
             characterInput = this.player.GetComponent<CharacterInput>();
         }
         else
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
             GameObject go = GameObject.FindWithTag("Player");
             this.player = go.transform;
             Object.DontDestroyOnLoad(player.gameObject);
-            this.camera = this.player.transform.GetChild(1);
+            this.cameraPlayer = this.player.transform.GetChild(1);
             characterInput = this.player.GetComponent<CharacterInput>();
         }
         
@@ -100,11 +100,11 @@ public class GameManager : MonoBehaviour
 
         oldBool = InAnimiantion;
 
-        if (oldBool)
+        if (oldBool && timeStepAnimation > -100)
         {
             timeStepAnimation -= Time.deltaTime;
         }
-        else
+        else if(timeStepAnimation < 100)
         {
             timeStepAnimation += Time.deltaTime;
         }

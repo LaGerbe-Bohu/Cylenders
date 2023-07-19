@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3639341419688924077}
   - component: {fileID: 488665861984939314}
   - component: {fileID: 7817383452018531468}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GameObject
   m_TagString: AlwaysDefault
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4107194825294299021}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: Anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 4107194825902132526}
   - component: {fileID: 4107194825902132521}
   - component: {fileID: 4107194825902132520}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: Render
   m_TagString: AlwaysDefault
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5061967139081864554}
   - component: {fileID: 5061967139081864552}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,5 +241,5 @@ MonoBehaviour:
   radiusCheck: 0.5
   LM:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
   counterRay: 8

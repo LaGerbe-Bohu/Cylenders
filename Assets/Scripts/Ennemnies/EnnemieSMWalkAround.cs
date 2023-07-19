@@ -12,7 +12,6 @@ public class EnnemieSMWalkAround : MachineState
 
     private Vector2 targetPoint;
     private Vector2 originPoint;
-    private bool reach = true;
     private Coroutine coroutine;
     private float cc;
     private void Start()

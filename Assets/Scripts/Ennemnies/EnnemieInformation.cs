@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
-using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 public class EnnemieInformation : MonoBehaviour
@@ -12,10 +9,19 @@ public class EnnemieInformation : MonoBehaviour
     public Rigidbody RB;
     public MobInput MI;
     public enablerHitEnnemie enablerHit;
+    public GameObject prefab;
+    public Transform footPosition;
     public void Hurt(Vector3 source)
     {
-     
         enablerHit.Hit();
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        if (footPosition == null)
+            return;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(footPosition.position,0.1f);
     }
     
 }

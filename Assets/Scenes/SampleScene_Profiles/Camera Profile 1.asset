@@ -1,5 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7966080337903650336
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: SmoothTT
+  m_EditorClassIdentifier: Assembly-CSharp::SmoothTT
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  Color:
+    overrideState: 0
+    value: {r: 0, g: 0, b: 0, a: 1}
+  treshold:
+    overrideState: 0
+    value: 0.01
+  noiseStrength:
+    overrideState: 1
+    value: 0
+  NoiseTexture:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
 --- !u!114 &-6234688330397420396
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1463,7 +1492,7 @@ MonoBehaviour:
   - {fileID: -6234688330397420396}
   - {fileID: -233741959797021204}
   - {fileID: -4464767123967441643}
-  - {fileID: 6911373370947696798}
+  - {fileID: -7966080337903650336}
 --- !u!114 &6911373370947696798
 MonoBehaviour:
   m_ObjectHideFlags: 3

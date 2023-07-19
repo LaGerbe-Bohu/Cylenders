@@ -67,7 +67,7 @@ public class PlayerOutlineMobDetection : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, GM.camera.transform.forward,out hit, GM.PlayerReach, LM))
+        if (Physics.Raycast(this.transform.position, GM.cameraPlayer.transform.forward,out hit, GM.PlayerReach, LM))
         {
             if (lastDetect != null && lastDetect != hit.collider)
                 unDetectedEvent.Invoke(lastDetect);
