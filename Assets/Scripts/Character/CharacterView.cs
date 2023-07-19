@@ -55,6 +55,14 @@ public class CharacterView : MonoBehaviour
         Quaternion yQuat = Quaternion.Euler(rotation.y,0.0f, 0.0f);
         
         cameraPlayer.transform.localRotation = xQuat*yQuat;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+        }
+        
     }
     
 }

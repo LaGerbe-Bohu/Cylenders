@@ -82,6 +82,19 @@ MonoBehaviour:
   enabled:
     overrideState: 1
     value: 1
+  Color:
+    overrideState: 0
+    value: {r: 0, g: 0, b: 0, a: 1}
+  treshold:
+    overrideState: 0
+    value: 0.01
+  noiseStrength:
+    overrideState: 0
+    value: 2
+  NoiseTexture:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
 --- !u!114 &-4464767123967441643
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -120,6 +133,19 @@ MonoBehaviour:
   enabled:
     overrideState: 1
     value: 1
+  Color:
+    overrideState: 0
+    value: {r: 0, g: 0, b: 0, a: 1}
+  treshold:
+    overrideState: 0
+    value: 0.01
+  noiseStrength:
+    overrideState: 0
+    value: 2
+  NoiseTexture:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
 --- !u!114 &-4252685772828204136
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -164,6 +190,64 @@ MonoBehaviour:
   opacity:
     overrideState: 0
     value: 1
+--- !u!114 &-3098447325875043543
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0a25204708e6a4e9c57eb7a2fbbe17, type: 3}
+  m_Name: SceneTransition
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  Color:
+    overrideState: 0
+    value: {r: 0, g: 0, b: 0, a: 1}
+  treshold:
+    overrideState: 0
+    value: 0.01
+  noiseStrength:
+    overrideState: 1
+    value: 0
+  NoiseTexture:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+--- !u!114 &-721350393299224902
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: SmoothTT
+  m_EditorClassIdentifier: Assembly-CSharp::SmoothTT
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  Color:
+    overrideState: 0
+    value: {r: 0, g: 0, b: 0, a: 1}
+  treshold:
+    overrideState: 0
+    value: 0.01
+  noiseStrength:
+    overrideState: 0
+    value: 2
+  NoiseTexture:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
 --- !u!114 &-233741959797021204
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1492,7 +1576,7 @@ MonoBehaviour:
   - {fileID: -6234688330397420396}
   - {fileID: -233741959797021204}
   - {fileID: -4464767123967441643}
-  - {fileID: -7966080337903650336}
+  - {fileID: -3098447325875043543}
 --- !u!114 &6911373370947696798
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1515,7 +1599,39 @@ MonoBehaviour:
   treshold:
     overrideState: 1
     value: 0.001
-  texture:
+  noiseStrength:
+    overrideState: 0
+    value: 2
+  NoiseTexture:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+--- !u!114 &7909182695749012124
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: SmoothTT
+  m_EditorClassIdentifier: Assembly-CSharp::SmoothTT
+  active: 1
+  enabled:
     overrideState: 1
-    value: {fileID: 2800000, guid: bfe953600e8fb1849a804ee08ace7b4c, type: 3}
+    value: 1
+  Color:
+    overrideState: 0
+    value: {r: 0, g: 0, b: 0, a: 1}
+  treshold:
+    overrideState: 0
+    value: 0.01
+  noiseStrength:
+    overrideState: 1
+    value: 0
+  NoiseTexture:
+    overrideState: 0
+    value: {fileID: 0}
     defaultState: 1

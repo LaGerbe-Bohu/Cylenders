@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class MobSpawner : MonoBehaviour
@@ -13,7 +9,6 @@ public class MobSpawner : MonoBehaviour
     public LayerMask negatifLayer;
     private GameManager GM;
 
-    private bool firstFrame =true;
     private int counter = 0;
     // Start is called before the first frame update
     public void SpawnCharacter()
@@ -35,10 +30,7 @@ public class MobSpawner : MonoBehaviour
                     go.transform.SetParent(this.transform);
                     find = true;
                 }
-
                 gdf++;
-                
-                
             }
 
             if (gdf >= 1000)
