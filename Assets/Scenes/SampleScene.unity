@@ -123,6 +123,58 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: fee5dcf41d9f58c4381b79c45054a72d, type: 2}
+--- !u!1 &446054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446056}
+  - component: {fileID: 446055}
+  m_Layer: 0
+  m_Name: MobManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &446055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ffe531541fcb4b41acd8118fdd0f064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMob: 1
+  EnnemiePrefab: {fileID: 6354918054574748609, guid: effab2bad6e3a29419fd27759979fad4, type: 3}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  negatifLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+--- !u!4 &446056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.708328, y: -67.2593, z: -27.899033}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &42513033
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -521,7 +573,7 @@ PrefabInstance:
     - target: {fileID: 676253291, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: MobSpawner
       value: 
-      objectReference: {fileID: 698631312}
+      objectReference: {fileID: 446055}
     - target: {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
       propertyPath: maxMob
       value: 15
@@ -586,19 +638,9 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e0647d5dce414714cb9bb0190f90278e, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
---- !u!114 &698631312 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 698631312, guid: 7d55f916e78643d4aa280fda12441688, type: 3}
-  m_PrefabInstance: {fileID: 676253285}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ffe531541fcb4b41acd8118fdd0f064, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1073757178
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,6 +680,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3848f4247d994744a93b2a93af44f8ff, type: 2}
   cylenderRender: {fileID: 6379776504343322384}
   PlayerPrefab: {fileID: 1206260170766430271, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+  mobSpawner: {fileID: 446055}
   player: {fileID: 0}
   cameraPlayer: {fileID: 0}
   InAnimiantion: 0

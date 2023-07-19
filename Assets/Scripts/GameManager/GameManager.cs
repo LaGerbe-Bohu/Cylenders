@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public List<GenerationPreset> LstGenerationPreset;
     [SerializeField] private Renderer cylenderRender;
     public GameObject PlayerPrefab;
+
+    public MobSpawner mobSpawner;
     //public field
     [FormerlySerializedAs("Player")] public Transform player;
     [FormerlySerializedAs("camera")] public Transform cameraPlayer;

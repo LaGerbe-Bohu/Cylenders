@@ -1,19 +1,33 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SwithRoom : MonoBehaviour
 {
+    private bool swithing = false;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && GameManager.instance.mobSpawner.EnnemieCounter() <= 0 && !swithing)
         {
             GameManager.instance.InAnimiantion = true;
+            swithing = true;
             StartCoroutine(change());
         }
     }
+    
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player") && GameManager.instance.mobSpawner.EnnemieCounter() <= 0 && !swithing)
+        {
+            GameManager.instance.InAnimiantion = true;
+            swithing = true;
+            StartCoroutine(change());
+        }
+    }
+    
 
     IEnumerator change()
     {
@@ -24,7 +38,7 @@ public class SwithRoom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameManager.instance.player.transform.position = this.transform.position;
     }
 
     // Update is called once per frame

@@ -32,6 +32,7 @@ public class MobSpawner : MonoBehaviour
                 if (Physics.Raycast(new Vector3(randompos.x, 100, randompos.y),Vector3.down,out hit,1000f,groundLayer) && !Physics.Raycast(new Vector3(randompos.x, 100, randompos.y),Vector3.down,1000f,negatifLayer))
                 {
                     GameObject go = Instantiate(EnnemiePrefab.prefab, hit.point+new Vector3(0,-EnnemiePrefab.footPosition.localPosition.y,0), Quaternion.identity);
+                    go.transform.SetParent(this.transform);
                     find = true;
                 }
 
@@ -47,9 +48,13 @@ public class MobSpawner : MonoBehaviour
          
             counter++;
         }
-       
     }
 
+    public int EnnemieCounter()
+    {
+        return this.transform.childCount;
+    }
+    
     public void Update()
     {
        
