@@ -10,8 +10,7 @@ public class SwordAction : I_WeaponInterface
     /// </summary>
     /// 
 
-    public float Dommage = 1;
-    public float Reach;
+  
     private WeaponInfromation WeaponInfromation;
     
     private void Start()
@@ -24,14 +23,14 @@ public class SwordAction : I_WeaponInterface
 
         RaycastHit hit;
         Transform camera = GameManager.instance.cameraPlayer;
-        if (Physics.Raycast(camera.position, camera.forward,out hit, GameManager.instance.PlayerReach, WeaponInfromation.ennemiesLayer))
+        if (Physics.Raycast(camera.position, camera.forward,out hit, WeaponInfromation.Reach, WeaponInfromation.ennemiesLayer))
         {
            
             EnnemieInformation EI = hit.collider.GetComponent<EnnemieInformation>();
 
             if (EI)
             {
-                EI.life -= Dommage;
+                EI.life -= WeaponInfromation.Dommage;
                 EI.Hurt(this.transform.position);
                 if (EI.life <= 0)
                 {

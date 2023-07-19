@@ -13,7 +13,11 @@ public class WeaponInfromation : MonoBehaviour
     public Rigidbody Rigidbody;
     public Collider Collider;
     public I_WeaponInterface WeaponInterface;
-
+    
+    public float Dommage = 1;
+    public float Reach;
+    public float CoolDowwnTime = 1.0f;
+    
     public List<Renderer> renderers;
     public float ScaleInHand;
     public Transform[] fingers;

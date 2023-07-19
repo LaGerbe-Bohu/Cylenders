@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -89,25 +90,27 @@ public class WeaponManager : MonoBehaviour
         {
             animators[0].SetTrigger("Attack");
             StartCoroutine( Attack(0));
-          
+   
+
         }
         
         if (Input.GetMouseButtonDown(1) && lIsHolding && currentWeapon[1] != null && !coolDownAttack[1]) 
         {
             animators[1].SetTrigger("Attack");
-            StartCoroutine( Attack(1));
+            StartCoroutine(Attack(1));
         }
-  
+
     }
+    
 
     IEnumerator Attack(int i)
     {
-    
-        
         coolDownAttack[i] = true;
-        yield return new WaitForSeconds(timeHit);
-        coolDownAttack[i] = false;
         currentWeapon[i].WeaponInterface.WeaponAction();
+     
+        yield return new WaitForSeconds(currentWeapon[i].CoolDowwnTime);
+      
+        coolDownAttack[i] = false;
     }
     
     
