@@ -65,7 +65,7 @@ Shader "Hidden/BOHU/OutLine"
             
             float4 getSobel(sampler2D sampl,float2 pos)
             {
-                   float4 Gx;
+                float4 Gx;
                 float4 Gy;
                 
                 for (int i = 0; i < 3;i++)

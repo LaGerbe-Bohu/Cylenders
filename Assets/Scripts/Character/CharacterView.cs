@@ -41,7 +41,7 @@ public class CharacterView : MonoBehaviour
     {
         
     }
-    
+
     void fpsView()
     {
         // this is for prevent mouse shift in begin of play mode
@@ -56,12 +56,9 @@ public class CharacterView : MonoBehaviour
         
         cameraPlayer.transform.localRotation = xQuat*yQuat;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-
-        }
+        
+        
+        
         
     }
     

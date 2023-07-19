@@ -11,11 +11,11 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
     public Transform[] fingers;
     public Transform[] slotForWeapon; // ce sont les slots où les armes iront se mettre 
-    public CanHit[] canHits;
     public Animator[] animators;
     public Transform renderRHandObject;
     public Transform riggedRightArm;
     public Transform riggedlefttArm;
+    public float timeHit;
     private Transform player;
     private Transform cameraPlayer;
     [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
@@ -27,6 +27,7 @@ public class WeaponManager : MonoBehaviour
     private bool lArm;
     private bool lDrop;
     private bool rDrop;
+    private bool[] coolDownAttack;
 
     private bool animateFingers = false;
     private Quaternion localRight;
@@ -54,6 +55,7 @@ public class WeaponManager : MonoBehaviour
         }
 
         localRight = this.renderRHandObject.rotation;
+        coolDownAttack = new bool[2]{false,false};
     }
 
     void Update()
@@ -82,15 +84,15 @@ public class WeaponManager : MonoBehaviour
 
         
         Assert.AreEqual(animators.Length,2);
-        
-        if (Input.GetMouseButtonDown(0) && rIsHolding && currentWeapon[0] != null)
+
+        if (Input.GetMouseButtonDown(0) && rIsHolding && currentWeapon[0] != null && !coolDownAttack[0])
         {
             animators[0].SetTrigger("Attack");
             StartCoroutine( Attack(0));
           
         }
         
-        if (Input.GetMouseButtonDown(1) && lIsHolding && currentWeapon[1] != null) 
+        if (Input.GetMouseButtonDown(1) && lIsHolding && currentWeapon[1] != null && !coolDownAttack[1]) 
         {
             animators[1].SetTrigger("Attack");
             StartCoroutine( Attack(1));
@@ -100,12 +102,11 @@ public class WeaponManager : MonoBehaviour
 
     IEnumerator Attack(int i)
     {
-        while (!canHits[i].Hit)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-
-     
+    
+        
+        coolDownAttack[i] = true;
+        yield return new WaitForSeconds(timeHit);
+        coolDownAttack[i] = false;
         currentWeapon[i].WeaponInterface.WeaponAction();
     }
     

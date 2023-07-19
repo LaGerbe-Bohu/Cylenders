@@ -657,15 +657,13 @@ MonoBehaviour:
   slotForWeapon:
   - {fileID: 1206260170836646707}
   - {fileID: 1206260170482174641}
-  canHits:
-  - {fileID: 1032631129}
-  - {fileID: 492013339}
   animators:
   - {fileID: 1032631128}
   - {fileID: 492013340}
   renderRHandObject: {fileID: 5122174711385360528}
   riggedRightArm: {fileID: 4803425201547579512}
   riggedlefttArm: {fileID: 991320568065122760}
+  timeHit: 0.3
   weaponLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -726,7 +724,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8782460389351958514}
   - component: {fileID: 1032631128}
-  - component: {fileID: 1032631129}
   m_Layer: 11
   m_Name: Right
   m_TagString: Untagged
@@ -772,19 +769,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1032631129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5200803188680668507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 070a55ff26b193b40b8b41cb194816ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hit: 0
 --- !u!1 &7964624144609594543
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +779,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7509974544857492667}
   - component: {fileID: 492013340}
-  - component: {fileID: 492013339}
   m_Layer: 11
   m_Name: Left
   m_TagString: Untagged
@@ -841,19 +824,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &492013339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7964624144609594543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 070a55ff26b193b40b8b41cb194816ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hit: 0
 --- !u!1001 &2432555423374311421
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1106,6 +1076,8 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles:
   - assemblyQualifiedName: OutlinePP, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: SceneTransition, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_AfterStackBundles: []
 --- !u!20 &8796545963693920550 stripped
