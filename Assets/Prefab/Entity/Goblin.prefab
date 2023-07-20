@@ -437,7 +437,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 1
+  m_BaseOffset: 0.75
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &4098715292338973429
@@ -615,6 +615,8 @@ MonoBehaviour:
   strundTime: 2
   ISM: {fileID: 3268432685721280327}
   ESH: {fileID: 6829336392927749695}
+  CC: {fileID: 4098715291914489914}
+  NM: {fileID: -6113839592958429889}
 --- !u!1 &6054501275424486656
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,7 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 10
-  timer: 0.1
+  timer: 2
   stateMan: {fileID: 0}
   mobInput: {fileID: 0}
   RB: {fileID: 4098715291914489910}

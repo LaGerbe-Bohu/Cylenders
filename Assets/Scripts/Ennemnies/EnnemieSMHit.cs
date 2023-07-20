@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Assertions.Must;
 
 public class EnnemieSMHit : MachineState
 {
@@ -12,6 +14,8 @@ public class EnnemieSMHit : MachineState
     private Vector3 direction;
     private float counter;
     private Transform player;
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -42,14 +46,5 @@ public class EnnemieSMHit : MachineState
     public override void updateMachineState()
     {
         mobInput.setDirection(Vector2.zero);
-        
-        //RB.AddForce(direction * (force * Time.deltaTime),ForceMode.Acceleration);
-        if (counter >= 0)
-        {
-            Debug.Log(direction* (force * Time.deltaTime));
-            RB.AddForce(direction*force,ForceMode.VelocityChange);
-            counter -= Time.deltaTime;
-        }
-        
     }
 }

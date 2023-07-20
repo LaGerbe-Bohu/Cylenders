@@ -184,7 +184,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6357338842198609685, guid: b9efe92f4aa41bc438a08b7b29a6d4fd, type: 3}
       propertyPath: Dommage
-      value: 5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6357338842198609685, guid: b9efe92f4aa41bc438a08b7b29a6d4fd, type: 3}
+      propertyPath: knockBack
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6357338842198609685, guid: b9efe92f4aa41bc438a08b7b29a6d4fd, type: 3}
       propertyPath: CoolDowwnTime
@@ -838,6 +842,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6357338842198609685, guid: b9efe92f4aa41bc438a08b7b29a6d4fd, type: 3}
+      propertyPath: Dommage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6357338842198609685, guid: b9efe92f4aa41bc438a08b7b29a6d4fd, type: 3}
+      propertyPath: knockBack
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6357338842198609685, guid: b9efe92f4aa41bc438a08b7b29a6d4fd, type: 3}
       propertyPath: CoolDowwnTime
       value: 0.2

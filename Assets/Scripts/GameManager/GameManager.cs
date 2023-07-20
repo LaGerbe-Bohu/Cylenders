@@ -38,12 +38,17 @@ public class GameManager : MonoBehaviour
     
     [HideInInspector]
     public float CylenderRadius;
-
-    [HideInInspector]
+    
     public UnityEvent e_PlayerHurt;
 
     [HideInInspector]
     public float timeStepAnimation = 0;
+    
+
+    public delegate void Del();
+
+    [HideInInspector]
+    public Del hit;
     private void Awake()
     {
         instance = this;
@@ -82,7 +87,7 @@ public class GameManager : MonoBehaviour
         {
             int s = Random.Range(0, int.MaxValue);
             Random.InitState(s);
-            Debug.Log(s);
+       
         }
         
     }
@@ -123,6 +128,7 @@ public class GameManager : MonoBehaviour
     {
         this.playerLife -= dommage;
         e_PlayerHurt.Invoke();
+
     }
 
 }

@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterView : MonoBehaviour
 {
@@ -20,28 +22,38 @@ public class CharacterView : MonoBehaviour
     
     const string xAxis = "Mouse X"; // axis const
     const string yAxis = "Mouse Y";
+
+    
     
     void Start()
     {
         // lock the mouse
-        LockCursor();
         rotation = new Vector2(0,0);
         
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-   
+
+        GameManager.instance.e_PlayerHurt.AddListener( functionHit);
+
     }
+
+    private bool PlayerHit = false;
     
     void Update()
     {
         fpsView();
     }
 
-    void LockCursor()
-    {
-        
-    }
+    private Quaternion xQuat;
+    private Quaternion yQuat;
 
+
+    private float offsetHit;
+    public void functionHit()
+    {
+        offsetHit = Random.Range(-90f,90f);
+    }
+    
     void fpsView()
     {
         // this is for prevent mouse shift in begin of play mode
@@ -50,16 +62,16 @@ public class CharacterView : MonoBehaviour
         rotation.x += Input.GetAxisRaw(xAxis) *  mouseSensitivy * Time.deltaTime ;
         rotation.y += Input.GetAxisRaw(yAxis) *  -mouseSensitivy * Time.deltaTime;
         rotation.y =  Mathf.Clamp(rotation.y, -maxRotation, maxRotation);
+
+
+        offsetHit = Mathf.Lerp(offsetHit, 0.0f, Time.deltaTime*5.0f);
+
+        xQuat = Quaternion.Euler(0,rotation.x, offsetHit);
+        yQuat = Quaternion.Euler(rotation.y,0.0f, 0.0f);
         
-        Quaternion xQuat = Quaternion.Euler(0.0f,rotation.x, 0.0f);
-        Quaternion yQuat = Quaternion.Euler(rotation.y,0.0f, 0.0f);
         
         cameraPlayer.transform.localRotation = xQuat*yQuat;
 
-        
-        
-        
-        
     }
     
 }

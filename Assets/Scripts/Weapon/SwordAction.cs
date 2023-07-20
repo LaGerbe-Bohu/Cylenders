@@ -31,7 +31,7 @@ public class SwordAction : I_WeaponInterface
             if (EI)
             {
                 EI.life -= WeaponInfromation.Dommage;
-                EI.Hurt(this.transform.position);
+                EI.Hurt(this.transform.position,WeaponInfromation);
                 if (EI.life <= 0)
                 {
                     Destroy(EI.gameObject);
