@@ -14,7 +14,7 @@ public class EnnemieInformation : MonoBehaviour
     public Transform footPosition;
     public void Hurt(Vector3 source,WeaponInfromation w)
     {
-        Vector3 dir = (this.transform.position-GameManager.instance.player.position ).normalized;
+        Vector3 dir = (this.transform.position-source ).normalized;
         dir = new Vector3(dir.x, dir.y + 0.1f, dir.z);
         RB.AddForce(dir.normalized * w.knockBack,ForceMode.VelocityChange);
         enablerHit.Hit();

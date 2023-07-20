@@ -128,13 +128,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ennemiesLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8448
   Rigidbody: {fileID: 6357338842198609768}
   Collider: {fileID: 6357338842198609771}
   WeaponInterface: {fileID: -9078657720121818382}
   Dommage: 1
   Reach: 5
   CoolDowwnTime: 0.3
+  knockBack: 5
   renderers:
   - {fileID: 6357338842718932591}
   - {fileID: 6357338843366598665}
