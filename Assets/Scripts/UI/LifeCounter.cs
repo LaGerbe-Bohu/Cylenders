@@ -26,11 +26,11 @@ public class LifeCounter : MonoBehaviour
             Destroy(tr.gameObject);
         }
 
-        for (int i = 0; i < GM.playerLife; i++)
+        for (int i = 0; i <(int)Mathf.Floor(GM.PI.life); i++)
         {
             GameObject GO = Instantiate(prefabHeart, this.transform);
             GO.transform.position =
-                new Vector3( (Canevas.pixelRect.width/2f) -(img.sizeDelta.x* (img.localScale.x) * Canevas.scaleFactor )*GM.playerLife/2f + (i*(img.sizeDelta.x* (img.localScale.x+0.01f)*Canevas.scaleFactor)) , GO.transform.position.y, GO.transform.position.z); 
+                new Vector3( (Canevas.pixelRect.width/2f) -(img.sizeDelta.x* (img.localScale.x) * Canevas.scaleFactor )*GM.PI.life/2f + (i*(img.sizeDelta.x* (img.localScale.x+0.01f)*Canevas.scaleFactor)) , GO.transform.position.y, GO.transform.position.z); 
         }
         
         

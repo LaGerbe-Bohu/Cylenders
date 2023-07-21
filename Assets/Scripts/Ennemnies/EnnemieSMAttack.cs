@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,7 @@ public class EnnemieSMAttack : MachineState
 
         player = GameManager.instance.player;
         GM = GameManager.instance;
-        counter = Dps;
+        counter = 0.0f;
     }
 
     
@@ -36,8 +37,6 @@ public class EnnemieSMAttack : MachineState
     {
         mobInput.setDirection(Vector2.zero);
 
-        counter -= Time.deltaTime;
-    
         if (counter < 0)
         {
             counter = Dps;
@@ -45,5 +44,14 @@ public class EnnemieSMAttack : MachineState
             GM.PlayerHurt(1);
         }
 
+    }
+
+    private void Update()
+    {
+        if (counter >= 0)
+        {
+            counter -= Time.deltaTime;    
+        }
+        
     }
 }

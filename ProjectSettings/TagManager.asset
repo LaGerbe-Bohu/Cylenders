@@ -20,10 +20,10 @@ TagManager:
   - Weapon
   - Player
   - RenderCamera
-  - StructureLayer
+  - 
   - MobTmp
-  - 
-  - 
+  - Loot
+  - Coin
   - 
   - 
   - 

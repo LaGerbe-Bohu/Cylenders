@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,11 +18,16 @@ public class WeaponManager : MonoBehaviour
     public Transform riggedRightArm;
     public Transform riggedlefttArm;
     public float timeHit;
+    [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
+    
+    
+    
+    [HideInInspector] public float Reach;
+    [HideInInspector] public float Aoe;
+    
+    private WeaponInfromation[] currentWeapon;
     private Transform player;
     private Transform cameraPlayer;
-    [FormerlySerializedAs("WeaponLayer")] public LayerMask weaponLayer;
-                                             
-    private WeaponInfromation[] currentWeapon;
     private bool rIsHolding;
     private bool lIsHolding;
     private bool rArm;
@@ -29,7 +35,8 @@ public class WeaponManager : MonoBehaviour
     private bool lDrop;
     private bool rDrop;
     private bool[] coolDownAttack;
-
+    
+    
     private bool animateFingers = false;
     private Quaternion localRight;
     private Transform localLeft;
@@ -55,6 +62,8 @@ public class WeaponManager : MonoBehaviour
             animateFingers = true;
         }
 
+        Reach = 0;
+
         localRight = this.renderRHandObject.rotation;
         coolDownAttack = new bool[2]{false,false};
     }
@@ -62,13 +71,12 @@ public class WeaponManager : MonoBehaviour
     void Update()
     {
         // DOIT êTRE REMPLACER PAR LE NEW INPUT SYSTEME
-        // DOIT gérer aussi plusieurs mains
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             rArm = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             lArm = true;
         }
@@ -123,7 +131,9 @@ public class WeaponManager : MonoBehaviour
             if (lArm && !lIsHolding)
             {
                 currentWeapon[1] = hit.collider.GetComponent<WeaponInfromation>();
-                
+
+                Reach = MathF.Max(currentWeapon[1].Reach, currentWeapon[0] == null ? 0: currentWeapon[0].Reach);
+                Aoe = MathF.Max(currentWeapon[1].AreaOfEffect, currentWeapon[0] == null ? 0: currentWeapon[0].AreaOfEffect);
                 riggedlefttArm.gameObject.SetActive(false);
                 currentWeapon[1].HandSetting((slotForWeapon[1]),this);
                 lIsHolding = true;
@@ -131,10 +141,13 @@ public class WeaponManager : MonoBehaviour
             
             if (rArm && !rIsHolding)
             {
+                
                 riggedRightArm.gameObject.SetActive(false);
                 currentWeapon[0] =  hit.collider.GetComponent<WeaponInfromation>();
                 currentWeapon[0].HandSetting(slotForWeapon[0],this);
-              
+                Reach = MathF.Max(currentWeapon[0].Reach, currentWeapon[1] == null ? 0: currentWeapon[1].Reach);
+                Aoe = MathF.Max(currentWeapon[0].AreaOfEffect, currentWeapon[1] == null ? 0: currentWeapon[1].AreaOfEffect);
+                
                 rIsHolding = true;
             }
         }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3639341419688924077}
   - component: {fileID: 488665861984939314}
   - component: {fileID: 7817383452018531468}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: GameObject
   m_TagString: AlwaysDefault
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4107194825294299021}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: Anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 4107194825902132526}
   - component: {fileID: 4107194825902132521}
   - component: {fileID: 4107194825902132520}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: Render
   m_TagString: AlwaysDefault
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5061967139081864554}
   - component: {fileID: 5061967139081864552}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5061967139081864558}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.371, z: 0}
+  m_LocalPosition: {x: 61.249428, y: -42.074318, z: -22.586615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -333,7 +333,7 @@ MonoBehaviour:
   AirControlScaler: 0.2
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
   airControl: 1
   maxSlopeAngle: 45
   RightHand: {fileID: 0}
@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38eb233ac168be1458fad13510ee12cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 2
+  life: 5
   lstRender:
   - {fileID: 4098715291863315283}
   - {fileID: 4098715291888018498}
@@ -418,6 +418,11 @@ MonoBehaviour:
   enablerHit: {fileID: 6563636008725202941}
   prefab: {fileID: 4098715291914489912}
   footPosition: {fileID: 7216996327659808040}
+  tableLoot:
+  - rate: 0.25
+    prefab: {fileID: 6764392302196937530, guid: 7cdec66a64954914fad9c3a8fcfd70d8, type: 3}
+  - rate: 0.01
+    prefab: {fileID: 6357338842198609769, guid: b9efe92f4aa41bc438a08b7b29a6d4fd, type: 3}
 --- !u!195 &-6113839592958429889
 NavMeshAgent:
   m_ObjectHideFlags: 0

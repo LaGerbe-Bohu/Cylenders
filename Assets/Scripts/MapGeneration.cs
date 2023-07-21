@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -31,6 +32,7 @@ public class MapGeneration : MonoBehaviour
     private List<StructGenerationSettings> lstStructures;
 
 
+    private List<StructuresManager> str;
     private Texture2D GenerateDC(Texture2D texture)
     {
         
@@ -159,32 +161,40 @@ public class MapGeneration : MonoBehaviour
         meshFilter.mesh.RecalculateBounds();
         meshCollider.sharedMesh = m;
 
-        StrctureGeneration();
-        
-        NMS.BuildNavMesh();
-        MobSpawner.SpawnCharacter();
 
-    }
 
-    void StrctureGeneration()
-    {
-        List<StructuresManager> str = new List<StructuresManager>();
+        str = new List<StructuresManager>();
         for (int i = 0; i < lstStructures.Count; i++)
         {
             for (int j = 0; j < lstStructures[i].number; j++)
             {
+
                 GameObject go =  Instantiate(lstStructures[i].strcture, this.transform, true);
-                structe++;
+                go.SetActive(false);
+                go.hideFlags = HideFlags.HideInHierarchy;
                 StructuresManager t =  go.GetComponent<StructuresManager>();
-                t.findPlace(str);
+                bool find = t.findPlace(str);
             
-                if (go != null)
+                if (go != null && find)
                 {
+                    go.hideFlags = HideFlags.None;
+                    structe++;
                     str.Add(t);
+                    go.SetActive(true);
+                }
+                else if (go != null)
+                {
+                    Destroy(go);
                 }
             }
 
         }
+
+        NMS.BuildNavMesh();
+        MobSpawner.SpawnCharacter(str);
+
     }
     
+
+
 }

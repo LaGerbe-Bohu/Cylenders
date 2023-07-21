@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -18,16 +19,20 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public int Seed;
+    [HideInInspector]
     public CharacterInput characterInput;
-    public int playerLife = 5;
     public float PlayerReach = 2f;
     public List<GenerationPreset> LstGenerationPreset;
     [SerializeField] private Renderer cylenderRender;
     public GameObject PlayerPrefab;
 
+    public LootManager LootManager;
+    
     public MobSpawner mobSpawner;
     //public field
+    [HideInInspector]
     [FormerlySerializedAs("Player")] public Transform player;
+    [HideInInspector]
     [FormerlySerializedAs("camera")] public Transform cameraPlayer;
 
 
@@ -43,7 +48,9 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public float timeStepAnimation = 0;
-    
+
+    [HideInInspector]
+    public PlayerInformation PI;
 
     public delegate void Del();
 
@@ -62,6 +69,7 @@ public class GameManager : MonoBehaviour
             Object.DontDestroyOnLoad(player.gameObject);
             this.cameraPlayer = this.player.transform.GetChild(1);
             characterInput = this.player.GetComponent<CharacterInput>();
+            PI = this.player.GetComponent<PlayerInformation>();
         }
         else
         {
@@ -70,6 +78,7 @@ public class GameManager : MonoBehaviour
             Object.DontDestroyOnLoad(player.gameObject);
             this.cameraPlayer = this.player.transform.GetChild(1);
             characterInput = this.player.GetComponent<CharacterInput>();
+            PI = this.player.GetComponent<PlayerInformation>();
         }
         
         this.player.position = new Vector3(0, 30f, 0);
@@ -116,6 +125,11 @@ public class GameManager : MonoBehaviour
             timeStepAnimation += Time.deltaTime;
         }
 
+        if (PI.life <= 0)
+        {
+            SceneManager.LoadScene(0);
+        }
+        
     }
 
     public GenerationPreset GetRandomGeneration()
@@ -126,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerHurt(int dommage)
     {
-        this.playerLife -= dommage;
+        PI.life -= dommage/(float)PI.ArmorValue;
         e_PlayerHurt.Invoke();
 
     }

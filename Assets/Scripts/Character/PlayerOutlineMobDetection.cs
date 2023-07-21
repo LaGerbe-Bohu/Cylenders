@@ -13,10 +13,13 @@ public class PlayerOutlineMobDetection : MonoBehaviour
     private GameManager GM;
     public LayerMask LM;
     public Material outlineMaterial;
-
+    public WeaponManager WM;
+    
     private EventDetection detectEvent;
-    private Collider lastDetect;
+    private List<Collider> lastDetect;
     private EventDetection unDetectedEvent;
+
+    private List<float> reach;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +28,7 @@ public class PlayerOutlineMobDetection : MonoBehaviour
         unDetectedEvent = new EventDetection();
         detectEvent.AddListener(Detect);
         unDetectedEvent.AddListener(UnDetect);
-        
+        lastDetect = new List<Collider>();
     }
 
     
@@ -46,7 +49,7 @@ public class PlayerOutlineMobDetection : MonoBehaviour
         
     private void UnDetect(Collider coll){
         
-        List<Renderer> lst =  lastDetect.GetComponent<EnnemieInformation>().lstRender;
+        List<Renderer> lst =  coll.GetComponent<EnnemieInformation>().lstRender;
         
         for (int i = 0; i < lst.Count; i++)
         {
@@ -67,19 +70,29 @@ public class PlayerOutlineMobDetection : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, GM.cameraPlayer.transform.forward,out hit, GM.PlayerReach, LM))
-        {
-            if (lastDetect != null && lastDetect != hit.collider)
-                unDetectedEvent.Invoke(lastDetect);
-            
-            lastDetect = hit.collider; 
-            detectEvent.Invoke(hit.collider);
-        }
-        else
-        {
-            if(lastDetect != null)
-                unDetectedEvent.Invoke(lastDetect);
-        }
+
         
+        for (int i = 0; i < lastDetect.Count; i++)
+        {
+            if (lastDetect[i] != null)
+            {
+                unDetectedEvent.Invoke(lastDetect[i]);    
+            }
+                        
+        }
+
+        lastDetect = new List<Collider>();
+        
+        var Ennemies = Physics.SphereCastAll(this.transform.position,WM.Aoe, GM.cameraPlayer.transform.forward, WM.Reach, LM);
+
+        for (int i = 0; i < Ennemies.Length; i++)
+        {
+           
+                lastDetect.Add(Ennemies[i].collider);;
+                detectEvent.Invoke(Ennemies[i].collider);
+            
+        }
+
+
     }
 }

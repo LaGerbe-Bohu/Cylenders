@@ -23,21 +23,23 @@ public class SwordAction : I_WeaponInterface
 
         RaycastHit hit;
         Transform camera = GameManager.instance.cameraPlayer;
-        if (Physics.Raycast(camera.position, camera.forward,out hit, WeaponInfromation.Reach, WeaponInfromation.ennemiesLayer))
+
+        var Ennemies = Physics.SphereCastAll(camera.position, WeaponInfromation.AreaOfEffect, camera.forward, WeaponInfromation.Reach, WeaponInfromation.ennemiesLayer);
+
+        for (int i = 0; i < Ennemies.Length; i++)
         {
-           
-            EnnemieInformation EI = hit.collider.GetComponent<EnnemieInformation>();
+            EnnemieInformation EI = Ennemies[i].collider.GetComponent<EnnemieInformation>();
 
             if (EI)
             {
                 EI.life -= WeaponInfromation.Dommage;
-                EI.Hurt(this.transform.position,WeaponInfromation);
+                EI.Hurt(this.transform.position, WeaponInfromation);
                 if (EI.life <= 0)
                 {
-                    Destroy(EI.gameObject);
+                   EI.Killed();
                 }
             }
-
+            
         }
 
     }

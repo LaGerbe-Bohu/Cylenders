@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5304500916380963503}
   - component: {fileID: 5304500916380963502}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 5304500916411331044}
   - component: {fileID: 5304500916411331034}
   - component: {fileID: 5304500916411331035}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5304500916946977615}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5304500917948283598}
   - component: {fileID: 5304500917948283599}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: Stone2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5304500917948283592}
   m_LocalRotation: {x: -1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 28.09, z: 0}
+  m_LocalPosition: {x: -0.1862568, y: -30.640968, z: 58.488693}
   m_LocalScale: {x: 26.638, y: 26.637997, z: 26.637997}
   m_ConstrainProportionsScale: 1
   m_Children:

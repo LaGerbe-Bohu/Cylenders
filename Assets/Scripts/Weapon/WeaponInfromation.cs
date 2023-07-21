@@ -18,6 +18,7 @@ public class WeaponInfromation : MonoBehaviour
     public float Reach;
     public float CoolDowwnTime = 1.0f;
     public float knockBack = 5.0f;
+    public float AreaOfEffect = 0.5f;
     
     public List<Renderer> renderers;
     public float ScaleInHand;

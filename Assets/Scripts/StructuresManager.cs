@@ -43,43 +43,29 @@ public class StructuresManager : MonoBehaviour
 
 
 
-    public int findPlace(List<StructuresManager> lstStructures)
+    public bool findPlace(List<StructuresManager> lstStructures)
     {
         
         bool trouver = false;
         int idx = 0;
         while (!trouver && idx < 1000)
         {
-          
+            idx++;
             trouver = true;
        
             Vector3 randompos = Random.insideUnitCircle * GameManager.instance.CylenderRadius;
             RaycastHit hit;
             
-
-            foreach (Transform tr in this.transform)
-            {
-                if (tr.CompareTag("AlwaysDefault")) continue;
-                tr.gameObject.layer = LayerMask.NameToLayer("Default");    
-            }
             
             if (Physics.Raycast(new Vector3(randompos.x, 10, randompos.y), Vector3.down, out hit, 1000f, LM))
             {
                 this.transform.position = new Vector3(randompos.x, hit.point.y, randompos.y);
             }
             
-            foreach (Transform tr in this.transform)
-            {
-                if (tr.CompareTag("AlwaysDefault")) continue;
-                tr.gameObject.layer = LayerMask.NameToLayer("GroundLayer");    
-            }
-
-            idx++;
-            
             for (int i = 0; i < lstStructures.Count; i++)
             {
                 
-                if (Vector3.Distance(lstStructures[i].transform.position , this.transform.position) < DistanceBounding + lstStructures[i].DistanceBounding && lstStructures[i] != this.transform)
+                if (Vector3.Distance(lstStructures[i].transform.position , this.transform.position) < DistanceBounding + lstStructures[i].DistanceBounding && lstStructures[i].transform != this.transform)
                 {
                     trouver = false;
                 
@@ -107,13 +93,8 @@ public class StructuresManager : MonoBehaviour
          
         }
         
-   
-        if (!trouver || idx >= 1000)
-        {
-            Destroy(this.gameObject);
-        }
-
-        return idx;
+        
+        return trouver;
     }
     
     // Update is called once per frame

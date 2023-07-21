@@ -159,7 +159,7 @@ public class CharacterController : MonoBehaviour
         rigidBody.AddForce(rigidBody.transform.up*jumpForce,ForceMode.VelocityChange);
     }
     
-    void IsGrounded()
+    public bool IsGrounded()
     {
         RaycastHit hit;
 
@@ -169,7 +169,7 @@ public class CharacterController : MonoBehaviour
         _normalSurface = interfaceInput.renderForward().up;
         _tangentSurface = interfaceInput.renderForward().forward;
 
-        if (_jump) return;
+        if (_jump) return false;
         if (Physics.SphereCast(postiion, 0.8f, -rigidBody.transform.up, out hit, 1f,GroundLayer))
         {
             _normalSurface = hit.normal;
@@ -180,7 +180,8 @@ public class CharacterController : MonoBehaviour
             _tangentSurface = _tangentSurface.normalized;
 
         }
-        
+
+        return _isGrounded;
     }
 
     private void OnDrawGizmos()

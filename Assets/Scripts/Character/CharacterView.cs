@@ -51,7 +51,13 @@ public class CharacterView : MonoBehaviour
     private float offsetHit;
     public void functionHit()
     {
-        offsetHit = Random.Range(-90f,90f);
+        offsetHit = 30;
+        
+        if (Random.Range(0f, 1f) > .5)
+        {
+            offsetHit = -30;
+        }
+        
     }
     
     void fpsView()
