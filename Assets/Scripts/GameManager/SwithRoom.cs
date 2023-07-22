@@ -7,15 +7,23 @@ using UnityEngine.SceneManagement;
 
 public class SwithRoom : MonoBehaviour
 {
+    public bool next = false;
     private bool swithing = false;
     private CharacterController CC;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && GameManager.instance.mobSpawner.EnnemieCounter() <= 0 && !swithing && CC.IsGrounded())
         {
-            GameManager.instance.InAnimiantion = true;
             swithing = true;
-            StartCoroutine(change());
+            if (next)
+            {
+                GameManager.instance.StartGame();   
+            }
+            else
+            {
+                GameManager.instance.NextLevel();
+            }
+                
         }
     }
     
@@ -23,25 +31,33 @@ public class SwithRoom : MonoBehaviour
     {
         if (other.CompareTag("Player") && GameManager.instance.mobSpawner.EnnemieCounter() <= 0 && !swithing && CC.IsGrounded())
         {
-            GameManager.instance.InAnimiantion = true;
             swithing = true;
-            StartCoroutine(change());
+            
+            if (next)
+            {
+                GameManager.instance.StartGame();   
+            }
+            else
+            {
+                GameManager.instance.NextLevel();
+            }
+            
         }
     }
     
 
-    IEnumerator change()
-    {
-        yield return new WaitForSeconds(2.3f);
-        SceneManager.LoadScene(0);
-    
-    }
-
+  
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.instance.player.transform.position = this.transform.position;
         CC = GameManager.instance.player.GetComponent<CharacterController>();
+
+        if (!next)
+        {
+            GameManager.instance.player.transform.position = this.transform.position;        
+        }
+        
+        
     }
 
     // Update is called once per frame

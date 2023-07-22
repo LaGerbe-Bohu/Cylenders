@@ -5,7 +5,6 @@ using UnityEngine.AI;
 public class MobInput : MonoBehaviour,InterfaceInput
 {
 
-    public Transform orienteTransform;
     private Vector2 direction;
 
     public Vector2 getDirection()
@@ -25,9 +24,9 @@ public class MobInput : MonoBehaviour,InterfaceInput
         return direction;
     }
 
-    public Transform forwardTransform()
+    public Vector3 forwardTransform()
     {
-        return this.transform;
+        return this.transform.forward;
     }
 
     public Transform renderForward()

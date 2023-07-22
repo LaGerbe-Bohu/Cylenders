@@ -170,6 +170,7 @@ public class MapGeneration : MonoBehaviour
             {
 
                 GameObject go =  Instantiate(lstStructures[i].strcture, this.transform, true);
+                go.transform.Rotate(Vector3.up,Random.Range(-180f,180f));
                 go.SetActive(false);
                 go.hideFlags = HideFlags.HideInHierarchy;
                 StructuresManager t =  go.GetComponent<StructuresManager>();

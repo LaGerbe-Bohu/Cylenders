@@ -9,6 +9,7 @@ public class EnnemieSMAttack : MachineState
     public MobInput mobInput;
     public float Dps = 1;
     public Rigidbody rb;
+    public EnnemieInformation EI;
     private Transform player;
 
     private GameManager GM;
@@ -41,7 +42,7 @@ public class EnnemieSMAttack : MachineState
         {
             counter = Dps;
             
-            GM.PlayerHurt(1);
+            GM.PlayerHurt(EI.dommage);
         }
 
     }

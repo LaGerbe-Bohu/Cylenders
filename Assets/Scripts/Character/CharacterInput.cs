@@ -30,9 +30,9 @@ public class CharacterInput : MonoBehaviour,InterfaceInput
         return playerInput.actions[JumpName].IsPressed();
     }
 
-    public Transform forwardTransform()
+    public Vector3 forwardTransform()
     {
-        return this.forwTransform;
+        return this.forwTransform.forward;
     }
     
 }

@@ -2,12 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
 public class MobSpawner : MonoBehaviour
 {
     public int maxMob;
-    public EnnemieInformation EnnemiePrefab;
     public LayerMask groundLayer;
     public LayerMask negatifLayer;
+
+
+
     private GameManager GM;
 
     private int counter = 0;
@@ -15,50 +18,57 @@ public class MobSpawner : MonoBehaviour
     public void SpawnCharacter(List<StructuresManager> str)
     {
         GM = GameManager.instance;
-        
-        while (counter < maxMob)
+
+
+        for (int k = 0; k < GM.Ennemies.Count; k++)
         {
-
-            bool find = false;
-            int gdf = 0;
-            while (!find && gdf < 1000)
+            counter = 0;
+            EnnemieInformation EnnemiePrefab = GM.Ennemies[k];
+            while (counter < maxMob)
             {
-                gdf++;
-                Vector3 randompos = Random.insideUnitCircle * GM.CylenderRadius;
-                RaycastHit hit;
                 
-                if (Physics.Raycast(new Vector3(randompos.x, 100, randompos.y),Vector3.down,out hit,1000f,groundLayer))
+                bool find = false;
+                int gdf = 0;
+                while (!find && gdf < 1000)
                 {
-                    Vector3 position = hit.point + new Vector3(0, -EnnemiePrefab.footPosition.localPosition.y, 0);
-                    bool near = false;
-                    for (int i = 0; i < str.Count; i++)
+                    gdf++;
+                    Vector3 randompos = Random.insideUnitCircle * GM.CylenderRadius;
+                    RaycastHit hit;
+                    
+                    if (Physics.Raycast(new Vector3(randompos.x, 100, randompos.y),Vector3.down,out hit,1000f,groundLayer))
                     {
-                        
-                        if (Vector3.Distance( Vector3.ProjectOnPlane(str[i].transform.position,Vector2.up) , Vector3.ProjectOnPlane(position,Vector2.up) ) < str[i].DistanceBounding)
+                        Vector3 position = hit.point + new Vector3(0, -EnnemiePrefab.footPosition.localPosition.y, 0);
+                        bool near = false;
+                        for (int i = 0; i < str.Count; i++)
                         {
-                            near = true;
-                            break;
+                            
+                            if (Vector3.Distance( Vector3.ProjectOnPlane(str[i].transform.position,Vector2.up) , Vector3.ProjectOnPlane(position,Vector2.up) ) < str[i].getDistanceBounding())
+                            {
+                                near = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (near)
-                    {
-                        continue;           
+                        if (near)
+                        {
+                            continue;           
+                        }
+                          
+                        GameObject go = Instantiate(EnnemiePrefab.prefab, position , Quaternion.identity);
+                        go.transform.SetParent(this.transform);
+                        find = true;
                     }
-                      
-                    GameObject go = Instantiate(EnnemiePrefab.prefab, position , Quaternion.identity);
-                    go.transform.SetParent(this.transform);
-                    find = true;
+                   
                 }
-               
-            }
 
-            if (gdf >= 1000)
-            {
-                Debug.LogError("gdf supérieur à 1000");    
+                if (gdf >= 1000)
+                {
+                    Debug.LogError("gdf supérieur à 1000");    
+                }
+             
+                counter++;
             }
-         
-            counter++;
+        
         }
     }
 

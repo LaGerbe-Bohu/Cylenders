@@ -21,4 +21,22 @@ MonoBehaviour:
   - strcture: {fileID: 8970706666475085666, guid: 9e5dad29f0f95be4280b6d999b052986, type: 3}
     number: 1
   - strcture: {fileID: 8967017940565434693, guid: c2a16d809eb7d94428bebbf0b3eca2cf, type: 3}
-    number: 300
+    number: 10
+  - strcture: {fileID: 148167508028297834, guid: 6d601b1f29e153142aa8aa8e117f3617, type: 3}
+    number: 10
+  - strcture: {fileID: 4088889325012382380, guid: e4f1966c94729984caa939a8cfcd79ba, type: 3}
+    number: 10
+  - strcture: {fileID: 4597493426022939397, guid: fd5ae0786ab8f6548b05b4eea9131336, type: 3}
+    number: 10
+  - strcture: {fileID: 6444210736946011031, guid: 4a0ea30475faeef45866cd69989b923a, type: 3}
+    number: 10
+  - strcture: {fileID: 4088889325012382380, guid: e4f1966c94729984caa939a8cfcd79ba, type: 3}
+    number: 10
+  - strcture: {fileID: 8080318478724369535, guid: 31a59ffef2a583b47b39fcec75290975, type: 3}
+    number: 10
+  - strcture: {fileID: 8084143210768619673, guid: 7d7d0e31ede273c42a87d72f11a3e601, type: 3}
+    number: 10
+  - strcture: {fileID: 4163026432468937077, guid: 75b94d5bc001ec342a8ba821410030f9, type: 3}
+    number: 10
+  - strcture: {fileID: 720507052490281698, guid: 49b29146563c0114482864d96f1bed30, type: 3}
+    number: 10

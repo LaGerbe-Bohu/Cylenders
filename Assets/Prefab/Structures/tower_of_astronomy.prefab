@@ -1738,4 +1738,5 @@ MonoBehaviour:
   LM:
     serializedVersion: 2
     m_Bits: 4160
+  scale: 1
   counterRay: 8

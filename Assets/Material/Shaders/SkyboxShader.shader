@@ -35,6 +35,7 @@ Shader "Custom/SkyboxShader"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
+                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
@@ -44,6 +45,7 @@ Shader "Custom/SkyboxShader"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
@@ -52,6 +54,7 @@ Shader "Custom/SkyboxShader"
                 float UV = saturate(  i.uv.y + _Threshold);
                 fixed3 col = lerp(_BottomColor,_TopColor,UV);
 
+                UNITY_APPLY_FOG(i.fogCoord, col);
                 return float4(col,1);
             }
             ENDCG

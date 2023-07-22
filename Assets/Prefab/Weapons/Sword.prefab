@@ -134,8 +134,9 @@ MonoBehaviour:
   WeaponInterface: {fileID: -9078657720121818382}
   Dommage: 1
   Reach: 5
-  CoolDowwnTime: 0.3
-  knockBack: 5
+  CoolDowwnTime: 1
+  knockBack: 20
+  AreaOfEffect: 5
   renderers:
   - {fileID: 6357338842718932591}
   - {fileID: 6357338843366598665}
@@ -481,6 +482,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c95b17bd60b64534eaf55e99b693de0d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 71aaabafa6b3d9d4c8664462024f1668, type: 2}
+    - target: {fileID: -7511558181221131132, guid: c95b17bd60b64534eaf55e99b693de0d, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: af8eb291b5c1b9e49b53d2bad86691d9, type: 2}
+    - target: {fileID: -7511558181221131132, guid: c95b17bd60b64534eaf55e99b693de0d, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1497ab64fe240d14188f15165a5e73dc, type: 2}
     - target: {fileID: 919132149155446097, guid: c95b17bd60b64534eaf55e99b693de0d, type: 3}
       propertyPath: m_Name
       value: sword

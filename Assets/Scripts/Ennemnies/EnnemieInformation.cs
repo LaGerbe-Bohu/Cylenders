@@ -7,6 +7,7 @@ using Vector3 = UnityEngine.Vector3;
 public class EnnemieInformation : MonoBehaviour
 {
     public float life = 3f;
+    public float dommage = 1f;
     public List<Renderer> lstRender;
     public Rigidbody RB;
     public MobInput MI;

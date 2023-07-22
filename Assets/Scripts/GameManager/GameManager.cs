@@ -10,6 +10,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 
+
 public class GameManager : MonoBehaviour
 {
     /// <summary>
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerPrefab;
 
     public LootManager LootManager;
-    
+    public Transform sawner;
     public MobSpawner mobSpawner;
     //public field
     [HideInInspector]
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
     [FormerlySerializedAs("camera")] public Transform cameraPlayer;
 
 
+    public List<EnnemieInformation> Ennemies;
+    
     private bool oldBool = false;
     
     [Header("Animation")] 
@@ -61,6 +64,11 @@ public class GameManager : MonoBehaviour
         instance = this;
         CylenderRadius = cylenderRender.bounds.extents.magnitude/2f;
 
+        if (e_PlayerHurt == null)
+        {
+            e_PlayerHurt = new UnityEvent();
+        }
+        
         if (!GameObject.FindWithTag("Player"))
         {
             GameObject go = Instantiate(PlayerPrefab);
@@ -79,14 +87,18 @@ public class GameManager : MonoBehaviour
             this.cameraPlayer = this.player.transform.GetChild(1);
             characterInput = this.player.GetComponent<CharacterInput>();
             PI = this.player.GetComponent<PlayerInformation>();
+            this.player.GetComponent<CharacterView>().Initialize();
+        }
+
+
+        if (sawner != null)
+        {
+            this.player.position = sawner.transform.position;    
         }
         
-        this.player.position = new Vector3(0, 30f, 0);
 
-        if (e_PlayerHurt == null)
-        {
-            e_PlayerHurt = new UnityEvent();
-        }
+        this.player.gameObject.SetActive(true);
+     
         
         if (Seed != 0)
         {
@@ -112,7 +124,6 @@ public class GameManager : MonoBehaviour
         {
             timeStepAnimation = 0;
         }
-        
 
         oldBool = InAnimiantion;
 
@@ -136,9 +147,36 @@ public class GameManager : MonoBehaviour
     {
         return LstGenerationPreset[Random.Range(0, LstGenerationPreset.Count)];
     }
-    
 
-    public void PlayerHurt(int dommage)
+    public void StartGame()
+    {
+        InAnimiantion = true;
+        StartCoroutine(SwitchRoom(2));
+    }
+
+    public void NextLevel()
+    {
+        InAnimiantion = true;
+        int s = SceneManager.GetActiveScene().buildIndex;
+        if (Random.Range(0F, 1F) > .5F)
+        {
+            s = 1;
+        }
+        
+        StartCoroutine(SwitchRoom(s));
+    }
+    
+    IEnumerator SwitchRoom(int i)
+    {
+        while (timeStepAnimation > -1.2f)
+        {
+            yield return null;
+        }
+      
+        SceneManager.LoadScene(i);
+    }
+
+    public void PlayerHurt(float dommage)
     {
         PI.life -= dommage/(float)PI.ArmorValue;
         e_PlayerHurt.Invoke();

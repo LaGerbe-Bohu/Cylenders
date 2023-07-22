@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3639341419688924077}
   - component: {fileID: 488665861984939314}
   - component: {fileID: 7817383452018531468}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GameObject
   m_TagString: AlwaysDefault
   m_Icon: {fileID: 0}
@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bc0388032601c4e82e1ebbe6b702bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  next: 0
 --- !u!1 &4107194825294299020
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,4 +243,5 @@ MonoBehaviour:
   LM:
     serializedVersion: 2
     m_Bits: 4160
+  scale: 1
   counterRay: 8

@@ -185,11 +185,11 @@ MonoBehaviour:
   Rigidbody: {fileID: 2656262356651278284}
   Collider: {fileID: 2656262356651278287}
   WeaponInterface: {fileID: 9144310086581252694}
-  Dommage: 0.5
-  Reach: 5
+  Dommage: 1
+  Reach: 10
   CoolDowwnTime: 0.2
-  knockBack: 30
-  AreaOfEffect: 0.5
+  knockBack: 10
+  AreaOfEffect: 2
   renderers:
   - {fileID: 2656262356097859275}
   - {fileID: 2656262357546883245}
@@ -433,15 +433,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 32.279175
+      value: 22.29329
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 32.279175
+      value: 22.29329
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 32.279175
+      value: 22.29329
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -449,11 +449,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.04
+      value: 0.679
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: -0.442
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -483,6 +483,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 71aaabafa6b3d9d4c8664462024f1668, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: af8eb291b5c1b9e49b53d2bad86691d9, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1497ab64fe240d14188f15165a5e73dc, type: 2}
     - target: {fileID: 919132149155446097, guid: 68bf105aa5116d34ea118f4baf8d085f, type: 3}
       propertyPath: m_Name
       value: Spear

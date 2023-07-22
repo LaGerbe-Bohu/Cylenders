@@ -26,7 +26,7 @@ public class LifeCounter : MonoBehaviour
             Destroy(tr.gameObject);
         }
 
-        for (int i = 0; i <(int)Mathf.Floor(GM.PI.life); i++)
+        for (int i = 0; i <(int)Mathf.Ceil(GM.PI.life); i++)
         {
             GameObject GO = Instantiate(prefabHeart, this.transform);
             GO.transform.position =

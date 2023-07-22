@@ -10,6 +10,7 @@ public class enablerHitEnnemie : MonoBehaviour
     public float strundTime = 1f;
     public IAStateMachineManager ISM;
     public EnnemieSMHit ESH;
+    public EnnemieAnimator EA;
     private Coroutine co;
     private float counter;
     
@@ -17,6 +18,7 @@ public class enablerHitEnnemie : MonoBehaviour
     public NavMeshAgent NM;
     public void Hit()
     {
+        EA.SetIdle();
         if (co != null)
         {
             StopCoroutine(co);
@@ -36,7 +38,7 @@ public class enablerHitEnnemie : MonoBehaviour
         ISM.disableState(AvailaibleState.focus);
         ISM.disableState(AvailaibleState.fight);
         ESH.resetTimer();
-        
+        EA.SetIdle();
         CC.enabled = false;
         NM.enabled = false;
 

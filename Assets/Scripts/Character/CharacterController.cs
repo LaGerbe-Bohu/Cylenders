@@ -145,7 +145,7 @@ public class CharacterController : MonoBehaviour
     {
         if (!orienteCharacter) return;
         var up = rigidBody.transform.up;
-        Vector3 forward = Vector3.ProjectOnPlane(interfaceInput.forwardTransform().forward, up);
+        Vector3 forward = Vector3.ProjectOnPlane(interfaceInput.forwardTransform(), up);
         
         interfaceInput.renderForward().transform.LookAt(this.rigidBody.transform.position + forward*2);
         

@@ -65,7 +65,7 @@ MonoBehaviour:
     value: 0.2
   ColorOutLine:
     overrideState: 1
-    value: {r: 0, g: 0, b: 0, a: 1}
+    value: {r: 0.21176471, g: 0.105882354, b: 0.07450981, a: 1}
 --- !u!114 &-4685488983906375913
 MonoBehaviour:
   m_ObjectHideFlags: 3

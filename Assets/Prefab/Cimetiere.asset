@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab06567f82c6814f921df8260072ec1, type: 3}
+  m_Name: Cimetiere
+  m_EditorClassIdentifier: 
+  startPoint: {x: 0.8, y: 0.8, z: 0.8, w: 0.8}
+  treshold: 5000
+  color: {r: 0.36078432, g: 0.21176471, b: 0.13725491, a: 0}
+  lstStructures:
+  - strcture: {fileID: 5061967139081864558, guid: c475df8e945a07345870a6fc3034113b, type: 3}
+    number: 1
+  - strcture: {fileID: 148167508028297834, guid: 6d601b1f29e153142aa8aa8e117f3617, type: 3}
+    number: 10
+  - strcture: {fileID: 2100903153983137964, guid: bc42ef6309b9a2a478948922ae1c2cd5, type: 3}
+    number: 50
+  - strcture: {fileID: 6863893128075229511, guid: 1f032250ca735404c8e0314ca2c40a13, type: 3}
+    number: 50
+  - strcture: {fileID: 3636864612318472902, guid: 98b4224f7ff5b0a43b3687a0c4d967fb, type: 3}
+    number: 50
+  - strcture: {fileID: 3553588126562605554, guid: 889ac3e7514e2024f953174a18ff8a6e, type: 3}
+    number: 50
+  - strcture: {fileID: 6883070014286527604, guid: 014dec155fffff248aec26f2d4c8b719, type: 3}
+    number: 50
+  - strcture: {fileID: 5707505158483703925, guid: 32237850d95abdb44990adf20a6a067b, type: 3}
+    number: 50
+  - strcture: {fileID: 4587735659925416155, guid: a1535741c9e35a245a9a353f48bdb8fb, type: 3}
+    number: 10

@@ -7,7 +7,7 @@ public class enablerSMFight : MonoBehaviour
     public IAStateMachineManager ISM;
     public float distanceFight = .5f;
     private Transform Player;
-    
+    public EnnemieAnimator EA;
     
     // Start is called before the first frame update
     void Start()
@@ -21,6 +21,7 @@ public class enablerSMFight : MonoBehaviour
         {
             ISM.enableState(AvailaibleState.fight);
             ISM.disableState(AvailaibleState.focus);
+            EA.SetWalk(false);
 
         }
         else

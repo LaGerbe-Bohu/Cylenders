@@ -701,7 +701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 5
   ArmorValue: 2
-  Coins: 0
+  Coins: 1
 --- !u!1 &1206260170836646704
 GameObject:
   m_ObjectHideFlags: 0

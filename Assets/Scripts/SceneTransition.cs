@@ -18,6 +18,11 @@ public class PostProcessTransition : PostProcessEffectRenderer<SceneTransition>
 {
     public override void Render(PostProcessRenderContext context)
     {
+
+        if (GameManager.instance == null){
+            return;
+         }
+
         var sheet = context.propertySheets.Get(Shader.Find("Hidden/BOHU/smoothTransition"));
         sheet.properties.SetInt("InTransition",0);
         if (GameManager.instance.InAnimiantion)

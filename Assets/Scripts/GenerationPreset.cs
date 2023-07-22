@@ -9,5 +9,4 @@ public class GenerationPreset : ScriptableObject
     public float treshold;
     public Color color;
     public List<StructGenerationSettings> lstStructures;
-
 }

@@ -10,6 +10,8 @@ public class EnnemieSMWalkAround : MachineState
     public MobInput mobInput;
     public float counter = 2f;
 
+    public EnnemieAnimator EA;
+    
     private Vector2 targetPoint;
     private Vector2 originPoint;
     private Coroutine coroutine;
@@ -38,13 +40,14 @@ public class EnnemieSMWalkAround : MachineState
        {
            mobInput.setDirection(targetPoint);
            cc -= Time.deltaTime;
+           EA.SetWalk(true);
            if (cc < 0)
            {
+             
                cc = this.counter;
                targetPoint = Random.insideUnitCircle;
            }
        }
     }
-
-
+    
 }

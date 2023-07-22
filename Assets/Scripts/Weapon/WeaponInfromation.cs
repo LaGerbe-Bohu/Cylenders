@@ -64,6 +64,8 @@ public class WeaponInfromation : MonoBehaviour
         this.Rigidbody.isKinematic = false;
         this.Collider.enabled = true;
         this.transform.localScale = Vector3.one;
+        
+        this.transform.SetParent(GameManager.instance.transform);
     }
 
     void Update()

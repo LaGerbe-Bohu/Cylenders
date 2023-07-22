@@ -1,6 +1,8 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class CharacterView : MonoBehaviour
 {
@@ -23,9 +25,13 @@ public class CharacterView : MonoBehaviour
     const string xAxis = "Mouse X"; // axis const
     const string yAxis = "Mouse Y";
 
-    
-    
-    void Start()
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
     {
         // lock the mouse
         rotation = new Vector2(0,0);

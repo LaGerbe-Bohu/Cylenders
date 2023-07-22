@@ -4,7 +4,7 @@ using UnityEngine;
 public interface InterfaceInput
 {
     public Vector2 movement();
-    public Transform forwardTransform();
+    public Vector3 forwardTransform();
     public Transform renderForward();
     
     public bool jump();
