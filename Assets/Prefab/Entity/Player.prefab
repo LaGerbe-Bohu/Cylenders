@@ -702,6 +702,7 @@ MonoBehaviour:
   life: 5
   ArmorValue: 2
   Coins: 1
+  Room: 0
 --- !u!1 &1206260170836646704
 GameObject:
   m_ObjectHideFlags: 0

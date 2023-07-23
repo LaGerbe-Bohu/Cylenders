@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPoint: {x: 0.8, y: 0.8, z: 0.8, w: 0.8}
   treshold: 500
-  color: {r: 1, g: 0.38431373, b: 0.40784314, a: 0}
+  color: {r: 0.6132076, g: 0.44833574, b: 0.44833574, a: 0}
   lstStructures:
   - strcture: {fileID: 5061967139081864558, guid: c475df8e945a07345870a6fc3034113b, type: 3}
     number: 1

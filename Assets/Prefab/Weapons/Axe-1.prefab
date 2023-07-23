@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 1746204453392607159}
   - component: {fileID: 9021013916410872317}
   m_Layer: 9
-  m_Name: Axe
+  m_Name: Axe-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -352,10 +352,10 @@ MonoBehaviour:
   Rigidbody: {fileID: 2772841949986913959}
   Collider: {fileID: 2772841949986913956}
   WeaponInterface: {fileID: 8953420040712483645}
-  Dommage: 10
+  Dommage: 3
   Reach: 3
   CoolDowwnTime: 2
-  knockBack: 5
+  knockBack: 20
   AreaOfEffect: 2
   renderers:
   - {fileID: 2772841949399482272}

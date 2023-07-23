@@ -16,6 +16,9 @@ public class StructuresManager : MonoBehaviour
     [SerializeField]
     private float radiusCheck = .5f;
     
+    
+    
+    
     public LayerMask LM;
     public float scale;
     List<Vector3> Vec = new List<Vector3>();

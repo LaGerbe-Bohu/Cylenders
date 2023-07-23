@@ -1,0 +1,166 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+
+struct Boids
+{
+     float3 direction;
+     float3 position;
+     
+};
+
+RWStructuredBuffer<Boids> rBoids;
+float count;
+float distanceApproach;
+float coeffAlligment;
+float spd;
+float deltaTime;
+float sizemax;
+float distanceSeparation;
+float coeffRapprochement;
+float3 transformPos;
+
+float Distance(float3 a,float3 b )
+{
+     float3 ab = b-a;
+     float sqrDst = ab.x * ab.x + ab.y * ab.y + ab.z * ab.z;
+     return (sqrDst);
+}
+
+float3 rule3(Boids b, int k)
+{
+        
+     if(count -1  <= 0) return float3(0,0,0);
+        
+     float3 pvj =  float3(0,0,0);
+     int sum = 0;
+     for (int i = 0; i < count; i++)
+     {
+          if (i != k)
+          {
+               if (Distance(b.position, rBoids[i].position) < distanceApproach*distanceApproach)
+               {
+                    pvj += rBoids[i].direction;
+                    sum++;
+               }
+          }
+     }
+
+     if (sum == 0) return float3(0,0,0);
+        
+     pvj = pvj / (sum);
+        
+     float3 v = (pvj - b.direction) / coeffAlligment;
+        
+     return v;
+}
+
+float3 rule2(Boids b, int k)
+{
+     float3 c = float3(0,0,0);
+        
+     for (int i = 0; i < count; i++)
+     {
+          if (i != k)
+          {
+       
+               if (Distance(b.position, rBoids[i].position) < distanceSeparation*distanceSeparation)
+               {
+                    c = c - ( rBoids[i].position - b.position );
+               }
+          }
+     }
+
+     return c;
+}
+
+
+float3 rule1(Boids b,int k)
+{
+     float3 pcj = float3(0,0,0);
+     int sum = 0;
+     for (int i = 0; i < count; i++)
+     {
+          if (i != k)
+          {
+               if (Distance(b.position, rBoids[i].position) < distanceApproach*distanceApproach)
+               {
+                    pcj += rBoids[i].position;
+                    sum++;
+               }
+          }
+     }
+        
+     if(sum == 0) return float3(0,0,0);
+     pcj = pcj / (sum);
+     return (pcj - b.position) / coeffRapprochement ;
+}
+
+
+
+float3 normalized(float3 a)
+{
+     float norm = sqrt(a.x*a.x + a.y*a.y + a.z*a.z);
+     
+     return a/norm;
+}
+
+float3 boundRule(Boids b)
+{
+     float3 v = float3(0,0,0);
+        
+     if (b.position.x < transformPos.x + -sizemax)
+     {
+          v.x = 1;
+     }
+
+     if (b.position.x > transformPos.x +  sizemax)
+     {
+          v.x = -1;
+     }
+
+     if (b.position.y < transformPos.y -sizemax)
+     {
+          v.y = 1;
+     }
+
+     if (b.position.y > transformPos.y + sizemax)
+     {
+          v.y = -1;
+     }
+     if (b.position.z < transformPos.z -sizemax)
+     {
+          v.z = 1;
+     }
+
+     if (b.position.z > transformPos.z + sizemax)
+     {
+          v.z = -1;
+     }
+
+     return v/100.0f;
+}
+    
+
+
+[numthreads(1024,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    
+          
+     float3 v1 = rule1(rBoids[id.x],id.x);
+     float3 v2  = rule2(rBoids[id.x],id.x);
+     float3 v3 = rule3(rBoids[id.x],id.x);
+     float3 v4 = boundRule(rBoids[id.x]);
+     
+     
+     float3 finaldir = rBoids[id.x].direction + v1 + v2+v3+ v4;
+
+     rBoids[id.x].direction = ( normalized(finaldir) * spd* deltaTime);
+     
+     rBoids[id.x].position= (rBoids[id.x].position + rBoids[id.x].direction);
+     
+     
+}

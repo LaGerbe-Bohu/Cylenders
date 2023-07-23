@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2710332691463151427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2710332691463151429}
+  - component: {fileID: 2710332691463151426}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2710332691463151429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2710332691463151427}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.10698717, y: -0.16964766, z: 0.5253425}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2710332691463151426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2710332691463151427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af3f01e9922f9e468d6fcd8892d9e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Seed: 0
+  characterInput: {fileID: 0}
+  PlayerReach: 5
+  LstGenerationPreset:
+  - {fileID: 11400000, guid: 935e2f36eb8848b429f01c78c4d22f79, type: 2}
+  - {fileID: 11400000, guid: 75aeaf3926df4d842bd9652859ff2414, type: 2}
+  - {fileID: 11400000, guid: 3848f4247d994744a93b2a93af44f8ff, type: 2}
+  - {fileID: 11400000, guid: ff53f44ba5854394693d2ff345b19f52, type: 2}
+  cylenderRender: {fileID: 0}
+  PlayerPrefab: {fileID: 1206260170766430271, guid: dd8271b3171127548b83efa67f37b121, type: 3}
+  LootManager: {fileID: 0}
+  sawner: {fileID: 4098715291914489904, guid: 7cfd231d74229d34aba0ae46ebbf1cb3, type: 3}
+  mobSpawner: {fileID: 0}
+  levelWeaponRate: []
+  player: {fileID: 0}
+  cameraPlayer: {fileID: 0}
+  Ennemies:
+  - {fileID: 6354918054574748609, guid: b7f550e2b703ed9488f0eb6cea0faac1, type: 3}
+  - {fileID: 6354918054574748609, guid: 7cfd231d74229d34aba0ae46ebbf1cb3, type: 3}
+  - {fileID: 6354918054574748609, guid: f9686da6c56ac134ea79e4105e7b682b, type: 3}
+  - {fileID: 6354918054574748609, guid: 588d5c59b9702e0428dddec2e66ab5c7, type: 3}
+  - {fileID: 6354918054574748609, guid: 28acb95654e7b8047b65a645d39eb5d6, type: 3}
+  - {fileID: 6354918054574748609, guid: b736eb5d440a232479a60409ef740e51, type: 3}
+  - {fileID: 6354918054574748609, guid: 5da131c35902216448f38e5969591eae, type: 3}
+  - {fileID: 6354918054574748609, guid: 1cd14d06225a8c4408a87c905333365f, type: 3}
+  InAnimiantion: 0
+  CylenderRadius: 0
+  e_PlayerHurt:
+    m_PersistentCalls:
+      m_Calls: []
+  timeStepAnimation: 0
+  PI: {fileID: 0}
+  LevelIndice: 0

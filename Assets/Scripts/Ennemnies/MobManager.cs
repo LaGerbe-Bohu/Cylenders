@@ -2,29 +2,13 @@ using UnityEngine;
 
 public struct Boids
 {
-    private Vector2 direction;
-    private Vector2 position;
-    
-    public void SetDirection(Vector2 v)
-    {
-        this.direction = v;
-    }
+    public Vector3 direction;
+    public Vector3 position;
 
-    public void SetPosition(Vector2 p)
-    {
-        this.position = p;
-    }
-
-
-    public Vector2 GetPosition()
-    {
-        return this.position;
-    }
-
-    public Vector2 GetDirection()
-    {
-        return this.direction;
-    }
+    public Vector3 GetDirection() { return this.direction; }
+    public Vector3 GetPosition() { return this.position; }
+    public void SetDirection(Vector3 dir) {  this.direction =dir ; }
+    public void SetPosition(Vector3 pos) {  this.position =pos ; }
     
 }
 
@@ -40,7 +24,7 @@ public class MobManager : MonoBehaviour
     public float Spd;
     public float coefTarget;
     public Transform targePlayer;
-    
+    public ComputeShader computerShader;
     
     [Space]
     public GameObject prefab;
@@ -48,6 +32,7 @@ public class MobManager : MonoBehaviour
     
     private Rigidbody[] lstGameObject;
     private Boids[] lstBoids;
+    Boids[] data;
     private MobInput[] lstInputs;
     
     // Start is called before the first frame update
@@ -58,36 +43,34 @@ public class MobManager : MonoBehaviour
         lstGameObject = new Rigidbody[nbMob];
         lstBoids = new Boids[nbMob];
         lstInputs = new MobInput[nbMob];
-        
+        data = new Boids[nbMob];
         for (int i = 0; i < nbMob; i++)
         {
             GameObject go = Instantiate(prefab, this.transform.position, Quaternion.identity);
             go.transform.SetParent(this.transform);
             
             lstBoids[i] = new Boids();
-            lstBoids[i].SetPosition(  new Vector3(Random.Range(-radius,radius),Random.Range(0,74f),Random.Range(-radius,radius)));
+            lstBoids[i].SetPosition(this.transform.position + new Vector3(Random.Range(-radius,radius),Random.Range(0,74f),Random.Range(-radius,radius)));
             lstBoids[i].SetDirection(new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),Random.Range(-1f,1f)));
-
-            lstInputs[i] = go.GetComponent<MobInput>();
             lstGameObject[i] = go.GetComponent<Rigidbody>();
+            data[i] = lstBoids[i];
         }
     }
 
-    Vector2 Target(Boids b)
+    Vector3 Target(Boids b)
     {
         var position = this.targePlayer.position;
-        return ( new Vector2(position.x,position.z) - b.GetPosition())/coefTarget;
+        return ( new Vector3(position.x,position.y,position.z) - b.GetPosition())/coefTarget;
     }
     
     Vector3 Rule1(Boids b,int k)
     {
-        Vector2 pcj = Vector2.zero;
+        Vector3 pcj = Vector2.zero;
         int sum = 0;
         for (int i = 0; i < lstBoids.Length; i++)
         {
             if (i != k)
             {
-                
                 if (Vector3.Distance(b.GetPosition(), lstBoids[i].GetPosition()) < distanceApproach)
                 {
                     pcj += lstBoids[i].GetPosition();
@@ -103,7 +86,7 @@ public class MobManager : MonoBehaviour
     
     Vector3 Rule2(Boids b, int k)
     {
-        Vector2 c = Vector3.zero;
+        Vector3 c = Vector3.zero;
         
         for (int i = 0; i < lstBoids.Length; i++)
         {
@@ -125,7 +108,7 @@ public class MobManager : MonoBehaviour
         
         if(lstBoids.Length -1  <= 0) return Vector3.zero;
         
-        Vector2 pvj = Vector2.zero;
+        Vector3 pvj = Vector2.zero;
         int sum = 0;
         for (int i = 0; i < lstBoids.Length; i++)
         {
@@ -176,6 +159,44 @@ public class MobManager : MonoBehaviour
 
         return v/100.0f;
     }
+    
+    void moveGPU()
+    {
+        int size = sizeof(float)*3*2;
+        ComputeBuffer boidsBuffer = new ComputeBuffer(this.data.Length,size );
+        boidsBuffer.SetData(data);
+        
+        computerShader.SetBuffer(0,"rBoids",boidsBuffer);
+        
+        computerShader.SetFloat("count",data.Length);
+        computerShader.SetFloat("distanceApproach",distanceApproach);
+        computerShader.SetFloat("coeffAlligment",coeffAlligment);
+        computerShader.SetFloat("spd",Spd);
+        computerShader.SetFloat("deltaTime",Time.deltaTime);
+        computerShader.SetFloat("sizemax",radius);
+        computerShader.SetFloat("distanceSeparation",distanceSeperation);
+        computerShader.SetFloat("coeffRapprochement",coeffRapprochement);
+        computerShader.SetFloats("transformPos",new float[3]{transform.position.x,transform.position.y,transform.position.z});
+        
+        int threadGroups = Mathf.CeilToInt (data.Length / (float) 1024f);
+        computerShader.Dispatch(0,threadGroups,1,1);
+        
+        boidsBuffer.GetData(data);
+        
+        for (int i = 0; i < lstBoids.Length; i++)
+        {
+            lstBoids[i] = data[i];
+
+           
+            lstGameObject[i].transform.position = lstBoids[i].GetPosition();
+            lstGameObject[i].transform.rotation = Quaternion.LookRotation(lstBoids[i].GetDirection(),lstGameObject[i].transform.forward);
+            
+        }
+
+        boidsBuffer.Dispose();
+
+    }
+    
     private void computeCPU()
     {
         for (int i = 0; i < lstBoids.Length; i++)
@@ -183,18 +204,20 @@ public class MobManager : MonoBehaviour
             if (lstGameObject[i] != null )
             {
                 
-                lstBoids[i].SetPosition( new Vector2(lstGameObject[i].position.x,lstGameObject[i].position.z));
-                lstBoids[i].SetDirection(new Vector2(lstGameObject[i].velocity.x,lstGameObject[i].velocity.z));
+                Vector3 v1 = Rule1(lstBoids[i],i);
+                Vector3 v2 = Rule1(lstBoids[i],i);
+                Vector3 v3 = Rule1(lstBoids[i],i);
             
-                // Vector3 v1 = rule1(lstBoids[i], i);
-                Vector2 v2 = Rule2(lstBoids[i], i);
-                Vector2 v3 = Rule3(lstBoids[i], i);
-                Vector2 v4 = Target(lstBoids[i]);
+                Vector3 v4 = BoundRule(lstBoids[i]);
+              
+
+                Vector3 finaldir = lstBoids[i].GetDirection()+v1+v2+v3 + v4;
+                
+                lstBoids[i].SetDirection(finaldir.normalized * Spd* Time.deltaTime);
+                lstBoids[i].SetPosition(lstBoids[i].GetPosition() + lstBoids[i].GetDirection());
             
-                Vector2 finalDir = (lstBoids[i].GetDirection()  + v2 + v3 + v4).normalized;
-            
-                lstInputs[i].setDirection(finalDir);
-                // lstGameObject[i].AddForce(new Vector3(finalDir.x,0,finalDir.y),ForceMode.Impulse);
+                lstGameObject[i].transform.position = lstBoids[i].GetPosition();
+                lstGameObject[i].transform.rotation = Quaternion.LookRotation(lstBoids[i].GetDirection(),lstGameObject[i].transform.forward);
             }
             
         }
@@ -205,6 +228,6 @@ public class MobManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        computeCPU();
+        moveGPU();
     }
 }

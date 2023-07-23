@@ -8,8 +8,11 @@ using UnityEngine.SceneManagement;
 public class SwithRoom : MonoBehaviour
 {
     public bool next = false;
+    public GameObject particle;
     private bool swithing = false;
+    
     private CharacterController CC;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && GameManager.instance.mobSpawner.EnnemieCounter() <= 0 && !swithing && CC.IsGrounded())
@@ -63,6 +66,9 @@ public class SwithRoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameManager.instance.mobSpawner.EnnemieCounter()<= 0)
+        {
+            particle.SetActive(true);
+        }
     }
 }

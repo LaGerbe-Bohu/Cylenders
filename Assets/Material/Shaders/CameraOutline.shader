@@ -36,7 +36,7 @@ Shader "Hidden/CameraOutline"
                 float2 uv : TEXCOORD0;
                 UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
-                float4 screenuv : TEXCOORD1;
+                float4 screenuv : TEXCOORD2;
                  float4 projPos : TEXCOORD4;
             };
 

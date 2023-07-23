@@ -38,7 +38,8 @@ public class enablerHitEnnemie : MonoBehaviour
         ISM.disableState(AvailaibleState.focus);
         ISM.disableState(AvailaibleState.fight);
         ESH.resetTimer();
-        EA.SetIdle();
+        if(EA != null)
+            EA.SetIdle();
         CC.enabled = false;
         NM.enabled = false;
 

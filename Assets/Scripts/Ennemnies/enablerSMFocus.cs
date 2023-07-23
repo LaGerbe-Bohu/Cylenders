@@ -22,14 +22,17 @@ public class enablerSMFocus : MonoBehaviour
         if ( Vector3.Distance(Player.transform.position,this.transform.position) < distanceFocus  
              && !ISM.getStateValue(AvailaibleState.fight) )
         {
-            EA.SetWalk(true);
+            if(EA != null)
+                EA.SetWalk(true);
+            
             ISM.enableState(AvailaibleState.focus);
         } 
         
         if (Vector3.Distance(Player.transform.position, this.transform.position) > maxDistnaceLoosFocus || ISM.getStateValue(AvailaibleState.hit))
         {
-            EA.SetWalk(true);
-            if (ISM.getStateValue(AvailaibleState.hit))
+            if(EA != null)
+                EA.SetWalk(true);
+            if (ISM.getStateValue(AvailaibleState.hit) && EA != null) 
             {
                 EA.SetWalk(false);
             }

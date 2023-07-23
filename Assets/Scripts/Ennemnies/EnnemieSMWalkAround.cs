@@ -40,7 +40,9 @@ public class EnnemieSMWalkAround : MachineState
        {
            mobInput.setDirection(targetPoint);
            cc -= Time.deltaTime;
-           EA.SetWalk(true);
+           if(EA != null) 
+               EA.SetWalk(true);
+           
            if (cc < 0)
            {
              

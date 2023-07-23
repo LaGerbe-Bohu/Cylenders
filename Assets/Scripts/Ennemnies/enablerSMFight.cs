@@ -21,7 +21,8 @@ public class enablerSMFight : MonoBehaviour
         {
             ISM.enableState(AvailaibleState.fight);
             ISM.disableState(AvailaibleState.focus);
-            EA.SetWalk(false);
+            if( EA != null)
+                EA.SetWalk(false);
 
         }
         else
