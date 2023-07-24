@@ -172,7 +172,10 @@ public class CreatureDeplacement : MonoBehaviour
             int k = 0;
             for (int j = 0; j < CG.mov.Count; j++)
             {
+                //Vector3 d = new Vector3((d2[k++]-.5f)*2.0f, (d2[k++]-.5f)*2.0f, (d2[k++]-.5f)*2.0f);
                 Vector3 d = new Vector3(d2[k++], d2[k++], d2[k++]);
+         
+                
                 CG.mov[j].Move(d);
             }
 

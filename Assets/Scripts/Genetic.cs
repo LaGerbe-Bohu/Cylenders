@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Json;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using System.Globalization;
 
 public class Person
 {
@@ -58,11 +58,15 @@ public class Genetic : MonoBehaviour
 
     
     private GameObject First;
-    
+    private StreamWriter writer;
+    private List<string> csvLiner;
+    private NumberFormatInfo nfi;
     public void IntializeGenetic()
     {
         
         population = new Person[nbIndiv];
+        nfi = new NumberFormatInfo();
+        nfi.NumberDecimalSeparator = ".";
 
         
         GameObject go = Instantiate(CreaturePrefab, Vector3.zero, Quaternion.identity);
@@ -101,6 +105,9 @@ public class Genetic : MonoBehaviour
         best.score = float.MaxValue;
         // start la coroutine
         StartCoroutine(ProcessGenetic());
+        csvLiner = new List<string>();
+
+        csvLiner.Add("Generation;Best Score");
     }
 
     public void Respawn(int i)
@@ -169,6 +176,9 @@ public class Genetic : MonoBehaviour
 
 
             MPRO.text = " generation : " + generation + " best : " + bestscore + " last " + population[^1].score + " "+population[^1].nn.wi[0][0];
+            
+            csvLiner.Add(generation.ToString() +" ; "+(bestscore).ToString());
+
             // reproduction
             for (int i = 0; i < population.Length; ++i){
 
@@ -179,13 +189,7 @@ public class Genetic : MonoBehaviour
                 //on cherche les parents, étant donné que la liste est biaisé il a plus de chance de tomber sur un individu fort
                 x = Random.Range(0,perso.Count);
                 y = Random.Range(0,perso.Count);
-
-                //pour êtrecertain que les parents ne soient pas identique
-              /*  while ( perso[x] == perso[y] ){
-                    y =  Random.Range(0,perso.Count);
-                }*/
                 
-                //croisé
                 population[i] = croisement(perso[x], perso[y],population[i]);
             }
             
@@ -350,6 +354,20 @@ public class Genetic : MonoBehaviour
             
             File.WriteAllText(Application.dataPath+"/best.json", json);
 
+        }
+        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            string filePath = Application.dataPath+"/GenerationSheet.csv";
+            writer = new StreamWriter(filePath);
+            
+            
+
+            for (int i = 0; i <csvLiner.Count; ++i)
+            {
+                writer.WriteLine(csvLiner[i]);
+            }
+            writer.Close();
         }
     }
 }
