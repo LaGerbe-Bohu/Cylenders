@@ -28,4 +28,4 @@ MonoBehaviour:
   useAuth: 0
   user: 
   pass: 
-  useUniversalRenderPipeline: 0
+  useUniversalRenderPipeline: 1

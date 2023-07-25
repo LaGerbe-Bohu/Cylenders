@@ -25,8 +25,10 @@ public class StableDiffusionImage2Image: StableDiffusionGenerator
     public string guid = "";
 
     public Texture2D inputTexture;
+    public Texture2D outputTexture;
     public string prompt;
     public string negativePrompt;
+    public MapGeneration mapGen;
 
     /// <summary>
     /// List of samplers to display as Drop-Down in the inspector
@@ -182,7 +184,7 @@ public class StableDiffusionImage2Image: StableDiffusionGenerator
         }
     }
 
-    IEnumerator GenerateAsync()
+    public IEnumerator GenerateAsync()
     {
         generating = true;
 
@@ -301,11 +303,12 @@ public class StableDiffusionImage2Image: StableDiffusionGenerator
                     // Read back the image into a texture
                     if (File.Exists(filename))
                     {
-                        Texture2D texture = new Texture2D(2, 2);
+                        Texture2D texture = new Texture2D(inputTexture.width, inputTexture.height);
                         texture.LoadImage(imageData);
                         texture.Apply();
+                        outputTexture = texture;
 
-                        MapGeneration.instance.GenWithIa(texture);
+                        mapGen.GenWithIa(texture);
                     }
 
                     // Read the generation info back (only seed should have changed, as the generation picked a particular seed)
