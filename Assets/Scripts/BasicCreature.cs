@@ -11,33 +11,46 @@ public class BasicCreature : MonoBehaviour
     private Queue<IEnumerator> fitnessCalculation;
     public float bestDistance = 0.0f;
     public Transform target;
-    
+    public Fish f;
     public void Initialization()
     {
-        nn = new NN(3, 5, 3);
+        nn = new NN(6, 100, 1);
         prewarm();
+        
+        
+        
     }
 
     public void prewarm()
     {
         fitnessCalculation = new Queue<IEnumerator>();
-        fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(4,0,0)));
-        fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(-4,0,0)));
-        fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(0,0,4)));
-        fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(0,0,-4)));
+        //fitnessCalculation.Enqueue(CalculDistance( new Vector3(10,0,0),this.transform.position));
+        //fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(-10,0,0),this.transform.position));
+        //fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(0,0,10),this.transform.position));
+        //fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(0,0,-10),this.transform.position));
         bestDistance = 0;
     }
     
 
 
-    IEnumerator CalculDistance(Vector3 position)
+    IEnumerator CalculDistance(Vector3 position,Vector3 origin,int time)
     {
+        this.transform.position = origin;
+        float idx = 0;
 
-        int idx = 0;
-        this.transform.position = new Vector3(0,0,0);
+        while (idx < 5)
+        {
+            idx+=Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
 
+        this.transform.rotation = Quaternion.LookRotation(Vector3.forward);
         
-        while (idx < 10)
+        idx = 0;
+    
+
+        Vector3 oldPosition = this.transform.position;
+        while (idx < time)
         {
             Inputs i = new Inputs();
             i.intputs = new List<float>();
@@ -47,33 +60,49 @@ public class BasicCreature : MonoBehaviour
             i.intputs.Add(dir.x);
             i.intputs.Add(dir.y);
             i.intputs.Add(dir.z);
-
-            Vector3 old = this.transform.position;
+            
+            i.intputs.Add(this.transform.up.x);
+            i.intputs.Add(this.transform.up.z);
+            i.intputs.Add(this.transform.up.y);
+            
             List<float> d2 = nn.Update(i.intputs);
 
-            Vector3 output = new Vector3(d2[0], d2[1], d2[2]);
-            this.transform.position += output.normalized;
+            f.MoveNageoire(Mathf.Abs( d2[0]));
 
-            Debug.DrawLine(old,this.transform.position,Color.magenta,3000f);
-            idx++;
-            yield return new WaitForSeconds(1f);
+            idx+=Time.fixedDeltaTime;
+
+
+            yield return new WaitForFixedUpdate();
         }
 
-        bestDistance  += Vector3.Distance(this.transform.position, position);
+        while (f.RB.velocity.magnitude > 0.0f)
+        {
+            yield return new WaitForFixedUpdate();
+        }
         
+        bestDistance  += Vector3.Distance(this.transform.position, position);
+
     }
     
     public IEnumerator fitness(GeneticCube gen)
     {
-        while ( fitnessCalculation.Count > 0)
+    
+        var c = CalculDistance( gen.target.position,gen.gameObject.transform.position,gen.TimeSumulation);
+        yield return StartCoroutine(c);
+    
+       /* while ( fitnessCalculation.Count > 0)
         {
             var c = fitnessCalculation.Dequeue();
             yield return StartCoroutine(c);
-        }
-
+        }*/
+        
+      
+       
         gen.nbCorotine--;
     }
 
 
 
+    
+    
 }

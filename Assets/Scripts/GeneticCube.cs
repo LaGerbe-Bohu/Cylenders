@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,15 +19,19 @@ public class GeneticCube : MonoBehaviour
     public float timeToSleep = 1f;
     public GameObject CreaturePrefab;
     public TextMeshProUGUI MPRO;
-    
+    public Transform target;
+    public Material matBest;
+    public Material matClassic;
+    public int TimeSumulation;
     
     private Person best;
     private Person[] population;
 
     private MapGeneration mapGeneration;
     private Transform[] lstSphere;
-    
-    
+    private Queue<IEnumerator> QueFintess;
+
+
     [HideInInspector]
     public int nbCorotine;
     private NN bestNN;
@@ -43,7 +48,7 @@ public class GeneticCube : MonoBehaviour
         int idx = 0;
         for (int i = 0;i < nbIndiv ; i++)
         {
-            GameObject go = Instantiate(CreaturePrefab, Vector3.zero, Quaternion.identity);
+            GameObject go = Instantiate(CreaturePrefab, this.transform.position, Quaternion.identity);
             go.transform.position = this.transform.position;
             go.transform.SetParent(this.transform);
             population[idx] = new Person();
@@ -53,8 +58,8 @@ public class GeneticCube : MonoBehaviour
             population[idx].score = float.MaxValue;
             idx++;
         }
-           
-            
+
+        QueFintess = new Queue<IEnumerator>();
         best = population[0];
         best.score = float.MaxValue;
         // start la coroutine
@@ -62,45 +67,72 @@ public class GeneticCube : MonoBehaviour
     }
     
     
-
+    int bestIdx = 0;
     IEnumerator ProcessGenetic()
     {
         int generation = 0;
         float bestscore = float.MaxValue;
         bestNN = population[0].nn;
+        List<List<float>> bestWi = new List<List<float>>();
+        List < List<float> > bestWo = new List<List<float>>();
+       
         while (true)
         {
-        
+
+            
             Debug.Log("Start Fitness");
 
-            nbCorotine = population.Length;
             
-            calculFitness();
-
-            while (nbCorotine > 0)
+            
+            for (int i = 0; i < population.Length; i++)
             {
-                yield return null;
+                population[i].score = population[i].BC.bestDistance;
+                
+                population[i].BC.GetComponent<Renderer>().material =matClassic;
+            }
+            
+            population[bestIdx].BC.GetComponent<Renderer>().material = matBest;
+            
+            
+            for (int i = 0; i < population.Length; i++)
+            {
+                population[i].BC.prewarm();
+                QueFintess.Enqueue(    ( population[i].BC.fitness(this)));
+            }
+       
+            while (QueFintess.Count > 0)
+            {
+                nbCorotine = Mathf.Clamp( QueFintess.Count,0,50);
+                for (int i = 0; i < nbCorotine; i++)
+                {
+                    StartCoroutine( QueFintess.Dequeue());
+                }
+                
+                while (nbCorotine > 0)
+                {
+                    yield return null;
+                }
             }
 
             for (int i = 0; i < population.Length; i++)
             {
                 population[i].score = population[i].BC.bestDistance;
+             
             }
             
-      
+            
+            float oldScore = population[bestIdx].score;
+            float oldScore2 = bestscore;
+            
             population = Sort(population);
-
-            float avg = 0f;
-            for (int i = 0; i < population.Length; i++)
-            {
-                avg += population[i].score;
-            } 
             
             
             // voir si on n'a pas trouver un meilleur individu
             if (bestscore > population[^1].score)
             {
-                bestNN = population[^1].nn;
+
+                DeepCopy(population[^1].nn.wi, ref bestWi);
+                DeepCopy(population[^1].nn.wo, ref bestWo);
                 bestscore = population[^1].score;
             }
 
@@ -118,7 +150,7 @@ public class GeneticCube : MonoBehaviour
                 }
             }
             
-            MPRO.text = " generation : " + generation + " best : " + bestscore + " last " + population[^1].score;
+            MPRO.text = " generation : " + generation + " best : " + bestscore + " best :" + (population[^1].score == bestscore).ToString();
             // reproduction
             for (int i = 0; i < population.Length; ++i){
 
@@ -131,6 +163,8 @@ public class GeneticCube : MonoBehaviour
                 y = Random.Range(0,perso.Count);
 
                 //pour êtrecertain que les parents ne soient pas identique
+                
+                
                 while ( perso[x] == perso[y] ){
                     y =  Random.Range(0,perso.Count);
                 }
@@ -139,13 +173,16 @@ public class GeneticCube : MonoBehaviour
                 population[i] = croisement(perso[x], perso[y],population[i]);
             } 
             
-            Debug.Log(population.Length);
-            
             int k = Random.Range(0, population.Length);
-            population[k].nn = new NN(bestNN);
+ 
+            DeepCopy(bestWi, ref population[k].nn.wi);
+      
+            DeepCopy(bestWo, ref population[k].nn.wo);
 
+            bestIdx = k;
+            
             generation++;
-            yield return new WaitForSeconds(0);
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -173,12 +210,14 @@ public class GeneticCube : MonoBehaviour
 
     void calculFitness()
     {
+        
         //calculFitness
         for (int i = 0; i < population.Length; i++)
         {
             population[i].BC.prewarm();
             StartCoroutine( population[i].BC.fitness(this));
         }
+        
         
     }
 
@@ -206,6 +245,8 @@ public class GeneticCube : MonoBehaviour
         List<List<float>> finalbyte = new List<List<float>>();
         DeepCopy(bytesB,ref finalbyte);
         
+        /*
+        
         for (int i = 0; i <finalbyte.Count; i++)
         {
             for (int j = 0; j < finalbyte[0].Count; j+=2)
@@ -214,13 +255,27 @@ public class GeneticCube : MonoBehaviour
             }
         }
         
+        */
+        
+        
+        for (int i = 0; i <finalbyte.Count; i++)
+        {
+            for (int j = 0; j < finalbyte[0].Count; j++)
+            {
+                finalbyte[i][j] = (bytesA[i][j] + bytesB[i][j])/2.0f;
+            }
+        }
+        
         d.nn.wi = new List<List<float>>(finalbyte);
         DeepCopy(finalbyte,ref d.nn.wi);
-
+        
         DeepCopy(a.nn.wo,ref bytesA);
         DeepCopy(b.nn.wo,ref bytesB);
         
         DeepCopy(bytesB,ref finalbyte);
+        
+        /*
+      
         
         for (int i = 0; i < finalbyte.Count; i++)
         {
@@ -229,13 +284,24 @@ public class GeneticCube : MonoBehaviour
                 finalbyte[i][j] =  bytesA[i][j];
             }
         }
-     
+           */
+        
+        for (int i = 0; i < finalbyte.Count; i++)
+        {
+            for (int j = 0; j <finalbyte[0].Count; j+=2)
+            {
+                finalbyte[i][j] = (bytesA[i][j] + bytesB[i][j])/2.0f;
+            }
+        }
+        
         d.nn.wo = new List<List<float>>(finalbyte);
         DeepCopy(finalbyte,ref d.nn.wo);
         
+        
         if (Random.Range(1, 100) <= mutation)
         {
-
+            
+            
            
             bool wo = false;
            
@@ -248,8 +314,9 @@ public class GeneticCube : MonoBehaviour
             }   
             
             
-            float r = Random.Range(0, finalbyte.Count); 
-            for (int i = 0; i < r; i++)
+            int bX = Random.Range(0, finalbyte.Count); 
+            int eX = Random.Range(bX, finalbyte.Count); 
+            for (int i = bX; i < eX; i++)
             {
                 for (int j = 0; j < finalbyte[0].Count; j++)
                 {
@@ -266,8 +333,7 @@ public class GeneticCube : MonoBehaviour
             {
                 DeepCopy(finalbyte,ref d.nn.wi);
             }
-
-          
+            
         }
         
         
@@ -300,5 +366,19 @@ public class GeneticCube : MonoBehaviour
             File.WriteAllText(Application.dataPath+"/best.json", json);
 
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            for (int i = 0; i < population.Length; i++)
+            {
+                if (bestIdx != i)
+                {
+                    population[i].BC.GetComponent<Fish>().Rendering();      
+                }
+              
+                
+            }
+        }
+
     }
 }
