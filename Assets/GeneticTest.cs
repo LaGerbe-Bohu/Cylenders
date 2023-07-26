@@ -24,7 +24,7 @@ public class GeneticTest : MonoBehaviour
             go.transform.SetParent(this.transform);
             population[idx] = new Person();
             population[idx].BC = go.GetComponent<BasicCreature>();
-            population[idx].BC.Initialization();
+            //population[idx].BC.Initialization();
             population[idx].nn = population[idx].BC.nn;
             population[idx].score = float.MaxValue;
             idx++;
@@ -39,7 +39,7 @@ public class GeneticTest : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            population[i].BC.prewarm();
+         //   population[i].BC.prewarm();
            yield return StartCoroutine( population[i].BC.fitness(new GeneticCube()));
            
            DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(saveNN));
@@ -65,7 +65,7 @@ public class GeneticTest : MonoBehaviour
         }
 
         population[2] = gen.croisement(population[0], population[1], population[2]);
-        population[2].BC.prewarm();
+        //population[2].BC.prewarm();
         yield return StartCoroutine(population[2].BC.fitness(new GeneticCube()));
         
         

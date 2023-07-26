@@ -12,23 +12,26 @@ public class BasicCreature : MonoBehaviour
     public float bestDistance = 0.0f;
     public Transform target;
     public Fish f;
-    public void Initialization()
+    public void Initialization(GeneticCube gen)
     {
-        nn = new NN(6, 100, 1);
-        prewarm();
+        nn = new NN(6, 50, 1);
+        prewarm(gen);
         
         
         
     }
 
-    public void prewarm()
+    public void prewarm(GeneticCube gen)
     {
         fitnessCalculation = new Queue<IEnumerator>();
-        //fitnessCalculation.Enqueue(CalculDistance( new Vector3(10,0,0),this.transform.position));
-        //fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(-10,0,0),this.transform.position));
-        //fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(0,0,10),this.transform.position));
-        //fitnessCalculation.Enqueue(CalculDistance(this.transform.position + new Vector3(0,0,-10),this.transform.position));
+        fitnessCalculation.Enqueue(CalculDistance( gen.transform.position + new Vector3(4,0,0),gen.transform.position,gen.TimeSumulation));
+        fitnessCalculation.Enqueue(CalculDistance(gen.transform.position + new Vector3(-4,0,0),gen.transform.position,gen.TimeSumulation));
+        fitnessCalculation.Enqueue(CalculDistance(gen.transform.position + new Vector3(0,0,4),gen.transform.position,gen.TimeSumulation));
+        fitnessCalculation.Enqueue(CalculDistance(gen.transform.position + new Vector3(0,0,-4),gen.transform.position,gen.TimeSumulation));
+        fitnessCalculation.Enqueue(CalculDistance(gen.transform.position + new Vector3(0,4,0),gen.transform.position,gen.TimeSumulation));
+        fitnessCalculation.Enqueue(CalculDistance(gen.transform.position + new Vector3(0,-4,0),gen.transform.position,gen.TimeSumulation));
         bestDistance = 0;
+  
     }
     
 
@@ -37,7 +40,6 @@ public class BasicCreature : MonoBehaviour
     {
         this.transform.position = origin;
         float idx = 0;
-
         while (idx < 5)
         {
             idx+=Time.fixedDeltaTime;
@@ -45,8 +47,7 @@ public class BasicCreature : MonoBehaviour
         }
 
         this.transform.rotation = Quaternion.LookRotation(Vector3.forward);
-        
-        idx = 0;
+
     
 
         Vector3 oldPosition = this.transform.position;
@@ -84,24 +85,21 @@ public class BasicCreature : MonoBehaviour
 
     }
     
+    
     public IEnumerator fitness(GeneticCube gen)
     {
     
-        var c = CalculDistance( gen.target.position,gen.gameObject.transform.position,gen.TimeSumulation);
-        yield return StartCoroutine(c);
+       // var c = CalculDistance( gen.target.position,gen.gameObject.transform.position,gen.TimeSumulation);
+        //yield return StartCoroutine(c);
     
-       /* while ( fitnessCalculation.Count > 0)
+       while ( fitnessCalculation.Count > 0)
         {
             var c = fitnessCalculation.Dequeue();
             yield return StartCoroutine(c);
-        }*/
-        
-      
+        }
        
         gen.nbCorotine--;
     }
-
-
 
     
     

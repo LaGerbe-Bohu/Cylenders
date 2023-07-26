@@ -16,18 +16,19 @@ public class Fish : MonoBehaviour
     private void Start()
     {
         Initalize();
-        lstAnim = new List<Animator>();
-        for (int i = 0; i < nageroies.Count; i++)
-        {
-            lstAnim.Add(nageroies[i].GetComponent<Animator>());
-        }
-        
+      
     }
 
     // Start is called before the first frame update
     void Initalize()
     {
         RB = GetComponent<Rigidbody>();
+        lstAnim = new List<Animator>();
+        for (int i = 0; i < nageroies.Count; i++)
+        {
+            lstAnim.Add(nageroies[i].GetComponent<Animator>());
+        }
+
     }
 
     public void MoveNageoire(float a)

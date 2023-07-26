@@ -53,7 +53,7 @@ public class GeneticCube : MonoBehaviour
             go.transform.SetParent(this.transform);
             population[idx] = new Person();
             population[idx].BC = go.GetComponent<BasicCreature>();
-            population[idx].BC.Initialization();
+            population[idx].BC.Initialization(this);
             population[idx].nn = population[idx].BC.nn;
             population[idx].score = float.MaxValue;
             idx++;
@@ -96,7 +96,7 @@ public class GeneticCube : MonoBehaviour
             
             for (int i = 0; i < population.Length; i++)
             {
-                population[i].BC.prewarm();
+                population[i].BC.prewarm(this);
                 QueFintess.Enqueue(    ( population[i].BC.fitness(this)));
             }
        
@@ -214,7 +214,7 @@ public class GeneticCube : MonoBehaviour
         //calculFitness
         for (int i = 0; i < population.Length; i++)
         {
-            population[i].BC.prewarm();
+            population[i].BC.prewarm(this);
             StartCoroutine( population[i].BC.fitness(this));
         }
         
