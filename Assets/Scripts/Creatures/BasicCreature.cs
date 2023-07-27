@@ -57,17 +57,17 @@ public class BasicCreature : MonoBehaviour
     IEnumerator CalculDistance(Vector3 position,Vector3 origin,int time)
     {
         this.transform.position = origin;
+        this.transform.rotation = Quaternion.LookRotation(Vector3.forward);
         float idx = 0;
         while (idx < 5.0f/10.0f)
         {
+            f.RB.constraints = RigidbodyConstraints.FreezeAll;
             idx+=Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
-
+        f.RB.constraints = RigidbodyConstraints.None;
         this.transform.rotation = Quaternion.LookRotation(Vector3.forward);
-    
-
-        Vector3 oldPosition = this.transform.position;
+        
         while (idx < time)
         {
             Inputs i = new Inputs();
@@ -94,12 +94,13 @@ public class BasicCreature : MonoBehaviour
         }
 
         
-        while (f.RB.velocity.magnitude > 0.0f)
-        {
-            yield return new WaitForFixedUpdate();
-        }
-        
+      //  while (f.RB.velocity.magnitude > 0.0f)
+        //{
+        //    yield return new WaitForFixedUpdate();
+        //}
+
         bestDistance  += (float)System.Math.Round( Vector3.Distance(this.transform.position, position),2);
+        f.RB.constraints = RigidbodyConstraints.FreezeAll;
     }
     
 

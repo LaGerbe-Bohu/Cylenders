@@ -34,7 +34,7 @@ public class MapManager : MonoBehaviour
 
         cyl.lstStructures.Add(s);
         cyl.loadStruct();
-        gc.IntializeGenetic();
+      //  gc.IntializeGenetic();
 
     }
    

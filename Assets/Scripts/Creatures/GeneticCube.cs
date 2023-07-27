@@ -41,6 +41,9 @@ public class GeneticCube : MonoBehaviour
     public Transform target;
     public int TimeSumulation;
     public bool start = false;
+    public Material basicMat;
+    public Material bestMat;
+    
     
     private Person best;
     private Person[] population;
@@ -100,6 +103,7 @@ public class GeneticCube : MonoBehaviour
     IEnumerator ProcessGenetic()
     {
         int generation = 0;
+        int bestidx = 0;
         float bestscore = float.MaxValue;
         bestWi = new List<List<float>>();
         bestWo = new List<List<float>>();
@@ -109,7 +113,8 @@ public class GeneticCube : MonoBehaviour
 
             
             Debug.Log("Start Fitness");
-
+        
+            population[bestidx].BC.GetComponent<Renderer>().material = bestMat;
 
             nbCorotine = population.Length;
             calculFitness();
@@ -122,11 +127,9 @@ public class GeneticCube : MonoBehaviour
             for (int i = 0; i < population.Length; i++)
             {
                 population[i].score = population[i].BC.bestDistance;
-             
+                population[i].BC.GetComponent<Renderer>().material = basicMat;
             }
-        
-            
-     
+         
             
             population = Sort(population);
             
@@ -153,9 +156,10 @@ public class GeneticCube : MonoBehaviour
                     perso.Add(population[i]);
                 }
             }
-            
-            
-            Debug.Log( " generation : " + generation + " best : " + bestscore);
+
+
+            Debug.Log(" generation : " + generation + " best : " + bestscore + " lest generation :" +
+                      population[^1].score);
             MPRO.text = " generation : " + generation + " best : " + bestscore;
             csvLiner.Add(generation.ToString() +" ; "+(bestscore).ToString());
             
@@ -171,11 +175,11 @@ public class GeneticCube : MonoBehaviour
                 y = Random.Range(0,perso.Count);
 
                 //pour êtrecertain que les parents ne soient pas identique
-                
+
                 
                 while ( perso[x] == perso[y] ){
                     y =  Random.Range(0,perso.Count);
-                }
+               }
                 
                 //croisé
                 population[i] = croisement(perso[x], perso[y],population[i]);
@@ -185,7 +189,7 @@ public class GeneticCube : MonoBehaviour
  
             DeepCopy(bestWi, ref population[k].nn.wi);
             DeepCopy(bestWo, ref population[k].nn.wo);
-            
+            bestidx = k;
             
             generation++;
             yield return new WaitForFixedUpdate();
@@ -307,54 +311,39 @@ public class GeneticCube : MonoBehaviour
         
         if (Random.Range(1, 100) <= mutation)
         {
-            
-            /*
-            DeepCopy( d.nn.wi,ref finalbyte);
-            int bX = Random.Range(0, finalbyte.Count); 
-            int eX = Random.Range(bX, finalbyte[0].Count); 
-          
-            finalbyte[bX][eX] = Random.Range(-2.0f, 2.0f);
-            DeepCopy(finalbyte,ref d.nn.wi);
-            
-            DeepCopy( d.nn.wo,ref finalbyte);
-            bX = Random.Range(0, finalbyte.Count); 
-            eX = Random.Range(0, finalbyte[0].Count); 
-          
-            finalbyte[bX][eX] = Random.Range(-2.0f, 2.0f);
-            DeepCopy(finalbyte,ref d.nn.wo);
-            */
+
            
-            bool wo = false;
+                bool wo = false;
            
-            DeepCopy( d.nn.wi,ref finalbyte);
-            if (Random.Range(0f, 1f) < .5f)
-            {
-                 wo = true;
-                 finalbyte = new List<List<float>>(d.nn.wo);
-                 DeepCopy( d.nn.wo,ref finalbyte);
-            }   
-            
-            
-            int bX = Random.Range(0, finalbyte.Count); 
-            int eX = Random.Range(bX, finalbyte.Count); 
-            for (int i = bX; i < eX; i++)
-            {
-                for (int j = 0; j < finalbyte[0].Count; j++)
+                DeepCopy( d.nn.wi,ref finalbyte);
+                if (Random.Range(0f, 1f) < .5f)
                 {
-                    finalbyte[i][j] = Random.Range(-2.0f, 2.0f);
-                }
-            }
-
-
-            if (wo)
-            {
-                DeepCopy(finalbyte,ref d.nn.wo);
-            }
-            else
-            {
-                DeepCopy(finalbyte,ref d.nn.wi);
-            }
+                    wo = true;
+                    finalbyte = new List<List<float>>(d.nn.wo);
+                    DeepCopy( d.nn.wo,ref finalbyte);
+                }   
             
+            
+                int bX = Random.Range(0, finalbyte.Count); 
+                int eX = Random.Range(bX, finalbyte.Count); 
+                for (int i = bX; i < eX; i++)
+                {
+                    for (int j = 0; j < finalbyte[0].Count; j++)
+                    {
+                        finalbyte[i][j] = Random.Range(-2.0f, 2.0f);
+                    }
+                }
+
+
+                if (wo)
+                {
+                    DeepCopy(finalbyte,ref d.nn.wo);
+                }
+                else
+                {
+                    DeepCopy(finalbyte,ref d.nn.wi);
+                }
+
         }
         
         

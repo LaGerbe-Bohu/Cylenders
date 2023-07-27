@@ -693,13 +693,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7629469f5d625147a46667cd7444df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nbIndiv: 50
+  nbIndiv: 2000
   mutation: 20
   CreaturePrefab: {fileID: 2135672633593987740, guid: eb67284b45b035341ae8ffb4c3e9c0b7, type: 3}
   MPRO: {fileID: 1899694709}
   target: {fileID: 805631311}
-  TimeSumulation: 30
+  TimeSumulation: 2
   start: 0
+  basicMat: {fileID: 2100000, guid: 52f9d7b4c4769f54b80d62ede0a9413e, type: 2}
+  bestMat: {fileID: 2100000, guid: 50e119e5ba1258a4c9bd272d9dae693a, type: 2}
   nbCorotine: 0
 --- !u!4 &1466520140
 Transform:

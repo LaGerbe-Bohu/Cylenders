@@ -55,9 +55,9 @@ public class Fish : MonoBehaviour
         
         Vector3 dir = this.transform.position - nageroies[idx].position;
 
-        RB.AddTorque(nageroies[idx].forward  * (dir.magnitude > 0f ? -1f:1f ) * .01f ,ForceMode.Impulse);
-        RB.AddForce(this.transform.up*.02f,ForceMode.Impulse);
-      
+        RB.AddTorque(nageroies[idx].forward  * (dir.magnitude > 0f ? -1f:1f ) * .01f*7f*Time.fixedDeltaTime*120f ,ForceMode.Impulse);
+        RB.AddForce(this.transform.up*.02f*15.0f*Time.fixedDeltaTime*120.0f,ForceMode.Impulse);
+        
     }
 
 
