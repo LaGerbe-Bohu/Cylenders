@@ -19,7 +19,7 @@ public class MapGeneration2 : MonoBehaviour
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
     public StableDiffusionImage2Image im2im;
-
+ 
     public float yScale = 1.0f;
 
 

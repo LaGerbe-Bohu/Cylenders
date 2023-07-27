@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2819713776159597327}
   - component: {fileID: 2819713776159597326}
   - component: {fileID: 2819713776159597363}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pillar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ MonoBehaviour:
   outputTexture: {fileID: 0}
   prompt: heightmap
   negativePrompt: 
-  mapGen: {fileID: 0}
+  mapGen: {fileID: 2819713776159597363}
   selectedSampler: 0
   width: 512
   height: 512
@@ -125,7 +125,7 @@ MonoBehaviour:
   cfgScale: 7
   seed: -1
   generatedSeed: 462661973
-  selectedModel: 1
+  selectedModel: 0
 --- !u!114 &2819713776159597363
 MonoBehaviour:
   m_ObjectHideFlags: 0

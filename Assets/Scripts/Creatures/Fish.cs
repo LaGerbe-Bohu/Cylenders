@@ -51,7 +51,7 @@ public class Fish : MonoBehaviour
             idx++;
         }
         
-        lstAnim[idx].SetTrigger("Nage");
+       // lstAnim[idx].SetTrigger("Nage");
         
         Vector3 dir = this.transform.position - nageroies[idx].position;
 

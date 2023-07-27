@@ -8,9 +8,12 @@ public class MapManager : MonoBehaviour
     public GameObject Pilier;
     public GeneticCube gc;
     public int nbrStruct;
+    public int seed;
     // Start is called before the first frame update
     void Start()
     {
+        Random.InitState(seed);
+        
         StartCoroutine(MapManagerC());
     }
 

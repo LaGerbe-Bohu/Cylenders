@@ -14,14 +14,30 @@ public class BasicCreature : MonoBehaviour
     public float bestDistance = 0.0f;
     public Transform target;
     public Fish f;
+
+    private bool stadalone = false;
+    
     public void Initialization(GeneticCube gen)
     {
-        nn = new NN(6, 50, 1);
+        nn = new NN(6, 100, 1);
         prewarm(gen);
         
-        
-        
+  
     }
+
+    public void Initialization(saveNN saveNN,Vector3 position,Vector3 origin,int time)
+    {
+        stadalone = true;
+        nn = new NN(6, 100, 1);
+
+        nn.wi = saveNN.wi;
+        nn.wo = saveNN.wo;
+        
+
+        
+        StartCoroutine(CalculDistance(position,origin,time));
+    }
+    
 
     public void prewarm(GeneticCube gen)
     {
@@ -42,7 +58,7 @@ public class BasicCreature : MonoBehaviour
     {
         this.transform.position = origin;
         float idx = 0;
-        while (idx < 5)
+        while (idx < 5.0f/10.0f)
         {
             idx+=Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
@@ -64,8 +80,8 @@ public class BasicCreature : MonoBehaviour
             i.intputs.Add(dir.z);
             
             i.intputs.Add(this.transform.up.x);
-            i.intputs.Add(this.transform.up.z);
             i.intputs.Add(this.transform.up.y);
+            i.intputs.Add(this.transform.up.z);
             
             List<float> d2 = nn.Update(i.intputs);
 
@@ -77,16 +93,17 @@ public class BasicCreature : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
+        
         while (f.RB.velocity.magnitude > 0.0f)
         {
             yield return new WaitForFixedUpdate();
         }
         
-        bestDistance  += Vector3.Distance(this.transform.position, position);
-
+        bestDistance  += (float)System.Math.Round( Vector3.Distance(this.transform.position, position),2);
     }
     
-    
+
+
     public IEnumerator fitness(GeneticCube gen)
     {
 

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using System.Text.Json;
+using Newtonsoft.Json;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -34,13 +36,11 @@ public class GeneticCube : MonoBehaviour
     // nombre d'individu par génération
     public int nbIndiv = 10;
     public int mutation = 1;
-    public float timeToSleep = 1f;
     public GameObject CreaturePrefab;
     public TextMeshProUGUI MPRO;
     public Transform target;
-    public Material matBest;
-    public Material matClassic;
     public int TimeSumulation;
+    public bool start = false;
     
     private Person best;
     private Person[] population;
@@ -48,13 +48,18 @@ public class GeneticCube : MonoBehaviour
     private MapGeneration mapGeneration;
     private Transform[] lstSphere;
     private Queue<IEnumerator> QueFintess;
-
-
+    private List<string> csvLiner;
+    private StreamWriter writer;
+    
     [HideInInspector]
     public int nbCorotine;
     private NN bestNN;
     private void Start()
     {
+        if (start)
+        {
+            IntializeGenetic();    
+        }
         
     }
 
@@ -80,19 +85,24 @@ public class GeneticCube : MonoBehaviour
         QueFintess = new Queue<IEnumerator>();
         best = population[0];
         best.score = float.MaxValue;
+        
+        csvLiner = new List<string>();
+
+        csvLiner.Add("Generation;Best Score");
+        
         // start la coroutine
         StartCoroutine(ProcessGenetic());
     }
     
-    
+    List<List<float>> bestWi ;
+    List < List<float> > bestWo ;
     int bestIdx = 0;
     IEnumerator ProcessGenetic()
     {
         int generation = 0;
         float bestscore = float.MaxValue;
-        bestNN = population[0].nn;
-        List<List<float>> bestWi = new List<List<float>>();
-        List < List<float> > bestWo = new List<List<float>>();
+        bestWi = new List<List<float>>();
+        bestWo = new List<List<float>>();
        
         while (true)
         {
@@ -100,36 +110,13 @@ public class GeneticCube : MonoBehaviour
             
             Debug.Log("Start Fitness");
 
+
+            nbCorotine = population.Length;
+            calculFitness();
             
-            
-            for (int i = 0; i < population.Length; i++)
+            while (nbCorotine > 0)
             {
-                population[i].score = population[i].BC.bestDistance;
-                
-                population[i].BC.GetComponent<Renderer>().material =matClassic;
-            }
-            
-            population[bestIdx].BC.GetComponent<Renderer>().material = matBest;
-            
-            
-            for (int i = 0; i < population.Length; i++)
-            {
-                population[i].BC.prewarm(this);
-                QueFintess.Enqueue(    ( population[i].BC.fitness(this)));
-            }
-       
-            while (QueFintess.Count > 0)
-            {
-                nbCorotine = Mathf.Clamp( QueFintess.Count,0,50);
-                for (int i = 0; i < nbCorotine; i++)
-                {
-                    StartCoroutine( QueFintess.Dequeue());
-                }
-                
-                while (nbCorotine > 0)
-                {
-                    yield return null;
-                }
+                yield return null;
             }
 
             for (int i = 0; i < population.Length; i++)
@@ -137,13 +124,11 @@ public class GeneticCube : MonoBehaviour
                 population[i].score = population[i].BC.bestDistance;
              
             }
+        
             
-            
-            float oldScore = population[bestIdx].score;
-            float oldScore2 = bestscore;
+     
             
             population = Sort(population);
-            
             
             // voir si on n'a pas trouver un meilleur individu
             if (bestscore > population[^1].score)
@@ -151,9 +136,10 @@ public class GeneticCube : MonoBehaviour
 
                 DeepCopy(population[^1].nn.wi, ref bestWi);
                 DeepCopy(population[^1].nn.wo, ref bestWo);
+                
+                
                 bestscore = population[^1].score;
             }
-
             
             // selection biaisé
             List<Person> perso = new List<Person>();
@@ -168,7 +154,11 @@ public class GeneticCube : MonoBehaviour
                 }
             }
             
-            MPRO.text = " generation : " + generation + " best : " + bestscore + " best :" + (population[^1].score == bestscore).ToString();
+            
+            Debug.Log( " generation : " + generation + " best : " + bestscore);
+            MPRO.text = " generation : " + generation + " best : " + bestscore;
+            csvLiner.Add(generation.ToString() +" ; "+(bestscore).ToString());
+            
             // reproduction
             for (int i = 0; i < population.Length; ++i){
 
@@ -194,10 +184,8 @@ public class GeneticCube : MonoBehaviour
             int k = Random.Range(0, population.Length);
  
             DeepCopy(bestWi, ref population[k].nn.wi);
-      
             DeepCopy(bestWo, ref population[k].nn.wo);
-
-            bestIdx = k;
+            
             
             generation++;
             yield return new WaitForFixedUpdate();
@@ -252,7 +240,8 @@ public class GeneticCube : MonoBehaviour
     public Person croisement(Person a,Person b,Person d)
     {
 
-
+      
+        Random.InitState((int)DateTime. Now. Ticks);
         List<List<float>> bytesA = new List<List<float>>();
         DeepCopy(a.nn.wi,ref bytesA);
         
@@ -319,7 +308,21 @@ public class GeneticCube : MonoBehaviour
         if (Random.Range(1, 100) <= mutation)
         {
             
+            /*
+            DeepCopy( d.nn.wi,ref finalbyte);
+            int bX = Random.Range(0, finalbyte.Count); 
+            int eX = Random.Range(bX, finalbyte[0].Count); 
+          
+            finalbyte[bX][eX] = Random.Range(-2.0f, 2.0f);
+            DeepCopy(finalbyte,ref d.nn.wi);
             
+            DeepCopy( d.nn.wo,ref finalbyte);
+            bX = Random.Range(0, finalbyte.Count); 
+            eX = Random.Range(0, finalbyte[0].Count); 
+          
+            finalbyte[bX][eX] = Random.Range(-2.0f, 2.0f);
+            DeepCopy(finalbyte,ref d.nn.wo);
+            */
            
             bool wo = false;
            
@@ -362,27 +365,60 @@ public class GeneticCube : MonoBehaviour
     }
 
 
+    public void SaveBest()
+    {
+        saveNN savebest = new saveNN()
+        {
+            wi =bestWi,
+            wo = bestWo
+        };
+            
+        DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(saveNN));
+        MemoryStream msObj = new MemoryStream();
+        js.WriteObject(msObj, savebest);
+        msObj.Position = 0;
+        StreamReader sr = new StreamReader(msObj);
+        string json = sr.ReadToEnd();
+        sr.Close();
+        msObj.Close();
+            
+        File.WriteAllText(Application.dataPath+"/best.json", json);
+    }
+
+    public void loadBest()
+    {
+        string fileName = Application.dataPath+"/best.json";
+        string jsonString = File.ReadAllText(fileName);
+        saveNN saveNN = Newtonsoft.Json.JsonConvert.DeserializeObject<saveNN>(jsonString);
+        
+        GameObject go = Instantiate(CreaturePrefab, this.transform.position, Quaternion.identity);
+        go.transform.position = this.transform.position;
+        go.transform.SetParent(this.transform);
+        go.GetComponent<BasicCreature>().Initialization(saveNN,this.target.position,this.transform.position,this.TimeSumulation);
+        
+    }
+    
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            saveNN savebest = new saveNN()
-            {
-                wi =bestNN.wi,
-                wo = bestNN.wo
-            };
+            SaveBest();
+        }
+        
+           
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            string filePath = Application.dataPath+"/GenerationSheet.csv";
+            writer = new StreamWriter(filePath);
             
-            DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(saveNN));
-            MemoryStream msObj = new MemoryStream();
-            js.WriteObject(msObj, savebest);
-            msObj.Position = 0;
-            StreamReader sr = new StreamReader(msObj);
-            string json = sr.ReadToEnd();
-            sr.Close();
-            msObj.Close();
             
-            File.WriteAllText(Application.dataPath+"/best.json", json);
 
+            for (int i = 0; i <csvLiner.Count; ++i)
+            {
+                writer.WriteLine(csvLiner[i]);
+            }
+            writer.Close();
         }
 
         if (Input.GetKeyDown(KeyCode.Space))

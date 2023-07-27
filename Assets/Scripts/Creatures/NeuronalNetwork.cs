@@ -62,6 +62,8 @@ public class NN
         this.nh = _nh;
         this.no = _no;
       
+        Random.InitState((int)DateTime. Now. Ticks);
+        
         ai = Initizateur(ni, 1.0f);
         ah = Initizateur(nh, 1.0f);
         ao = Initizateur(no, 1.0f);
