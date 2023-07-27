@@ -147,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 80342471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 111.8, y: 0.12, z: -14.9}
+  m_LocalPosition: {x: 74, y: 5.8, z: -14.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2612,7 +2612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a033a990e198e43b09ad0c4a213eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nbIndiv: 150
+  nbIndiv: 50
   mutation: 10
   timeToSleep: 10
   CreaturePrefab: {fileID: 2135672633593987740, guid: 9eb71e8503658a749bd88c44a57f64c2, type: 3}
@@ -2620,7 +2620,7 @@ MonoBehaviour:
   target: {fileID: 80342472}
   matBest: {fileID: 2100000, guid: 50e119e5ba1258a4c9bd272d9dae693a, type: 2}
   matClassic: {fileID: 2100000, guid: 484d087884740cd45bd2094cfe35eb33, type: 2}
-  TimeSumulation: 10
+  TimeSumulation: 100
   nbCorotine: 0
 --- !u!4 &1715569877
 Transform:

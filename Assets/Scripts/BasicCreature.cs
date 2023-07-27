@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using System.IO;
+using Random = UnityEngine.Random;
+
 
 public class BasicCreature : MonoBehaviour
 {
@@ -40,14 +42,13 @@ public class BasicCreature : MonoBehaviour
     {
         this.transform.position = origin;
         float idx = 0;
-        while (idx < 5)
+        while (idx <5)
         {
             idx+=Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
         this.transform.rotation = Quaternion.LookRotation(Vector3.forward);
-
     
 
         Vector3 oldPosition = this.transform.position;
@@ -82,21 +83,20 @@ public class BasicCreature : MonoBehaviour
         }
         
         bestDistance  += Vector3.Distance(this.transform.position, position);
-
     }
     
     
     public IEnumerator fitness(GeneticCube gen)
     {
     
-       // var c = CalculDistance( gen.target.position,gen.gameObject.transform.position,gen.TimeSumulation);
-        //yield return StartCoroutine(c);
+        var c = CalculDistance( gen.target.position,gen.gameObject.transform.position,gen.TimeSumulation);
+       yield return StartCoroutine(c);
     
-       while ( fitnessCalculation.Count > 0)
-        {
-            var c = fitnessCalculation.Dequeue();
-            yield return StartCoroutine(c);
-        }
+       //while ( fitnessCalculation.Count > 0)
+       // {
+        //    var c = fitnessCalculation.Dequeue();
+       //     yield return StartCoroutine(c);
+     //   }
        
         gen.nbCorotine--;
     }
