@@ -2,30 +2,42 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class MapGeneration : MonoBehaviour
+[System.Serializable]
+public struct StructGenerationSettings
+{
+    public GameObject strcture;
+    public float number;
+}
+
+public class MapGeneration2 : MonoBehaviour
 {
     public int size;
     public Renderer rendererCompenent;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
-
     public StableDiffusionImage2Image im2im;
+
     public float yScale = 1.0f;
 
+
+    private Texture2D texture;
+    private GameManager GM;
+    private Vector3 position;
+    
     [Header("Values")] 
     public Vector4 startPoint;
     public float treshold;
-    public int Seed;
-    
-    private Texture2D GenerateDC(Texture2D texture) // Diamant carré sui prend en paramètre une texture
+    public Color color;
+    public List<StructGenerationSettings> lstStructures;
+
+    [HideInInspector]
+    public List<StructuresManager> str;
+    private Texture2D GenerateDC(Texture2D texture)
     {
-        if (Seed != 0)
-        {
-            Random.InitState(Seed);    
-        }
-                
+        
         int h = texture.width;
 
         for (int x = 0; x < h; x++)
@@ -118,54 +130,77 @@ public class MapGeneration : MonoBehaviour
         return texture;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private int structe = 0;
+
+    public void Start()
     {
-
-        //StartCoroutine( AwaitGenText());
-
-    }
-   
-
-    public void GenWithIa (Texture2D texture)
-    {
-        Vector3 position = this.transform.position;
-        //rendererCompenent.sharedMaterial.mainTexture = texture; // le plain a un materiaux et la texture du materiaux devient la texture généré par le diamant carré
-
-        Vector3[] vertices;
-        Mesh m = meshFilter.sharedMesh; // recup le mesh du plain
-        vertices = m.vertices; // recup les vertices du mesh du plain
-
-        for (int i = 0; i < vertices.Length; i++) // loop sur les vertices
-        {
-            Vector2Int texCoord = new Vector2Int((int)(m.uv[i].x * texture.width), (int)(m.uv[i].y * texture.height)); // recup l'uv du vertices
-            texCoord = new Vector2Int((texCoord.x - 1) * 2, (texCoord.y - 1) * 2);
-            Color v = texture.GetPixel(texCoord.x, texCoord.y); // recupere la couleur du vertices dans la texture du diamant carré
-            float height = ((1 - v.r) - 0.3f);  // defini la hauteur du vertices en fonction de sa couleur
-                                                // v.r car texture n noir et blanc donc rgb on la meme valeur
-            vertices[i] += Vector3.forward * ((height) / 100f) * yScale; // applique la hauteur défini sur le vertices
-        }
-
-        meshFilter.sharedMesh.vertices = vertices;
-        meshFilter.sharedMesh.RecalculateNormals();
-        meshFilter.sharedMesh.RecalculateBounds();
-        meshCollider.sharedMesh = m;
-        this.transform.position = position;
+        str = new List<StructuresManager>();
     }
 
-    public void applyMat(Material mat)
-    {
-       
-    }
-
-    public IEnumerator AwaitGenText()
+    public IEnumerator GenerateIa()
     {
         im2im.Generate();
         while(im2im.outputTexture == null)
         {
             yield return null;
         }
+        texture = im2im.outputTexture;
 
-        GenWithIa(im2im.outputTexture);
+        rendererCompenent.material.color = color;
+        position = this.transform.position;
+
+
+        Vector3[] vertices;
+        Mesh m = meshFilter.mesh;
+        vertices = m.vertices;
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            Vector2Int texCoord = new Vector2Int((int)(m.uv[i].x * texture.width), (int)(m.uv[i].y * texture.height));
+            texCoord = new Vector2Int((texCoord.x - 1) * 2, (texCoord.y - 1) * 2);
+            Color v = texture.GetPixel(texCoord.x, texCoord.y);
+            float height = ((1 - v.r) - 0.3f);
+
+            vertices[i] += Vector3.forward * ((height) / 100f) * yScale;
+        }
+
+        meshFilter.mesh.vertices = vertices;
+        meshFilter.mesh.RecalculateNormals();
+        meshFilter.mesh.RecalculateBounds();
+        meshCollider.sharedMesh = m;
+
+        position.z += 0.04f;
+        this.transform.position = position;
     }
+
+    public void loadStruct()
+    {
+        for (int i = 0; i < lstStructures.Count; i++)
+        {
+            for (int j = 0; j < lstStructures[i].number; j++)
+            {
+
+                GameObject go = Instantiate(lstStructures[i].strcture, this.transform, true);
+                go.transform.Rotate(Vector3.up, Random.Range(-180f, 180f));
+                go.SetActive(false);
+                go.hideFlags = HideFlags.HideInHierarchy;
+                StructuresManager t = go.GetComponent<StructuresManager>();
+                bool find = t.findPlace(str);
+
+                if (go != null && find)
+                {
+                    go.hideFlags = HideFlags.None;
+                    structe++;
+                    str.Add(t);
+                    go.SetActive(true);
+                }
+                else if (go != null)
+                {
+                    Destroy(go);
+                }
+            }
+
+        }
+    }
+
 }

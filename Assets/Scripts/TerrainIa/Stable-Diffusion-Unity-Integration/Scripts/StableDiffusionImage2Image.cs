@@ -28,7 +28,7 @@ public class StableDiffusionImage2Image: StableDiffusionGenerator
     public Texture2D outputTexture;
     public string prompt;
     public string negativePrompt;
-    public MapGeneration mapGen;
+    public MapGeneration2 mapGen;
 
     /// <summary>
     /// List of samplers to display as Drop-Down in the inspector
@@ -308,7 +308,6 @@ public class StableDiffusionImage2Image: StableDiffusionGenerator
                         texture.Apply();
                         outputTexture = texture;
 
-                        mapGen.GenWithIa(texture);
                     }
 
                     // Read the generation info back (only seed should have changed, as the generation picked a particular seed)
@@ -322,7 +321,7 @@ public class StableDiffusionImage2Image: StableDiffusionGenerator
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError(e.Message + "\n\n" + e.StackTrace);
+                    //Debug.LogError(e.Message + "\n\n" + e.StackTrace);
                 }
             }
         }
