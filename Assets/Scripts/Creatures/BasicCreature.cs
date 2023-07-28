@@ -25,7 +25,7 @@ public class BasicCreature : MonoBehaviour
   
     }
 
-    public void Initialization(saveNN saveNN,Vector3 position,Vector3 origin,int time)
+    public void Initialization(saveNN saveNN,Vector3 position,Vector3 origin,float time)
     {
         stadalone = true;
         nn = new NN(6, 100, 1);
@@ -54,7 +54,7 @@ public class BasicCreature : MonoBehaviour
     
 
 
-    IEnumerator CalculDistance(Vector3 position,Vector3 origin,int time)
+    IEnumerator CalculDistance(Vector3 position,Vector3 origin,float time)
     {
         this.transform.position = origin;
         this.transform.rotation = Quaternion.LookRotation(Vector3.forward);

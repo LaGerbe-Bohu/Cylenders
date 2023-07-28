@@ -39,7 +39,7 @@ public class GeneticCube : MonoBehaviour
     public GameObject CreaturePrefab;
     public TextMeshProUGUI MPRO;
     public Transform target;
-    public int TimeSumulation;
+    public float TimeSumulation;
     public bool start = false;
     public Material basicMat;
     public Material bestMat;
